@@ -1,0 +1,2 @@
+# PotentGPT
+The better GPT
