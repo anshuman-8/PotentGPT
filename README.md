@@ -1,2 +1,3 @@
 # PotentGPT
-The better GPT
+
+Just wanna be better
