@@ -1,3 +1,3 @@
 # PotentGPT
 
-Just wanna be better
+Just wanna be better assistant :)
