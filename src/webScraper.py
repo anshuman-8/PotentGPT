@@ -1,56 +1,49 @@
 import asyncio
+import playwright
 import logging as log
 from typing import Iterator, List
-
+from playwright.async_api import async_playwright
 from langchain.docstore.document import Document
 
-class AsyncChromiumLoader():
-    """Scrape HTML pages from URLs using a
-    headless instance of the Chromium."""
 
-    def __init__(self,urls: List[str],):
+class AsyncChromiumLoader:
+    def __init__(self, urls: List[str]):
         self.urls = urls
 
-        try:
-            import playwright 
-        except ImportError:
-            raise ImportError(
-                "playwright is required for AsyncChromiumLoader. "
-                "Please install it with `pip install playwright`."
-            )
-
-    async def ascrape_playwright(self, url: str) -> str:
+    async def scrape_browser(self, urls: List[str]) -> List[Document]:
         """
-        Asynchronously scrape the content of a given URL using Playwright's async API.
+        Scrape the urls by creating async tasks for each url
         """
-        from playwright.async_api import async_playwright
-
         log.info("Starting scraping...")
-        results = ""
+        results = []
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
-            try:
-                page = await browser.new_page()
-                await page.goto(url)
-                results = await page.content()  
-                log.info("Content scraped")
-            except Exception as e:
-                results = f"Error: {e}"
+            scraping_tasks = [self.scrape_url(browser, url) for url in urls]
+            results = await asyncio.gather(*scraping_tasks)
             await browser.close()
+            log.debug(f"Browser closed")
         return results
 
-    def lazy_load(self) -> Iterator[Document]:
+    async def scrape_url(self, browser, url:str) -> Document:
         """
-        Lazily load text content from the provided URLs.
+        Scrape the url and return the document
         """
-        for url in self.urls:
-            log.info(f"Scraping {url}...")
-            html_content = asyncio.run(self.ascrape_playwright(url))
-            metadata = {"source": url}
-            yield Document(page_content=html_content, metadata=metadata)
+        web_content = ""
+        metadata = {"source": url}
+        log.info(f"Scraping {url}...")
+        try:
+            page = await browser.new_page()
+            await page.goto(url)
+            web_content = await page.content()
+            log.info(f"Content scraped for {url}")
+        except Exception as e:
+            log.error(f"Error scraping {url}: {e}")
+        result_doc = Document(page_content=web_content, metadata=metadata)
+        return result_doc
 
-    def load(self) -> List[Document]:
+    def load_data(self) -> List[Document]:
         """
-        Load and return all Documents from the provided URLs.
+        Load the data from the urls asynchronously
         """
-        return list(self.lazy_load())
+        data = asyncio.run(self.scrape_browser(self.urls))
+        return data

@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_transformers import beautiful_soup_transformer
-from langchain.docstore.document import Document
 from typing import List, Iterator
 
 from webScraper import AsyncChromiumLoader
@@ -32,6 +31,8 @@ schema = {
 OPENAI_ENV = os.getenv("OPENAI_API_KEY")
 SERP_ENV = os.getenv("SERP_API_AUTH")
 
+LOG_FILES = True
+
 log.basicConfig(
     filename="logging.log",
     filemode="w",
@@ -40,16 +41,22 @@ log.basicConfig(
 )
 
 
-def scrape_with_playwright(urls: List[str]) -> List[dict]:
+def scrape_with_playwright(urls: List[str], chunk_size:int=400) -> List[dict]:
     """
     Scrape the websites using playwright and chunk the text tokens
     """
     t_flag1 = time.time()
     loader = AsyncChromiumLoader(urls)
-    docs = loader.load()
+    docs = loader.load_data()
     t_flag2 = time.time()
+
+    if LOG_FILES:
+        with open("src/log_data/docs.json", "w") as f:
+            json.dump(document2map(docs), f)
+
     log.info(f"AsyncChromiumLoader time: { t_flag2 - t_flag1}")
 
+    # Beautiful Soup Transformer
     bs_transformer = beautiful_soup_transformer.BeautifulSoupTransformer()
     docs_transformed = bs_transformer.transform_documents(
         docs, tags_to_extract=["p", "li", "div", "a", "span"]
@@ -59,9 +66,13 @@ def scrape_with_playwright(urls: List[str]) -> List[dict]:
     t_flag3 = time.time()
     log.info(f"BeautifulSoupTransformer time: {t_flag3 - t_flag2}")
 
-    # first 400 tokens of the site
+    if LOG_FILES:
+        with open("src/log_data/docs_beautify.json", "w") as f:
+            json.dump(document2map(docs_transformed), f)
+
+    # first N(chunk size) tokens of the site
     splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-        chunk_size=400, chunk_overlap=40
+        chunk_size=chunk_size, chunk_overlap=40
     )
     splits = splitter.split_documents(docs_transformed)
 
@@ -71,14 +82,15 @@ def scrape_with_playwright(urls: List[str]) -> List[dict]:
     # convert to dictoinary
     splits = document2map(splits)
 
-    with open("src/log_data/splits.json", "w") as f:
-        json.dump(splits, f)
+    if LOG_FILES:
+        with open("src/log_data/splits.json", "w") as f:
+            json.dump(splits, f)
 
     log.info(f"Total data splits: {len(splits)}")
     return splits
 
 
-def contains_contacts(text):
+def contains_contacts(text:str) -> bool:
     """
     Check if the text contains email or phone number
     """
@@ -103,13 +115,14 @@ def relevant_data(extracted_content):
     t_flag2 = time.time()
     log.info(f"Extraction time: {t_flag2 - t_flag1}")
 
-    with open("src/log_data/context_data.json", "w") as f:
-        json.dump(data, f)
+    if LOG_FILES:
+        with open("src/log_data/context_data.json", "w") as f:
+            json.dump(data, f)
 
     return data
 
 
-def extract_contacts(data, prompt):
+def extract_contacts(data, prompt:str) -> str:
     """
     Extract the contacts from the search results using LLM
     """
@@ -132,8 +145,9 @@ def extract_contacts(data, prompt):
     log.info(f"OpenAI time: { t_flag2 - t_flag1}")
     print(response.choices[0].message.content)
 
-    with open("src/log_data/output.json", "w") as f:
-        json.dump(response.choices[0].message.content, f)
+    if LOG_FILES:
+        with open("src/log_data/output.json", "w") as f:
+            json.dump(response.choices[0].message.content, f)
 
     return response.choices[0].message.content
 
@@ -156,9 +170,9 @@ def web_search(search_query, location):
 
     websites = {result["title"]: result["link"] for result in data["organic_results"]}
 
-    # write it to a file
-    with open("src/log_data/websites.json", "w") as f:
-        json.dump(websites, f)
+    if LOG_FILES:
+        with open("src/log_data/websites.json", "w") as f:
+            json.dump(websites, f)
 
     return websites
 
@@ -187,20 +201,25 @@ def sanitize_search_query(prompt):
     t_flag2 = time.time()
     log.info(f"OpenAI sanitation time: {t_flag2 - t_flag1}")
 
+    # tokens used
+    tokens_used = response.usage.total_tokens
+    log.info(f"Tokens used: {tokens_used}")
+
     return response.choices[0].message.content
 
 
 def main():
+
     process_start_time = time.time()
 
     prompt = input("Enter the search prompt: ").strip()
     log.info(f"\nPrompt: {prompt}\n")
 
-    # # sanitize the prompt
+    # sanitize the prompt
     sanitized_prompt = sanitize_search_query(prompt)
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
 
-    # # search the web for the query
+    # search the web for the query
     search_results = web_search(sanitized_prompt, "Kochi, Kerala")
     log.info(f"\nSearch Results: {search_results}\n")
 
@@ -209,12 +228,11 @@ def main():
 
     # scrape the websites
     extracted_content = scrape_with_playwright(websites)
-    # log.info(f"\nExtracted Content: {extracted_content}\n")
     log.info(f"\nExtracted Content Length(chunked): {len(extracted_content)}\n")
 
     # extract relevant data from the search results
     context_data = relevant_data(extracted_content)
-    log.info(f"\nContext Data: {context_data}\n")
+    log.info(f"\nContext Data len: {len(context_data)}\n")
 
     # extract the contacts from the search results
     extracted_contacts = extract_contacts(context_data, prompt)
