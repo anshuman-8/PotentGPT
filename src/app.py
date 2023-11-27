@@ -40,6 +40,26 @@ log.basicConfig(
     level=log.DEBUG,
 )
 
+def gpt_cost_calculator(inp_tokens:int, out_tokens:int, model:str ="gpt-3.5-turbo" ) -> int:
+    """
+    Calculate the cost of the GPT API call
+    """
+    cost = 0
+    # GPT-3.5 Turbo
+    if model == "gpt-3.5-turbo":
+        input_cost = 0.0010
+        output_cost = 0.0020
+        cost = ((inp_tokens * input_cost) + (out_tokens * output_cost)) / 1000
+    # GPT-4
+    elif model == "gpt-4":
+        input_cost = 0.03
+        output_cost = 0.06
+        cost = ((inp_tokens * input_cost) + (out_tokens * output_cost)) / 1000
+    else:
+        log.error("Invalid model")
+
+    return cost
+
 
 def scrape_with_playwright(urls: List[str], chunk_size:int=400) -> List[dict]:
     """
@@ -135,7 +155,7 @@ def extract_contacts(data, prompt:str) -> str:
         messages=[
             {
                 "role": "system",
-                "content": "You are a helpful assistant designed to extract insightful data helping the needs and output JSON. You take JSON as input and understand the schema and the content. The output format should be in [{'Service Provider': '...', 'contact' : {'email': '...', 'phone': '...', 'address': '...'}},{...}] here it is the list of all different service providers options with their contact details. If any of the fields are not present, you can leave them as empty strings.",
+                "content": 'You are an assistant designed to efficiently extract contact details from JSON input, aiming to assist users in finding service providers. Your task is to process JSON data, comprehend its content, and provide a structured output. The desired answer format is a list of service providers with their respective contact details and descriptions. The response should strictly adhere to the format:["Vendors": {"service_provider": "Name and description of the vendor","contact": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},]. Ensure that the output follows this template, and if any fields are absent in the input, leave them as empty. It is crucial not to omit any contact information.',
             },
             {"role": "user", "content": f"{data}"},
             {"role": "user", "content": f"{prompt}"},
@@ -145,9 +165,19 @@ def extract_contacts(data, prompt:str) -> str:
     log.info(f"OpenAI time: { t_flag2 - t_flag1}")
     print(response.choices[0].message.content)
 
+    cost = gpt_cost_calculator(response.usage.prompt_tokens, response.usage.completion_tokens)
+    log.debug(f"Input Tokens used: {response.usage.prompt_tokens}, Output Tokens used: {response.usage.completion_tokens}")
+    log.info(f"Cost for contact retrival: ${cost}")
+
+    try:
+        json_response = json.loads(response.choices[0].message.content)
+    except Exception as e:
+        log.error(f"Error parsing json: {e}")
+        json_response = {}
+        
     if LOG_FILES:
         with open("src/log_data/output.json", "w") as f:
-            json.dump(response.choices[0].message.content, f)
+            json.dump(json_response, f)
 
     return response.choices[0].message.content
 
@@ -203,24 +233,40 @@ def sanitize_search_query(prompt):
 
     # tokens used
     tokens_used = response.usage.total_tokens
+    cost = gpt_cost_calculator(response.usage.prompt_tokens, response.usage.completion_tokens)
     log.info(f"Tokens used: {tokens_used}")
+    log.info(f"Cost for search query sanitation: ${cost}")
 
     return response.choices[0].message.content
+
+def internet_speed_test():
+    import speedtest
+    s = speedtest.Speedtest()
+
+    # Get the download speed
+    download_speed = s.download()
+
+    # Get the upload speed
+    upload_speed = s.upload()
+
+    print(f"Download speed: {(download_speed/(8 * 1024 * 1024)):6.3f} MB/s")
+    print(f"Upload speed: {(upload_speed/(8 * 1024 * 1024)):5.3f} MB/s")
 
 
 def main():
 
-    process_start_time = time.time()
 
-    prompt = input("Enter the search prompt: ").strip()
+    prompt = input("\nEnter the search prompt: ").strip()
     log.info(f"\nPrompt: {prompt}\n")
+
+    process_start_time = time.time()
 
     # sanitize the prompt
     sanitized_prompt = sanitize_search_query(prompt)
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
 
     # search the web for the query
-    search_results = web_search(sanitized_prompt, "Kochi, Kerala")
+    search_results = web_search(sanitized_prompt, "Kochi, Kerala, India")
     log.info(f"\nSearch Results: {search_results}\n")
 
     # list of websites
@@ -241,6 +287,9 @@ def main():
     process_end_time = time.time()
     log.info(f"\nTotal time: {process_end_time - process_start_time}")
 
+    log.info(f"\nCompleted\n")
+
 
 if __name__ == "__main__":
     main()
+    # internet_speed_test()
