@@ -1,0 +1,827 @@
+{
+  "kind": "customsearch#search",
+  "url": {
+    "type": "application/json",
+    "template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&relatedSite={relatedSite?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"
+  },
+  "queries": {
+    "request": [
+      {
+        "title": "Google Custom Search - I need few developers for my new startup, I am looking for people with 2 years of experience in python and react.",
+        "totalResults": "2890000",
+        "searchTerms": "I need few developers for my new startup, I am looking for people with 2 years of experience in python and react.",
+        "count": 10,
+        "startIndex": 1,
+        "language": "lang_en",
+        "inputEncoding": "utf8",
+        "outputEncoding": "utf8",
+        "safe": "off",
+        "cx": "81ad9e204a3204be3",
+        "gl": "Bengaluru, Karnataka, India"
+      }
+    ],
+    "nextPage": [
+      {
+        "title": "Google Custom Search - I need few developers for my new startup, I am looking for people with 2 years of experience in python and react.",
+        "totalResults": "2890000",
+        "searchTerms": "I need few developers for my new startup, I am looking for people with 2 years of experience in python and react.",
+        "count": 10,
+        "startIndex": 11,
+        "language": "lang_en",
+        "inputEncoding": "utf8",
+        "outputEncoding": "utf8",
+        "safe": "off",
+        "cx": "81ad9e204a3204be3",
+        "gl": "Bengaluru, Karnataka, India"
+      }
+    ]
+  },
+  "context": { "title": "Margati-engine" },
+  "searchInformation": {
+    "searchTime": 0.566737,
+    "formattedSearchTime": "0.57",
+    "totalResults": "2890000",
+    "formattedTotalResults": "2,890,000"
+  },
+  "items": [
+    {
+      "kind": "customsearch#result",
+      "title": "How I landed a full stack developer job without a tech degree or ...",
+      "htmlTitle": "How I landed a full stack <b>developer</b> job without a tech degree or ...",
+      "link": "https://www.freecodecamp.org/news/how-i-landed-a-full-stack-developer-job-without-a-tech-degree-or-work-experience-6add97be2051/",
+      "displayLink": "www.freecodecamp.org",
+      "snippet": "Mar 31, 2018 ... ... React superstar\u201d rather than a novice like I was. But if the job ad explicitly requires 3+ years of professional JavaScript experience, and\u00a0...",
+      "htmlSnippet": "Mar 31, 2018 <b>...</b> ... <b>React</b> superstar\u201d rather than a novice like I was. But if the job ad explicitly requires 3+ <b>years</b> of professional JavaScript <b>experience</b>, and&nbsp;...",
+      "cacheId": "gJY-Tiz9qBsJ",
+      "formattedUrl": "https://www.freecodecamp.org/news/how-i-landed-a-full-stack-developer-j...",
+      "htmlFormattedUrl": "https://www.freecodecamp.org/<b>new</b>s/how-i-landed-a-full-stack-developer-j...",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRA9k0o-zFa5FBpKtOnfbkadvp7mHcpnLrp6smlMNv6qeTMmgWOUk9ALXM",
+            "width": "275",
+            "height": "183"
+          }
+        ],
+        "metatags": [
+          {
+            "og:image": "https://cdn-media-1.freecodecamp.org/images/0*TDuYHwIBvClPXrgk.",
+            "article:published_time": "2018-03-31T12:40:35.000Z",
+            "twitter:card": "summary_large_image",
+            "og:image:width": "800",
+            "og:site_name": "freeCodeCamp.org",
+            "twitter:url": "https://www.freecodecamp.org/news/how-i-landed-a-full-stack-developer-job-without-a-tech-degree-or-work-experience-6add97be2051/",
+            "monetization": "$ilp.uphold.com/LJmbPn7WD4JB",
+            "twitter:label1": "Written by",
+            "twitter:label2": "Filed under",
+            "og:description": "by Charlie Jeppsson How I landed a full stack developer job without a tech degree or work experience Six months ago, I got my first developer job as full stack web developer for a startup. I had no relevant work experience, no tech degree, and not even a year of",
+            "article:publisher": "https://www.facebook.com/freecodecamp",
+            "twitter:image": "https://cdn-media-1.freecodecamp.org/images/0*TDuYHwIBvClPXrgk.",
+            "twitter:data1": "freeCodeCamp.org",
+            "twitter:data2": "Web Development, JavaScript, Ruby on Rails, Coding, Software Development",
+            "twitter:site": "@freecodecamp",
+            "article:modified_time": "2018-03-17T23:32:09.000Z",
+            "og:type": "article",
+            "twitter:title": "How I landed a full stack developer job without a tech degree or work experience",
+            "handheldfriendly": "True",
+            "og:title": "How I landed a full stack developer job without a tech degree or work experience",
+            "og:image:height": "533",
+            "article:tag": "Web Development",
+            "referrer": "no-referrer-when-downgrade",
+            "viewport": "width=device-width, initial-scale=1.0",
+            "twitter:description": "by Charlie Jeppsson How I landed a full stack developer job without a tech degree or work experience Six months ago, I got my first developer job as full stack web developer for a startup. I had no relevant work experience, no tech degree, and not even a year of",
+            "og:url": "https://www.freecodecamp.org/news/how-i-landed-a-full-stack-developer-job-without-a-tech-degree-or-work-experience-6add97be2051/"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://cdn-media-1.freecodecamp.org/images/0*TDuYHwIBvClPXrgk."
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "I think I haven't made any progress even after investing the time ...",
+      "htmlTitle": "I think I haven&#39;t made any progress even after investing <b>the</b> time ...",
+      "link": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513",
+      "displayLink": "forum.freecodecamp.org",
+      "snippet": "Jan 2, 2021 ... ... several years of industry experience. There's really no set ... the most senior developers working on a startup's new product often need help.",
+      "htmlSnippet": "Jan 2, 2021 <b>...</b> ... several <b>years</b> of industry <b>experience</b>. There&#39;s really no set ... the most senior <b>developers</b> working on a <b>startup&#39;s new</b> product often <b>need</b> help.",
+      "cacheId": "Y8IeQguvosEJ",
+      "formattedUrl": "https://forum.freecodecamp.org/t/i-think-i-havent-made.../438513",
+      "htmlFormattedUrl": "https://forum.freecodecamp.org/t/i-think-i-havent-made.../438513",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTtHuVUSbt5Dkj8QvCBRMxvHqhqP1aBP14z5jIdv7eCq0yjVvzn0VKy1bFw",
+            "width": "225",
+            "height": "225"
+          }
+        ],
+        "imageobject": [
+          {
+            "url": "https://global.discourse-cdn.com/freecodecamp/original/3X/2/0/206c254cf9e405bcddf6caea7f882dca146dcd3c.png"
+          }
+        ],
+        "person": [
+          { "name": "mubashir3080", "url": "mubashir3080" },
+          { "name": "jwilkins.oboe", "url": "jwilkins.oboe" },
+          { "name": "DanCouper", "url": "DanCouper" },
+          { "name": "JacksonBates", "url": "JacksonBates" },
+          { "name": "jwilkins.oboe", "url": "jwilkins.oboe" },
+          { "name": "mubashir3080", "url": "mubashir3080" },
+          { "name": "mubashir3080", "url": "mubashir3080" },
+          { "name": "mubashir3080", "url": "mubashir3080" },
+          { "name": "bbsmooth", "url": "bbsmooth" },
+          { "name": "bradtaniguchi", "url": "bradtaniguchi" },
+          { "name": "DanCouper", "url": "DanCouper" },
+          { "name": "jwilkins.oboe", "url": "jwilkins.oboe" },
+          { "name": "astv99", "url": "astv99" },
+          { "name": "mubashir3080", "url": "mubashir3080" },
+          { "name": "DanCouper", "url": "DanCouper" }
+        ],
+        "organization": [{ "name": "freeCodeCamp.org" }],
+        "interactioncounter": [
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "4",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "2",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "2",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "2",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "3",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "4",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "2",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "2",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/CommentAction"
+          },
+          {
+            "userinteractioncount": "1",
+            "interactiontype": "http://schema.org/LikeAction"
+          },
+          {
+            "userinteractioncount": "0",
+            "interactiontype": "http://schema.org/CommentAction"
+          }
+        ],
+        "metatags": [
+          {
+            "og:image": "https://global.discourse-cdn.com/freecodecamp/original/3X/2/0/206c254cf9e405bcddf6caea7f882dca146dcd3c.png",
+            "theme-color": "#0a0a23",
+            "og:type": "website",
+            "twitter:card": "summary",
+            "twitter:title": "I think I haven't made any progress even after investing the time. Give some advice",
+            "article:published_time": "2021-01-03T01:26:55+00:00",
+            "og:site_name": "The freeCodeCamp Forum",
+            "twitter:url": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513",
+            "monetization": "$ilp.uphold.com/LJmbPn7WD4JB",
+            "og:title": "I think I haven't made any progress even after investing the time. Give some advice",
+            "og:description": "Disclaimer:  It\u2019s  my first time posting on the fcc forum so if I am posting this under wrong tag , pardon me.  My background  I am 19 and I did study computer science in high school -they taught us all the programming paradigms  and  the main language used in high school was visual basic  Now  let me explain where I am facing the issue .  I am aiming to become a full stack developer by the end of 2021  and to achieve this goal I started learning python in the mid of November than I moved on to ...",
+            "twitter:image": "https://global.discourse-cdn.com/freecodecamp/original/3X/2/0/206c254cf9e405bcddf6caea7f882dca146dcd3c.png",
+            "og:ignore_canonical": "true",
+            "viewport": "width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover",
+            "twitter:description": "Disclaimer:  It\u2019s  my first time posting on the fcc forum so if I am posting this under wrong tag , pardon me.  My background  I am 19 and I did study computer science in high school -they taught us all the programming paradigms  and  the main language used in high school was visual basic  Now  let me explain where I am facing the issue .  I am aiming to become a full stack developer by the end of 2021  and to achieve this goal I started learning python in the mid of November than I moved on to ...",
+            "og:article:section": "You Can Do This!",
+            "og:url": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513",
+            "og:article:section:color": "f58070"
+          }
+        ],
+        "discussionforumposting": [
+          {
+            "articlebody": "Disclaimer: It\u2019s my first time posting on the fcc forum so if I am posting this under wrong tag , pardon me. My background I am 19 and I did study computer science in high school -they taught...",
+            "datemodified": "2021-01-03T01:58:43Z",
+            "articlesection": "You Can Do This!",
+            "position": "1",
+            "headline": "I think I haven't made any progress even after investing the time. Give some advice",
+            "datepublished": "2021-01-03T01:26:55Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          }
+        ],
+        "comment": [
+          {
+            "datemodified": "2021-01-03T01:45:35Z",
+            "position": "2",
+            "text": "Hi @mubashir3080! Welcome to the forum! mubashir3080: To solve this issue I spent the month of December on html and css but I feel like I still haven\u2019t mastered it. Well, if this stuff was...",
+            "datepublished": "2021-01-03T01:45:35Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-03T02:41:03Z",
+            "position": "3",
+            "text": "mubashir3080: I am 19 and I did study computer science in high school -they taught us all the programming paradigms and the main language used in high school was visual basic Now let me explain...",
+            "datepublished": "2021-01-03T02:41:03Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-03T08:13:38Z",
+            "position": "4",
+            "text": "mubashir3080: After all this I still feel like I am not making any significant progress You are making significant progress though! You\u2019ve described 4 different languages, each with unique...",
+            "datepublished": "2021-01-03T08:13:38Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-03T09:11:46Z",
+            "position": "5",
+            "text": "I also want to mention the popular narrative of \u201cI got a job in X months\u201d Whether that be 3 months, 6 months, 9 months. So that is probably also contributing to this stress you are going...",
+            "datepublished": "2021-01-03T09:11:46Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-03T22:45:19Z",
+            "position": "6",
+            "text": "I should have been more descriptive of what exactly I meant with becoming a \u201cFullstack developer\u201d by the end of 2021. I want to have good understanding of html/css, vanilla javascript and...",
+            "datepublished": "2021-01-03T22:45:19Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-03T22:48:58Z",
+            "position": "7",
+            "text": "Thank you so much . I really needed those kind words to keep me going .",
+            "datepublished": "2021-01-03T22:48:58Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-03T22:53:58Z",
+            "position": "8",
+            "text": "Yeah you are right. I sometimes hop on to YouTube and watch people getting high paying jobs in 4,5 months and that really stresses me out . Thanks for helping me identify the problem.",
+            "datepublished": "2021-01-03T22:53:58Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-03T23:01:43Z",
+            "position": "9",
+            "text": "mubashir3080: I sometimes hop on to YouTube and watch people getting high paying jobs in 4,5 months I\u2019m not saying that doesn\u2019t happen every once in a while but if it was realistic then...",
+            "datepublished": "2021-01-03T23:01:43Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-04T00:25:50Z",
+            "position": "10",
+            "text": "Hello @mubashir3080 welcome to the freeCodeCamp forums mubashir3080: I am aiming to become a full stack developer by the end of 2021 This is a good goal, as long as you can define what being...",
+            "datepublished": "2021-01-04T00:25:50Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-04T09:48:41Z",
+            "position": "11",
+            "text": "I was blunt, but it\u2019s very good that you have a target and a timescale. You\u2019re just not really looking at this objectively and you\u2019re possibly setting yourself unrealistic goals. It\u2019s...",
+            "datepublished": "2021-01-04T01:54:14Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-04T02:46:53Z",
+            "position": "12",
+            "text": "mubashir3080: people getting high paying jobs in 4,5 months When I first started 6 months ago there were tons of those videos all over youtube. My first thought was \u201cWait, I am supposed to...",
+            "datepublished": "2021-01-04T02:46:53Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-04T06:12:59Z",
+            "position": "13",
+            "text": "mubashir3080: I should have been more descriptive of what exactly I meant with becoming a \u201cFullstack developer\u201d by the end of 2021. I want to have good understanding of html/css, vanilla...",
+            "datepublished": "2021-01-04T06:12:59Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-04T10:02:34Z",
+            "position": "14",
+            "text": "Thanks for responding. I will reevaluate the the whole thing. Ps I am not offended at all I will rather have someone say blunt truth to my face than keeping me in dark.",
+            "datepublished": "2021-01-04T10:02:34Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          },
+          {
+            "datemodified": "2021-01-04T11:46:13Z",
+            "position": "15",
+            "text": "Don\u2019t revaluate too much \u2013 it is good to have a target timescale. Just allow for a bit of flexibility, and don\u2019t get disheartened by not understanding things at such an early stage. The...",
+            "datepublished": "2021-01-04T11:46:13Z",
+            "mainentityofpage": "https://forum.freecodecamp.org/t/i-think-i-havent-made-any-progress-even-after-investing-the-time-give-some-advice/438513"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://global.discourse-cdn.com/freecodecamp/original/3X/2/0/206c254cf9e405bcddf6caea7f882dca146dcd3c.png"
+          }
+        ],
+        "sitenavigationelement": [
+          { "name": "Home", "url": "Home" },
+          { "name": "Subforums", "url": "Subforums" },
+          { "name": "FAQ/Guidelines", "url": "FAQ/Guidelines" },
+          { "name": "Terms of Service", "url": "Terms of Service" },
+          { "name": "Privacy Policy", "url": "Privacy Policy" }
+        ],
+        "listitem": [
+          {
+            "item": "You Can Do This!",
+            "name": "You Can Do This!",
+            "position": "1"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "React Developers, what is your current salary? : r/reactjs",
+      "htmlTitle": "<b>React Developers</b>, what is <b>your</b> current salary? : r/<b>reactjs</b>",
+      "link": "https://www.reddit.com/r/reactjs/comments/wjiigs/react_developers_what_is_your_current_salary/",
+      "displayLink": "www.reddit.com",
+      "snippet": "Aug 8, 2022 ... I'm close to finishing my course but have no idea where to look. Cheers ... 1 year of React experience, 3 1/2 years of being a developer full\u00a0...",
+      "htmlSnippet": "Aug 8, 2022 <b>...</b> I&#39;m close to finishing <b>my</b> course but have no idea where to look. Cheers ... 1 year of <b>React experience</b>, 3 1/<b>2 years</b> of being a developer full&nbsp;...",
+      "formattedUrl": "https://www.reddit.com/.../reactjs/.../react_developers_what_is_your_curren...",
+      "htmlFormattedUrl": "https://www.reddit.com/.../<b>react</b>js/.../<b>react</b>_<b>developers</b>_what_is_your_curren...",
+      "pagemap": {
+        "metatags": [
+          {
+            "og:image": "https://share.redd.it/preview/post/wjiigs",
+            "theme-color": "#000000",
+            "og:image:width": "1200",
+            "og:type": "website",
+            "og:image:alt": "An image containing a preview of the post",
+            "twitter:card": "summary_large_image",
+            "twitter:title": "r/reactjs on Reddit: React Developers, what is your current salary?",
+            "og:site_name": "Reddit",
+            "og:title": "r/reactjs on Reddit: React Developers, what is your current salary?",
+            "og:image:height": "630",
+            "msapplication-navbutton-color": "#000000",
+            "og:description": "Posted by u/albenis99 - 317 votes and 685 comments",
+            "twitter:image": "https://share.redd.it/preview/post/wjiigs",
+            "apple-mobile-web-app-status-bar-style": "black",
+            "twitter:site": "@reddit",
+            "viewport": "width=device-width, initial-scale=1, viewport-fit=cover",
+            "apple-mobile-web-app-capable": "yes",
+            "og:ttl": "600",
+            "og:url": "https://www.reddit.com/r/reactjs/comments/wjiigs/react_developers_what_is_your_current_salary/"
+          }
+        ],
+        "cse_image": [{ "src": "https://share.redd.it/preview/post/wjiigs" }]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "What I wish I had known about single page applications - Stack ...",
+      "htmlTitle": "What I wish I had known about single page applications - Stack ...",
+      "link": "https://stackoverflow.blog/2021/12/28/what-i-wish-i-had-known-about-single-page-applications/",
+      "displayLink": "stackoverflow.blog",
+      "snippet": "Dec 28, 2021 ... But lately I have found myself wanting to branch out, and dabbling more in HTML and UI development. A couple of years ago, this natural\u00a0...",
+      "htmlSnippet": "Dec 28, 2021 <b>...</b> But lately I have found myself wanting to branch out, and dabbling more in HTML and UI development. A couple of <b>years</b> ago, this natural&nbsp;...",
+      "cacheId": "qojNmyt1SYkJ",
+      "formattedUrl": "https://stackoverflow.blog/.../what-i-wish-i-had-known-about-single-page-a...",
+      "htmlFormattedUrl": "https://stackoverflow.blog/.../what-i-wish-i-had-known-about-single-page-a...",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQYvDMK0_C2TMnKG4UepNSjn2loJl-8bWRX4gunri8JGAud_dk8X-gc8XI",
+            "width": "310",
+            "height": "163"
+          }
+        ],
+        "metatags": [
+          {
+            "og:image": "https://cdn.stackoverflow.co/images/jo7n4k8s/production/e5945fe1bbce462ffd614e99035552fa574df9b1-1200x630.png?w=1200&fm=png&auto=format",
+            "theme-color": "#f48024",
+            "twitter:card": "summary_large_image",
+            "og:type": "website",
+            "twitter:site": "@stackoverflow",
+            "viewport": "width=device-width, initial-scale=1",
+            "og:url": "https://stackoverflow.blog/2021/12/28/what-i-wish-i-had-known-about-single-page-applications/",
+            "format-detection": "telephone=no"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://cdn.stackoverflow.co/images/jo7n4k8s/production/e5945fe1bbce462ffd614e99035552fa574df9b1-1200x630.png?w=1200&fm=png&auto=format"
+          }
+        ],
+        "article": [
+          {
+            "image": "https://cdn.stackoverflow.co/images/jo7n4k8s/production/e5945fe1bbce462ffd614e99035552fa574df9b1-1200x630.png?w=1200&h=630&auto=format&dpr=2",
+            "articlebody": "[Ed. note: While we take some time to rest up over the holidays and prepare for next year, we are re-publishing our top ten posts for the year. Please enjoy our favorite work this year and...",
+            "name": "What I wish I had known about single page applications",
+            "abstract": "Single page apps are all the rage today, but they don't always operate the same as traditional web pages.",
+            "datepublished": "2021-12-28T14:44:44.000Z"
+          },
+          {
+            "name": "CEO update: Giving thanks and building upon our product & engineering foundation",
+            "datepublished": "2023-11-15T15:00:00.000Z"
+          },
+          {
+            "name": "An intuitive introduction to text embeddings",
+            "datepublished": "2023-11-09T20:22:34.075Z"
+          },
+          {
+            "name": "The product approach to open source communities",
+            "datepublished": "2023-11-08T14:47:00.000Z"
+          },
+          {
+            "name": "AI is only as good as the data: Q&A with Satish Jayanthi of Coalesce",
+            "datepublished": "2023-11-01T14:44:06.440Z"
+          },
+          {
+            "name": "Cloudflare Workers have a new skill: AI inference-as-a-service",
+            "datepublished": "2023-11-21T12:24:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "As a full stack developer with over 2+ years of experience in both ...",
+      "htmlTitle": "As a full stack <b>developer</b> with over <b>2</b>+ <b>years</b> of <b>experience</b> in both ...",
+      "link": "https://www.reddit.com/r/reactjs/comments/10i8bnj/as_a_full_stack_developer_with_over_2_years_of/",
+      "displayLink": "www.reddit.com",
+      "snippet": "Jan 22, 2023 ... I am in the process of interviewing for a React developer position ... little coding experience and I'm looking for someone to teach me. I\u00a0...",
+      "htmlSnippet": "Jan 22, 2023 <b>...</b> I <b>am</b> in the process of interviewing for a <b>React</b> developer position ... little coding <b>experience</b> and I&#39;m <b>looking</b> for someone to teach me. I&nbsp;...",
+      "formattedUrl": "https://www.reddit.com/.../reactjs/.../as_a_full_stack_developer_with_over_...",
+      "htmlFormattedUrl": "https://www.reddit.com/.../<b>react</b>js/.../as_a_full_stack_developer_with_over_...",
+      "pagemap": {
+        "metatags": [
+          {
+            "og:image": "https://share.redd.it/preview/post/10i8bnj",
+            "theme-color": "#000000",
+            "og:image:width": "1200",
+            "og:type": "website",
+            "og:image:alt": "An image containing a preview of the post",
+            "twitter:card": "summary_large_image",
+            "twitter:title": "r/reactjs on Reddit: As a full stack developer with over 2+ years of experience in both React and Node.js, what salary range would be appropriate to ask for during an interview for a React developer position?",
+            "og:site_name": "Reddit",
+            "og:title": "r/reactjs on Reddit: As a full stack developer with over 2+ years of experience in both React and Node.js, what salary range would be appropriate to ask for during an interview for a React developer position?",
+            "og:image:height": "630",
+            "msapplication-navbutton-color": "#000000",
+            "og:description": "Posted by u/Muhammad-Ali137 - No votes and 22 comments",
+            "twitter:image": "https://share.redd.it/preview/post/10i8bnj",
+            "apple-mobile-web-app-status-bar-style": "black",
+            "twitter:site": "@reddit",
+            "viewport": "width=device-width, initial-scale=1, viewport-fit=cover",
+            "apple-mobile-web-app-capable": "yes",
+            "og:ttl": "600",
+            "og:url": "https://www.reddit.com/r/reactjs/comments/10i8bnj/as_a_full_stack_developer_with_over_2_years_of/"
+          }
+        ],
+        "cse_image": [{ "src": "https://share.redd.it/preview/post/10i8bnj" }]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "How I went from newbie to Software Engineer in 9 months while ...",
+      "htmlTitle": "How I went from newbie to Software Engineer in 9 months while ...",
+      "link": "https://medium.com/@austintackaberry/how-i-went-from-newbie-to-software-engineer-in-9-months-while-working-full-time-460bd8485847",
+      "displayLink": "medium.com",
+      "snippet": "Mar 30, 2018 ... For example, let's say I was looking for a job that was looking for someone who knew JavaScript, React, and/or Python, and I really wanted to\u00a0...",
+      "htmlSnippet": "Mar 30, 2018 <b>...</b> For example, let&#39;s say I was <b>looking</b> for a job that was <b>looking</b> for someone who knew JavaScript, <b>React</b>, and/or <b>Python</b>, and I really wanted to&nbsp;...",
+      "cacheId": "Uwa3EEXaOeMJ",
+      "formattedUrl": "https://medium.com/.../how-i-went-from-newbie-to-software-engineer-in-9-...",
+      "htmlFormattedUrl": "https://medium.com/.../how-i-went-from-<b>new</b>bie-to-software-engineer-in-9-...",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR9ibriIWrmj6iQXqhMtTVh2F_b5yz2y0BrYOSJgqmkktMh8TWHXnwFxhD_",
+            "width": "275",
+            "height": "183"
+          }
+        ],
+        "metatags": [
+          {
+            "og:image": "https://miro.medium.com/v2/resize:fit:1200/1*wyxuq21keffc5b0d_lMkUw.jpeg",
+            "twitter:app:url:iphone": "medium://p/460bd8485847",
+            "theme-color": "#000000",
+            "article:published_time": "2022-09-07T15:38:01.857Z",
+            "twitter:card": "summary_large_image",
+            "og:site_name": "Medium",
+            "al:android:package": "com.medium.reader",
+            "twitter:label1": "Reading time",
+            "twitter:tile:template:testing": "2",
+            "twitter:app:id:iphone": "828256236",
+            "title": "How I went from newbie to Software Engineer in 9 months while working full time | by Austin Tackaberry | Medium",
+            "al:ios:url": "medium://p/460bd8485847",
+            "og:description": "In this post, I\u2019ll share how I went from zero(ish) to a six-figure software engineering job offer in nine months while working full time\u2026",
+            "twitter:creator": "@AETackaberry",
+            "al:ios:app_store_id": "828256236",
+            "twitter:data1": "19 min read",
+            "twitter:site": "@Medium",
+            "twitter:tile:info1:text": "Austin Tackaberry",
+            "twitter:tile:info1:icon": "Person",
+            "og:type": "article",
+            "twitter:title": "How I went from newbie to Software Engineer in 9 months while working full time",
+            "al:ios:app_name": "Medium",
+            "twitter:cta": "Read on Medium",
+            "author": "Austin Tackaberry",
+            "og:title": "How I went from newbie to Software Engineer in 9 months while working full time",
+            "al:web:url": "https://medium.com/@austintackaberry/how-i-went-from-newbie-to-software-engineer-in-9-months-while-working-full-time-460bd8485847",
+            "article:author": "https://medium.com/@austintackaberry",
+            "twitter:tile:info2:text": "Sep 7, 2022",
+            "twitter:image:src": "https://miro.medium.com/v2/resize:fit:1200/1*wyxuq21keffc5b0d_lMkUw.jpeg",
+            "al:android:url": "medium://p/460bd8485847",
+            "referrer": "unsafe-url",
+            "fb:app_id": "542599432471018",
+            "viewport": "width=device-width,minimum-scale=1,initial-scale=1,maximum-scale=1",
+            "twitter:tile:info2:icon": "Calendar",
+            "twitter:description": "In this post, I\u2019ll share how I went from zero(ish) to a six-figure software engineering job offer in nine months while working full time\u2026",
+            "twitter:tile:image": "https://miro.medium.com/v2/resize:fit:1200/1*wyxuq21keffc5b0d_lMkUw.jpeg",
+            "og:url": "https://medium.com/@austintackaberry/how-i-went-from-newbie-to-software-engineer-in-9-months-while-working-full-time-460bd8485847",
+            "twitter:app:name:iphone": "Medium",
+            "al:android:app_name": "Medium"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://miro.medium.com/v2/resize:fit:1200/1*wyxuq21keffc5b0d_lMkUw.jpeg"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "20 Things I've Learned in my 20 Years as a Software Engineer ...",
+      "htmlTitle": "20 Things I&#39;ve Learned in <b>my</b> 20 <b>Years</b> as a Software Engineer ...",
+      "link": "https://www.simplethread.com/20-things-ive-learned-in-my-20-years-as-a-software-engineer/",
+      "displayLink": "www.simplethread.com",
+      "snippet": "Oct 7, 2021 ... ... new things and I have a experience with clients and ... Couple of things i would add from my 18 years of experience from firmware development\u00a0...",
+      "htmlSnippet": "Oct 7, 2021 <b>...</b> ... <b>new</b> things and I have a <b>experience</b> with clients and ... Couple of things i would add from <b>my</b> 18 <b>years</b> of <b>experience</b> from firmware development&nbsp;...",
+      "cacheId": "TavhYVG1Y8QJ",
+      "formattedUrl": "https://www.simplethread.com/20-things-ive-learned-in-my-20-years-as-a-s...",
+      "htmlFormattedUrl": "https://www.simplethread.com/20-things-ive-learned-in-<b>my</b>-20-<b>years</b>-as-a-s...",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTxbPQGGbSfPQbklwGPmzW0K8S6RzC_GwROUYSPBafLrIp2fSLNRIgIe7k",
+            "width": "223",
+            "height": "226"
+          }
+        ],
+        "metatags": [
+          {
+            "og:image": "https://www.simplethread.com/wp-content/uploads/2021/10/20-Things-Ive-Learned-in-My-20-Years-as-a-Software-Engineer.png",
+            "article:published_time": "2021-10-07T14:00:01+00:00",
+            "og:image:width": "3939",
+            "twitter:card": "summary_large_image",
+            "theme-color": "#374453",
+            "og:site_name": "Simple Thread",
+            "twitter:label1": "Written by",
+            "twitter:label2": "Est. reading time",
+            "og:image:type": "image/png",
+            "msapplication-tileimage": "https://www.simplethread.com/wp-content/themes/simplethread-2022/library/images/win8-tile-icon.png",
+            "og:description": "Important, Read This First You\u2019re about to read a blog post with a lot\u00a0of advice. Learning from those who came before us is instrumental to success, but we often forget an important caveat. Almost all advice is contextual, yet it is rarely delivered with any context. \u201cYou just need to charge more!\u201d says the company [\u2026]",
+            "twitter:creator": "@JustinEtheredge",
+            "article:publisher": "https://www.facebook.com/Simple-Thread-164373486939165/",
+            "twitter:data1": "Justin Etheredge",
+            "twitter:data2": "11 minutes",
+            "twitter:site": "@simple_thread",
+            "article:modified_time": "2023-02-07T16:43:56+00:00",
+            "msapplication-tilecolor": "#E8E5DF",
+            "og:type": "article",
+            "author": "Justin Etheredge",
+            "og:title": "20 Things I've Learned in my 20 Years as a Software Engineer",
+            "og:image:height": "4002",
+            "viewport": "width=device-width, initial-scale=1",
+            "og:locale": "en_US",
+            "og:url": "https://www.simplethread.com/20-things-ive-learned-in-my-20-years-as-a-software-engineer/"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://www.simplethread.com/wp-content/uploads/2021/10/20-Things-Ive-Learned-in-My-20-Years-as-a-Software-Engineer.png"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "What a very bad day at work taught me about building Stack ...",
+      "htmlTitle": "What a very bad day at work taught me about building Stack ...",
+      "link": "https://stackoverflow.blog/2019/07/18/building-community-inclusivity-stack-overflow/",
+      "displayLink": "stackoverflow.blog",
+      "snippet": "Jul 18, 2019 ... Myself and the community team are really excited to improve the experience that all levels of coders have on Stack Overflow, from new users that\u00a0...",
+      "htmlSnippet": "Jul 18, 2019 <b>...</b> Myself and the community team are really excited to improve the <b>experience</b> that all levels of coders have on Stack Overflow, from <b>new</b> users that&nbsp;...",
+      "cacheId": "vhfNF8zFOJ0J",
+      "formattedUrl": "https://stackoverflow.blog/.../building-community-inclusivity-stack-overflo...",
+      "htmlFormattedUrl": "https://stackoverflow.blog/.../building-community-inclusivity-stack-overflo...",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSbotgcrVWUAUza3kzMktHzAScGiuQfQ1BCgOoxqLsmV9MHw3cVnU6qbMg",
+            "width": "300",
+            "height": "168"
+          }
+        ],
+        "metatags": [
+          {
+            "og:image": "https://cdn.stackoverflow.co/images/jo7n4k8s/production/af7cef480849e4813102e4fcc702a981d1329ef2-1920x1080.png?w=1200&fm=png&auto=format",
+            "theme-color": "#f48024",
+            "twitter:card": "summary_large_image",
+            "og:type": "website",
+            "twitter:site": "@stackoverflow",
+            "viewport": "width=device-width, initial-scale=1",
+            "og:url": "https://stackoverflow.blog/2019/07/18/building-community-inclusivity-stack-overflow/",
+            "format-detection": "telephone=no"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://cdn.stackoverflow.co/images/jo7n4k8s/production/af7cef480849e4813102e4fcc702a981d1329ef2-1920x1080.png?w=1200&fm=png&auto=format"
+          }
+        ],
+        "article": [
+          {
+            "image": "https://cdn.stackoverflow.co/images/jo7n4k8s/production/af7cef480849e4813102e4fcc702a981d1329ef2-1920x1080.png?rect=0,36,1920,1008&w=1200&h=630&auto=format&dpr=2",
+            "articlebody": "Hi, my name is Sara Chipps, first time Stack blogger, long time Stacker (I\u2019ve always wanted to say that!). I\u2019m the new Director of Public Q&A at Stack Overflow. I\u2019ve been at Stack for...",
+            "name": "What a very bad day at work taught me about building Stack Overflow\u2019s community",
+            "datepublished": "2019-07-18T16:02:44.000Z"
+          },
+          {
+            "name": "CEO update: Giving thanks and building upon our product & engineering foundation",
+            "datepublished": "2023-11-15T15:00:00.000Z"
+          },
+          {
+            "name": "An intuitive introduction to text embeddings",
+            "datepublished": "2023-11-09T20:22:34.075Z"
+          },
+          {
+            "name": "The product approach to open source communities",
+            "datepublished": "2023-11-08T14:47:00.000Z"
+          },
+          {
+            "name": "AI is only as good as the data: Q&A with Satish Jayanthi of Coalesce",
+            "datepublished": "2023-11-01T14:44:06.440Z"
+          },
+          {
+            "name": "Cloudflare Workers have a new skill: AI inference-as-a-service",
+            "datepublished": "2023-11-21T12:24:00.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "Parikh Jain on LinkedIn: #coding #startup #productivity #work ...",
+      "htmlTitle": "Parikh Jain on LinkedIn: #coding #<b>startup</b> #productivity #work ...",
+      "link": "https://www.linkedin.com/posts/parikh-jain-79568798_coding-startup-productivity-activity-7078638495518326784-eVoX?trk=public_profile_like_view",
+      "displayLink": "www.linkedin.com",
+      "snippet": "Jun 25, 2023 ... My New setup in 2023 as a Founder and Developer in my startup, along with my YouTube channel! Managing work efficiently is crucial, and here\u00a0...",
+      "htmlSnippet": "Jun 25, 2023 <b>...</b> <b>My New</b> setup in 2023 as a Founder and Developer in <b>my startup</b>, along with <b>my</b> YouTube channel! Managing work efficiently is crucial, and here&nbsp;...",
+      "formattedUrl": "https://www.linkedin.com/.../parikh-jain-79568798_coding-startup-product...",
+      "htmlFormattedUrl": "https://www.linkedin.com/.../parikh-jain-79568798_coding-<b>startup</b>-product...",
+      "pagemap": {
+        "cse_thumbnail": [
+          {
+            "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcR-CJ8hzdMtFhP3_FjlQGPO8rz_o_9kIPNIhhEs6a8nIwsKXcDHQCl-zHI",
+            "width": "259",
+            "height": "194"
+          }
+        ],
+        "metatags": [
+          {
+            "og:image": "https://media.licdn.com/dms/image/D4D22AQFFJ77QMCkbRg/feedshare-shrink_800/0/1687678930857?e=1702512000&v=beta&t=9DDITgvot0zSQaezQhAKSOz0KN6tT92egtsfTUBvztw",
+            "twitter:title": "Parikh Jain on LinkedIn: #coding #startup #productivity #work #developer | 159 comments",
+            "twitter:card": "summary_large_image",
+            "og:type": "article",
+            "al:ios:app_name": "LinkedIn",
+            "twitter:url": "https://www.linkedin.com/posts/parikh-jain-79568798_coding-startup-productivity-activity-7078638495518326784-eVoX",
+            "og:title": "Parikh Jain on LinkedIn: #coding #startup #productivity #work #developer | 159 comments",
+            "al:android:package": "com.linkedin.android",
+            "pagekey": "p_public_post",
+            "locale": "en_US",
+            "al:ios:url": "https://www.linkedin.com/posts/parikh-jain-79568798_coding-startup-productivity-activity-7078638495518326784-eVoX",
+            "og:description": "My New setup in 2023 as a Founder and Developer in my startup, along with my YouTube channel! \nManaging work efficiently is crucial, and here are a few things\u2026 | 159 comments on LinkedIn",
+            "al:ios:app_store_id": "288429040",
+            "twitter:image": "https://media.licdn.com/dms/image/D4D22AQFFJ77QMCkbRg/feedshare-shrink_800/0/1687678930857?e=1702512000&v=beta&t=9DDITgvot0zSQaezQhAKSOz0KN6tT92egtsfTUBvztw",
+            "al:android:url": "https://www.linkedin.com/posts/parikh-jain-79568798_coding-startup-productivity-activity-7078638495518326784-eVoX",
+            "lnkd:url": "https://www.linkedin.com/feed/update/urn:li:activity:7078638495518326784",
+            "twitter:site": "@linkedin",
+            "viewport": "width=device-width, initial-scale=1.0",
+            "twitter:description": "My New setup in 2023 as a Founder and Developer in my startup, along with my YouTube channel! \nManaging work efficiently is crucial, and here are a few things\u2026 | 159 comments on LinkedIn",
+            "og:url": "https://www.linkedin.com/posts/parikh-jain-79568798_coding-startup-productivity-activity-7078638495518326784-eVoX",
+            "al:android:app_name": "LinkedIn"
+          }
+        ],
+        "cse_image": [
+          {
+            "src": "https://media.licdn.com/dms/image/D4D22AQFFJ77QMCkbRg/feedshare-shrink_800/0/1687678930857?e=1702512000&v=beta&t=9DDITgvot0zSQaezQhAKSOz0KN6tT92egtsfTUBvztw"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "customsearch#result",
+      "title": "Has anyone tried Turing? Is it any good for finding gigs? What does ...",
+      "htmlTitle": "Has anyone tried Turing? Is it any good for finding gigs? What does ...",
+      "link": "https://www.quora.com/Has-anyone-tried-Turing-Is-it-any-good-for-finding-gigs-What-does-the-process-look-like-after-registering-with-them",
+      "displayLink": "www.quora.com",
+      "snippet": "Mar 6, 2019 ... ... years of experience as a developer (I have 2). Are you kidding me ... my experience with each (how many years do you have wit. Continue\u00a0...",
+      "htmlSnippet": "Mar 6, 2019 <b>...</b> ... <b>years</b> of <b>experience</b> as a developer (I have <b>2</b>). Are you kidding me ... <b>my experience</b> with each (how many <b>years</b> do you have wit. Continue&nbsp;...",
+      "formattedUrl": "https://www.quora.com/Has-anyone-tried-Turing-Is-it-any-good-for-findin...",
+      "htmlFormattedUrl": "https://www.quora.com/Has-anyone-tried-Turing-Is-it-any-good-for-findin...",
+      "pagemap": {
+        "metatags": [
+          {
+            "al:android:url": "intent://www.quora.com/Has-anyone-tried-Turing-Is-it-any-good-for-finding-gigs-What-does-the-process-look-like-after-registering-with-them#Intent;scheme=qhttp;package=com.quora.android;S.market_referrer=launch_url=https%3A%2F%2Fwww.quora.com%2FHas-anyone-tried-Turing-Is-it-any-good-for-finding-gigs-What-does-the-process-look-like-after-registering-with-them&logging_data=uid%3DNone;end",
+            "theme-color": "#b92b27",
+            "viewport": "initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, minimum-scale=1, viewport-fit=cover",
+            "al:android:package": "com.quora.android",
+            "fb:pages": "255232486973",
+            "twitter:widgets:theme": "light"
+          }
+        ],
+        "QAPage": [{}]
+      }
+    }
+  ]
+}

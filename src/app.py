@@ -8,28 +8,21 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_transformers import beautiful_soup_transformer
-from typing import List, Iterator
+from typing import List, Iterator, Dict
+from langchain.docstore.document import Document
 
 from webScraper import AsyncChromiumLoader
+from webSearch import search_web_google, serp_search
 from tokenSplit import split_text_on_tokens_custom, Tokenizer
 from documentUtils import create_documents, document_regex_sub, document2map
 
 load_dotenv()
 
-schema = {
-    "properties": {
-        "person_name": {"type": "string"},
-        "service_provided": {"type": "string"},
-        "service_location": {"type": "string"},
-        "service_price": {"type": "string"},
-        "contact email": {"type": "string"},
-        "contact number": {"type": "string"},
-    },
-    "required": ["person_name", "news_article_summary"],
-}
 
-OPENAI_ENV = os.getenv("OPENAI_API_KEY")
 SERP_ENV = os.getenv("SERP_API_AUTH")
+OPENAI_ENV = os.getenv("OPENAI_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
 
 LOG_FILES = True
 
@@ -40,7 +33,10 @@ log.basicConfig(
     level=log.DEBUG,
 )
 
-def gpt_cost_calculator(inp_tokens:int, out_tokens:int, model:str ="gpt-3.5-turbo" ) -> int:
+
+def gpt_cost_calculator(
+    inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
+) -> int:
     """
     Calculate the cost of the GPT API call
     """
@@ -61,7 +57,7 @@ def gpt_cost_calculator(inp_tokens:int, out_tokens:int, model:str ="gpt-3.5-turb
     return cost
 
 
-def scrape_with_playwright(urls: List[str], chunk_size:int=400) -> List[dict]:
+def scrape_with_playwright(urls: List[str]) -> List[dict]:
     """
     Scrape the websites using playwright and chunk the text tokens
     """
@@ -76,6 +72,13 @@ def scrape_with_playwright(urls: List[str], chunk_size:int=400) -> List[dict]:
 
     log.info(f"AsyncChromiumLoader time: { t_flag2 - t_flag1}")
 
+    
+    return docs
+
+
+def preprocess_text(docs: Document, chunk_size: int = 400) -> Dict:
+    t_flag1 = time.time()
+
     # Beautiful Soup Transformer
     bs_transformer = beautiful_soup_transformer.BeautifulSoupTransformer()
     docs_transformed = bs_transformer.transform_documents(
@@ -83,8 +86,8 @@ def scrape_with_playwright(urls: List[str], chunk_size:int=400) -> List[dict]:
     )
     # remove long white space
     docs_transformed = document_regex_sub(docs_transformed, r"\s+", " ")
-    t_flag3 = time.time()
-    log.info(f"BeautifulSoupTransformer time: {t_flag3 - t_flag2}")
+    t_flag2 = time.time()
+    log.info(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
 
     if LOG_FILES:
         with open("src/log_data/docs_beautify.json", "w") as f:
@@ -96,8 +99,8 @@ def scrape_with_playwright(urls: List[str], chunk_size:int=400) -> List[dict]:
     )
     splits = splitter.split_documents(docs_transformed)
 
-    t_flag4 = time.time()
-    log.info(f"RecursiveCharacterTextSplitter time: {t_flag4 - t_flag3}")
+    t_flag3 = time.time()
+    log.info(f"RecursiveCharacterTextSplitter time: {t_flag3 - t_flag2}")
 
     # convert to dictoinary
     splits = document2map(splits)
@@ -110,7 +113,7 @@ def scrape_with_playwright(urls: List[str], chunk_size:int=400) -> List[dict]:
     return splits
 
 
-def contains_contacts(text:str) -> bool:
+def contains_contacts(text: str) -> bool:
     """
     Check if the text contains email or phone number
     """
@@ -142,7 +145,7 @@ def relevant_data(extracted_content):
     return data
 
 
-def extract_contacts(data, prompt:str) -> str:
+def extract_contacts(data, prompt: str) -> str:
     """
     Extract the contacts from the search results using LLM
     """
@@ -174,7 +177,7 @@ def extract_contacts(data, prompt:str) -> str:
     except Exception as e:
         log.error(f"Error parsing json: {e}")
         json_response = {}
-        
+
     if LOG_FILES:
         with open("src/log_data/output.json", "w") as f:
             json.dump(json_response, f)
@@ -233,14 +236,18 @@ def sanitize_search_query(prompt):
 
     # tokens used
     tokens_used = response.usage.total_tokens
-    cost = gpt_cost_calculator(response.usage.prompt_tokens, response.usage.completion_tokens)
+    cost = gpt_cost_calculator(
+        response.usage.prompt_tokens, response.usage.completion_tokens
+    )
     log.info(f"Tokens used: {tokens_used}")
     log.info(f"Cost for search query sanitation: ${cost}")
 
     return response.choices[0].message.content
 
+
 def internet_speed_test():
     import speedtest
+
     s = speedtest.Speedtest()
 
     # Get the download speed
@@ -254,8 +261,6 @@ def internet_speed_test():
 
 
 def main():
-
-
     prompt = input("\nEnter the search prompt: ").strip()
     log.info(f"\nPrompt: {prompt}\n")
 
@@ -266,15 +271,24 @@ def main():
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
 
     # search the web for the query
-    search_results = web_search(sanitized_prompt, "Kochi, Kerala, India")
+    search_results = search_web_google(
+        sanitized_prompt,
+        "Kochi, Kerala, India",
+        GOOGLE_SEARCH_ENGINE_ID,
+        GOOGLE_API_KEY,
+    )
     log.info(f"\nSearch Results: {search_results}\n")
 
     # list of websites
-    websites = list(search_results.values())
+    websites = [link["link"] for link in search_results]
 
     # scrape the websites
     extracted_content = scrape_with_playwright(websites)
-    log.info(f"\nExtracted Content Length(chunked): {len(extracted_content)}\n")
+    log.info(f"\nScraped Content: {len(extracted_content)}\n")
+
+    # Preprocess the extracted content
+    extracted_content = preprocess_text(extracted_content)
+    log.info(f"\nPreprocessed Content Length(chunked): {len(extracted_content)}\n")
 
     # extract relevant data from the search results
     context_data = relevant_data(extracted_content)

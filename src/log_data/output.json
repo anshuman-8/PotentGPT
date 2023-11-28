@@ -1,1 +1,68 @@
-{"Vendors": [{"service_provider": "SS Travels", "contact": {"email": "Not available", "phone": "+91 96525 25269", "address": "One location in Kochi"}}, {"service_provider": "Europcar", "contact": {"email": "Not available", "phone": "+91 84487 65118", "address": "3 locations in Kochi: Airport Rd, Kochi; Kochi Central Location; Trichy Road, Singanallur"}}, {"service_provider": "Instant Cabs", "contact": {"email": "Not available", "phone": "Not available", "address": "2 locations in Kochi: 272, Dr. Alagappa Road Tatabad; St. Francis Xavier's Church Road Kaloor"}}, {"service_provider": "Avis", "contact": {"email": "Not available", "phone": "+91 124 472 4850", "address": "One location in Kochi: Airline Flight Dtls Mandatory"}}]}
+{
+  "Vendors": [
+    {
+      "service_provider": "SS Travels",
+      "contact": {
+        "email": "",
+        "phone": "+91 96525 25269",
+        "address": "Cochin International Airport"
+      }
+    },
+    {
+      "service_provider": "Europcar",
+      "contact": {
+        "email": "",
+        "phone": "+91 84487 65118",
+        "address": "Airport Rd, Kochi"
+      }
+    },
+    {
+      "service_provider": "Europcar",
+      "contact": {
+        "email": "",
+        "phone": "+91 84487 65118",
+        "address": "Kochi Central Location"
+      }
+    },
+    {
+      "service_provider": "Europcar",
+      "contact": {
+        "email": "",
+        "phone": "+91 977 388 1881",
+        "address": "Trichy Road, Singanallur"
+      }
+    },
+    {
+      "service_provider": "Instant Cabs",
+      "contact": {
+        "email": "",
+        "phone": "",
+        "address": "272, Dr. Alagappa Road Tatabad"
+      }
+    },
+    {
+      "service_provider": "Instant Cabs",
+      "contact": {
+        "email": "",
+        "phone": "",
+        "address": "St. Francis Xavier's Church Road Kaloor"
+      }
+    },
+    {
+      "service_provider": "Avis",
+      "contact": {
+        "email": "",
+        "phone": "+91 124 472 4850",
+        "address": "Airline Flight Dtls Mandatory"
+      }
+    },
+    {
+      "service_provider": "Cochin Car Rentals",
+      "contact": {
+        "email": "mail@cochincarrentals.in",
+        "phone": "+91-9387066804",
+        "address": "No.1 Car Rental Company in Cochin"
+      }
+    }
+  ]
+}

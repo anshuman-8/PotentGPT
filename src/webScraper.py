@@ -36,8 +36,15 @@ class AsyncChromiumLoader:
             await page.goto(url)
             web_content = await page.content()
             log.info(f"Content scraped for {url}")
+            
+        # except playwright._impl._api_types.TimeoutError as e:
+        #     log.error(f"Timeout scraping {url}: {e}")
+        # except playwright._impl._api_types.NavigationError as e:
+        #     log.error(f"Navigation error scraping {url}: {e}")
         except Exception as e:
             log.error(f"Error scraping {url}: {e}")
+        # finally:
+        #     await page.close()
         result_doc = Document(page_content=web_content, metadata=metadata)
         return result_doc
 
