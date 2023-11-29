@@ -72,7 +72,6 @@ def scrape_with_playwright(urls: List[str]) -> List[dict]:
 
     log.info(f"AsyncChromiumLoader time: { t_flag2 - t_flag1}")
 
-    
     return docs
 
 
@@ -168,8 +167,12 @@ def extract_contacts(data, prompt: str) -> str:
     log.info(f"OpenAI time: { t_flag2 - t_flag1}")
     print(response.choices[0].message.content)
 
-    cost = gpt_cost_calculator(response.usage.prompt_tokens, response.usage.completion_tokens)
-    log.debug(f"Input Tokens used: {response.usage.prompt_tokens}, Output Tokens used: {response.usage.completion_tokens}")
+    cost = gpt_cost_calculator(
+        response.usage.prompt_tokens, response.usage.completion_tokens
+    )
+    log.debug(
+        f"Input Tokens used: {response.usage.prompt_tokens}, Output Tokens used: {response.usage.completion_tokens}"
+    )
     log.info(f"Cost for contact retrival: ${cost}")
 
     try:

@@ -5,7 +5,8 @@ import copy
 import re
 
 
-def create_documents( texts: List[str], metadatas: Optional[List[dict]] = None
+def create_documents(
+    texts: List[str], metadatas: Optional[List[dict]] = None
 ) -> List[Document]:
     """Create documents from a list of texts."""
     _metadatas = metadatas or [{}] * len(texts)
@@ -16,7 +17,10 @@ def create_documents( texts: List[str], metadatas: Optional[List[dict]] = None
         documents.append(new_doc)
     return documents
 
-def document_regex_sub(documents: List[Document], pattern: str, repl: str) -> List[Document]:
+
+def document_regex_sub(
+    documents: List[Document], pattern: str, repl: str
+) -> List[Document]:
     """Filter documents based on a regex pattern."""
     texts, metadatas = [], []
     for doc in documents:
@@ -25,7 +29,11 @@ def document_regex_sub(documents: List[Document], pattern: str, repl: str) -> Li
     texts = [re.sub(pattern, repl, text) for text in texts]
     return create_documents(texts, metadatas=metadatas)
 
+
 def document2map(documents: List[Document]) -> List[dict]:
     """Convert a list of documents to a map."""
     log.info("Converting documents to map...")
-    return [ {"metadata" : doc.metadata['source'] ,"content": doc.page_content} for doc in documents]
+    return [
+        {"metadata": doc.metadata["source"], "content": doc.page_content}
+        for doc in documents
+    ]

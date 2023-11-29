@@ -24,7 +24,7 @@ class AsyncChromiumLoader:
             log.debug(f"Browser closed")
         return results
 
-    async def scrape_url(self, browser, url:str) -> Document:
+    async def scrape_url(self, browser, url: str) -> Document:
         """
         Scrape the url and return the document
         """
@@ -36,7 +36,7 @@ class AsyncChromiumLoader:
             await page.goto(url)
             web_content = await page.content()
             log.info(f"Content scraped for {url}")
-            
+
         # except playwright._impl._api_types.TimeoutError as e:
         #     log.error(f"Timeout scraping {url}: {e}")
         # except playwright._impl._api_types.NavigationError as e:
