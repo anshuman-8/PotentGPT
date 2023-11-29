@@ -148,6 +148,8 @@ def extract_contacts(data, prompt: str) -> str:
     """
     Extract the contacts from the search results using LLM
     """
+    # TODO: Take on max first 15 of the components of the data json
+    
     t_flag1 = time.time()
     client = OpenAI(api_key=OPENAI_ENV)
 
@@ -157,10 +159,12 @@ def extract_contacts(data, prompt: str) -> str:
         messages=[
             {
                 "role": "system",
-                "content": 'You are an assistant designed to efficiently extract contact details from JSON input, aiming to assist users in finding service providers. Your task is to process JSON data, comprehend its content, and provide a structured output. The desired answer format is a list of service providers with their respective contact details and descriptions. The response should strictly adhere to the format:["Vendors": {"service_provider": "Name and description of the vendor","contact": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},]. Ensure that the output follows this template, and if any fields are absent in the input, leave them as empty. It is crucial not to omit any contact information.',
+                "content": 'Task: Efficiently extract contact details from JSON input, aiming to assist users question in finding service providers. Your task is to process Context data which contains content and its source in JSON format, comprehend its content, and provide a structured output. The desired answer format is a list of service providers with their respective contact details and descriptions. The response should strictly adhere to the format:["Vendors": {"service_provider": "Name and description of the vendor", "source": "Source Link of the information", "contact": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},]. Ensure that the output follows this template, and if any fields are absent in the input, leave them as empty. It is crucial not to omit any contact information.',
             },
-            {"role": "user", "content": f"{data}"},
-            {"role": "user", "content": f"{prompt}"},
+            {
+                "role": "user",
+                "content": f"Context: {data}\n\n---\n\nQuestion: {prompt}\n\nAnswer:",
+            },
         ],
     )
     t_flag2 = time.time()
@@ -275,12 +279,13 @@ def main():
 
     # search the web for the query
     search_results = search_web_google(
-        sanitized_prompt,
-        "Kochi, Kerala, India",
-        GOOGLE_SEARCH_ENGINE_ID,
-        GOOGLE_API_KEY,
+        sanitized_prompt, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, "IN"
     )
-    log.info(f"\nSearch Results: {search_results}\n")
+    if search_results is not None:
+        log.info(f"\nSearch Results: {search_results}\n")
+    else:
+        log.error("search failed")
+        exit(1)
 
     # list of websites
     websites = [link["link"] for link in search_results]
