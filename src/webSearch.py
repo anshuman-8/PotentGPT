@@ -100,9 +100,15 @@ def search_web_google(
     api_endpoint = f"https://www.googleapis.com/customsearch/v1?key={google_api_key}&cx={google_search_engine_id}"
 
     params = {"q": search_query, "gl": country, "lr": "lang_en", "num": site_limit}
-    response = requests.get(api_endpoint, params=params)
 
-    websites = {}
+    try:
+        response = requests.get(api_endpoint, params=params)
+        response.raise_for_status()
+    except Exception as e:
+        log.error(f"Error on Google Search request: {e}")
+        return None
+
+    websites = []
     data = response.json()
     t_flag2 = time.time()
     log.info(f"Google search time: {t_flag2 - t_flag1}")
@@ -177,11 +183,12 @@ def search_web_bing(
 
     try:
         response = requests.get(api_endpoint, params=params, headers=headers)
+        response.raise_for_status()
     except Exception as e:
         log.error(f"Error on Bing Search request: {e}")
         return None
 
-    websites = {}
+    websites = []
     data = response.json()
     t_flag2 = time.time()
     log.info(f"Bing search time: {t_flag2 - t_flag1}")
@@ -207,7 +214,82 @@ def search_web_bing(
     return websites
 
 
-# prompt = "need a car for rent in kochi"
-# ans = search_web_bing(prompt)
+def fetch_yelp(
+    search_term: str,
+    location: str,
+    lat: int = None,
+    lon: int = None,
+    search_limit: int = 10,
+    yelp_api_key: str = None,
+) -> List[dict] | None:
+    """
+    Fetch results from Yelp API
+    Yelp is used for fetching business data
 
-# print(ans)
+    ### Parameters
+    - search_term: The search term to search for
+    - location: The location to search in
+    - lat: The latitude of the location
+    - lon: The longitude of the location
+    - search_limit: The number of results to return, default 10
+    - yelp_api_key: The Yelp API key to use
+
+    ### Returns:
+    - List[dict] or None: A list of dictionaries representing the search results. Each dictionary contains the following fields:
+      - "title": The title of the business.
+      - "link": The URL of the business.
+      - "emails": The emails of the business.
+      - "mobileNumbers": The mobile numbers of the business.
+      - "dataProvider": The data provider of the business.
+    """
+    yelp_url = "https://api.yelp.com/v3/businesses/search"
+
+    if yelp_api_key is None:
+        try:
+            yelp_api_key = os.getenv("YELP_API_KEY")
+        except Exception as e:
+            log.error(f"No Yelp API key found")
+            return None
+    headers = {"Authorization": f"Bearer {yelp_api_key}", "accept": "application/json"}
+
+    t_flag1 = time.time()
+    params = {
+        "term": search_term.replace(" ", "+"),
+        "location": location.replace(" ", "+"),
+        "limit": search_limit,
+    }
+
+    if lat and lon:
+        params["latitude"] = lat
+        params["longitude"] = lon
+
+    data ={}
+
+    try:
+        response = requests.get(yelp_url, headers=headers, params=params)
+        response.raise_for_status()
+
+        data = response.json()
+        t_flag2 = time.time()
+        print(f"Yelp search time: {t_flag2 - t_flag1}")
+
+        print(data)
+        data = [{"title":business['name'], "link":business['url'], "phone":business['phone'], "location":business['location']['display_address']} for business in data["businesses"]]
+
+        with open("./yelp.json", "w") as f:
+            json.dump(data, f)
+
+    except Exception as e:
+        log.error(f"Error on Yelp Search request: {e}")
+        return None
+    
+    return data
+
+
+# query = "Veg restaurants in Cupertino, CA"
+# location = "Los Angeles, CA"
+# print(search_web_google(query, google_search_engine_id="c6e7c5f2a6a6b7b1d"))
+# print(search_web_bing(query))
+# print(serp_search(query, location))
+# print(fetch_yelp(query, location))
+

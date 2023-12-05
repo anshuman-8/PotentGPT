@@ -21,7 +21,15 @@ def create_documents(
 def document_regex_sub(
     documents: List[Document], pattern: str, repl: str
 ) -> List[Document]:
-    """Filter documents based on a regex pattern."""
+    """Filter documents based on a regex pattern.
+    ### Parameters:
+    - documents: List of documents to be filtered.
+    - pattern: Regex pattern to be matched.
+    - repl: String to replace the matched pattern with.
+    
+    ### Returns:
+    List of documents with the regex pattern replaced by the repl string.
+    """
     texts, metadatas = [], []
     for doc in documents:
         texts.append(doc.page_content)

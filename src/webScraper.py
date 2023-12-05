@@ -32,6 +32,7 @@ class AsyncChromiumLoader:
         metadata = {"source": url}
         log.info(f"Scraping {url}...")
         try:
+            
             page = await browser.new_page()
             await page.goto(url)
             web_content = await page.content()

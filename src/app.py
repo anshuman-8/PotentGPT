@@ -23,6 +23,8 @@ SERP_ENV = os.getenv("SERP_API_AUTH")
 OPENAI_ENV = os.getenv("OPENAI_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
+BING_API_KEY = os.getenv("BING_API_KEY")
+YELP_API_KEY= os.getenv("YELP_API_KEY")
 
 LOG_FILES = True
 
@@ -76,15 +78,20 @@ def scrape_with_playwright(urls: List[str]) -> List[dict]:
 
 
 def preprocess_text(docs: Document, chunk_size: int = 400) -> Dict:
+    """
+    Preprocess the text using BeautifulSoup and chunk the text tokens
+    """
     t_flag1 = time.time()
 
     # Beautiful Soup Transformer
     bs_transformer = beautiful_soup_transformer.BeautifulSoupTransformer()
     docs_transformed = bs_transformer.transform_documents(
-        docs, tags_to_extract=["p", "li", "div", "a", "span"]
+        docs, tags_to_extract=["p", "li", "div", "a", "span"], unwanted_tags=["script", "style", "noscript"]
     )
     # remove long white space
     docs_transformed = document_regex_sub(docs_transformed, r"\s+", " ")
+    docs_transformed = document_regex_sub(docs_transformed, r"javascript:void\(0\);", "")
+
     t_flag2 = time.time()
     log.info(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
 
@@ -143,7 +150,6 @@ def relevant_data(extracted_content):
 
     return data
 
-
 def extract_contacts(data, prompt: str) -> str:
     """
     Extract the contacts from the search results using LLM
@@ -192,52 +198,34 @@ def extract_contacts(data, prompt: str) -> str:
     return response.choices[0].message.content
 
 
-def web_search(search_query, location):
-    """
-    Search the web for the query using SERP API
-    """
-    t_flag1 = time.time()
-    api_key = SERP_ENV
-    api_endpoint = "https://serpapi.com/search"
-
-    params = {"q": search_query, "location": location, "api_key": api_key}
-    websites = {}
-
-    response = requests.get(api_endpoint, params=params)
-    data = response.json()
-    t_flag2 = time.time()
-    log.info(f"SERP time: {t_flag2 - t_flag1}")
-
-    websites = {result["title"]: result["link"] for result in data["organic_results"]}
-
-    if LOG_FILES:
-        with open("src/log_data/websites.json", "w") as f:
-            json.dump(websites, f)
-
-    return websites
-
-
-def sanitize_search_query(prompt):
+def sanitize_search_query(prompt:str, location:str=None)-> json :
     """
     Sanitize the search query using OpenAI for web search
     """
     t_flag1 = time.time()
     client = OpenAI(api_key=OPENAI_ENV)
 
-    system_prompt = "You are a helpful assistant designed to convert a user input into a sanitized search query for web search i.e. googling. "
+    prompt = f'{prompt.strip()}, {location}'
 
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": f"{system_prompt}"},
-            {
-                "role": "user",
-                "content": "I want a good chef for my anniversary party in Kochi,Kerala for 50 people",
-            },
-            {"role": "system", "content": "Chefs in Kochi, Kerala"},
-            {"role": "user", "content": f"{prompt}"},
-        ],
-    )
+    system_prompt = "You are a helpful assistant designed to convert user input into a sanitized search query for web search (small and without adjectives) i.e. googling (with location). The output should be in JSON format also saying where to search in a list, enum (web, yelp), here web is used for all cases, yelp is used only for Restaurants, Home services, Auto service, and other service and repair."
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo-1106",
+            response_format={"type": "json_object"},
+            messages=[
+                {"role": "system", "content": f"{system_prompt}"},
+                {
+                    "role": "user",
+                    "content": "I want a good chef for my anniversary party for 50 people, Kochi, Kerala",
+                },
+                {"role": "system", "content": '{"query":"Chefs in Kochi, Kerala", "search":["web", "yelp"]}'},
+                {"role": "user", "content": f"{prompt}"},
+            ],
+        )
+    except Exception as e:
+        log.error(f"Error in OpenAI query sanitation: {e}")
+        exit(1)
+        
     t_flag2 = time.time()
     log.info(f"OpenAI sanitation time: {t_flag2 - t_flag1}")
 
@@ -248,8 +236,13 @@ def sanitize_search_query(prompt):
     )
     log.info(f"Tokens used: {tokens_used}")
     log.info(f"Cost for search query sanitation: ${cost}")
-
-    return response.choices[0].message.content
+    print(response.choices[0].message.content)
+    try:
+        result = json.loads(response.choices[0].message.content)
+    except Exception as e:
+        log.error(f"Error parsing json: {e}")
+        result = {}
+    return result
 
 
 def internet_speed_test():
@@ -268,18 +261,19 @@ def internet_speed_test():
 
 
 def main():
+    location = "Kochi, Kerala"
     prompt = input("\nEnter the search prompt: ").strip()
     log.info(f"\nPrompt: {prompt}\n")
 
     process_start_time = time.time()
 
     # sanitize the prompt
-    sanitized_prompt = sanitize_search_query(prompt)
+    sanitized_prompt = sanitize_search_query(prompt, location)
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
 
     # search the web for the query
     search_results = search_web_google(
-        sanitized_prompt, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, "IN"
+        sanitized_prompt['query'], GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, "IN"
     )
     if search_results is not None:
         log.info(f"\nSearch Results: {search_results}\n")
@@ -301,7 +295,6 @@ def main():
     # extract relevant data from the search results
     context_data = relevant_data(extracted_content)
     log.info(f"\nContext Data len: {len(context_data)}\n")
-
     # extract the contacts from the search results
     extracted_contacts = extract_contacts(context_data, prompt)
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
@@ -310,6 +303,7 @@ def main():
     log.info(f"\nTotal time: {process_end_time - process_start_time}")
 
     log.info(f"\nCompleted\n")
+    exit(0)
 
 
 if __name__ == "__main__":
