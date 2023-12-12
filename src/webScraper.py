@@ -1,6 +1,4 @@
 import asyncio
-import re
-import playwright
 import logging as log
 from typing import Iterator, List
 from playwright.async_api import async_playwright
@@ -18,7 +16,7 @@ class AsyncChromiumLoader:
         log.info("Starting scraping...")
         results = []
         async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=False)
+            browser = await p.chromium.launch(headless=True)
             scraping_tasks = [self.scrape_url(browser, url) for url in urls]
             results = await asyncio.gather(*scraping_tasks)
             await browser.close()
@@ -27,7 +25,7 @@ class AsyncChromiumLoader:
 
     async def scrape_url(self, browser, url: str) -> Document:
         """
-        Scrape the url and return the document
+        Scrape the url and return the document, it also ignores assets
         """
         web_content = ""
         metadata = {"source": url}

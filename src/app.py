@@ -26,7 +26,7 @@ GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
 BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
-LOG_FILES = True
+LOG_FILES = False
 
 log.basicConfig(
     filename="logging.log",
@@ -123,6 +123,7 @@ def preprocess_text(docs: Document, chunk_size: int = 400) -> Dict:
     log.info(f"Total data splits: {len(splits)}")
     return splits
 
+
 def process_search_links(links: List[str]) -> List[str]:
     """
     Process the search links to remove the unwanted links
@@ -133,6 +134,7 @@ def process_search_links(links: List[str]) -> List[str]:
         if not any(avoid_link in link for avoid_link in avoid_links):
             processed_links.append(link)
     return processed_links
+
 
 def contains_contacts(text: str) -> bool:
     """
@@ -258,7 +260,6 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
     )
     log.info(f"Tokens used: {tokens_used}")
     log.info(f"Cost for search query sanitation: ${cost}")
-    print(response.choices[0].message.content)
     try:
         result = json.loads(response.choices[0].message.content)
     except Exception as e:
@@ -266,18 +267,19 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
         result = {}
     return result
 
+
 def print_response(response_json):
     for vendor in response_json.get("Vendors", []):
         print(f"Service Provider: {vendor.get('service_provider', '')}")
         print(f"Source: {vendor.get('source', '')}")
-        
+
         contacts = vendor.get("contacts", {})
         print(f"Contacts:")
         print(f"  Email: {contacts.get('email', '')}")
         print(f"  Phone: {contacts.get('phone', '')}")
         print(f"  Address: {contacts.get('address', '')}")
-        
-        print("\n" + "-"*40 + "\n")
+
+        print("\n" + "-" * 40 + "\n")
 
 
 def internet_speed_test():
@@ -310,8 +312,10 @@ def main():
     google_search_results = search_web_google(
         sanitized_prompt["search_query"], GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, "IN"
     )
-    bing_search_results = search_web_bing(sanitized_prompt["search_query"], BING_API_KEY)
-    
+    bing_search_results = search_web_bing(
+        sanitized_prompt["search_query"], BING_API_KEY
+    )
+
     if google_search_results is not None:
         log.info(f"\ngoogle Search Results: {google_search_results}\n")
     if bing_search_results is not None:
@@ -319,7 +323,7 @@ def main():
     else:
         log.error("search failed")
         exit(1)
-    
+
     # write both the search results to a same file
     with open("src/log_data/search_results.json", "w") as f:
         json.dump(google_search_results + bing_search_results, f)
@@ -331,7 +335,9 @@ def main():
     websites = [link["link"] for link in search_results]
 
     # process the search links
-    refined_websites = process_search_links(websites[:14] if len(websites) > 14 else websites)
+    refined_websites = process_search_links(
+        websites[:14] if len(websites) > 14 else websites
+    )
 
     # scrape the websites
     extracted_content = scrape_with_playwright(refined_websites)
@@ -354,7 +360,9 @@ def main():
         exit(1)
 
     # extract the contacts from the search results
-    extracted_contacts = extract_contacts(context_data[:12] if len(context_data) > 12 else context_data, prompt)
+    extracted_contacts = extract_contacts(
+        context_data[:12] if len(context_data) > 12 else context_data, prompt
+    )
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
 
     # print the response
@@ -365,7 +373,6 @@ def main():
 
     log.info(f"\nCompleted\n")
     exit(0)
-
 
 
 if __name__ == "__main__":
