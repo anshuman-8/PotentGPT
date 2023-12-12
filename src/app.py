@@ -2,7 +2,6 @@ import re
 import os
 import json
 import time
-import requests
 import logging as log
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -12,7 +11,8 @@ from typing import List, Iterator, Dict
 from langchain.docstore.document import Document
 
 from webScraper import AsyncChromiumLoader
-from webSearch import search_web_google, serp_search
+from search_indexing import search_indexing
+from webSearch import search_web_google, search_web_bing
 from tokenSplit import split_text_on_tokens_custom, Tokenizer
 from documentUtils import create_documents, document_regex_sub, document2map
 
@@ -24,7 +24,7 @@ OPENAI_ENV = os.getenv("OPENAI_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
 BING_API_KEY = os.getenv("BING_API_KEY")
-YELP_API_KEY= os.getenv("YELP_API_KEY")
+YELP_API_KEY = os.getenv("YELP_API_KEY")
 
 LOG_FILES = True
 
@@ -32,7 +32,7 @@ log.basicConfig(
     filename="logging.log",
     filemode="w",
     format="%(name)s - %(levelname)s - %(message)s",
-    level=log.DEBUG,
+    level=log.INFO,
 )
 
 
@@ -86,11 +86,16 @@ def preprocess_text(docs: Document, chunk_size: int = 400) -> Dict:
     # Beautiful Soup Transformer
     bs_transformer = beautiful_soup_transformer.BeautifulSoupTransformer()
     docs_transformed = bs_transformer.transform_documents(
-        docs, tags_to_extract=["p", "li", "div", "a", "span"], unwanted_tags=["script", "style", "noscript"]
+        docs,
+        tags_to_extract=["p", "li", "div", "a", "span"],
+        unwanted_tags=["script", "style", "noscript", "svg"],
     )
     # remove long white space
     docs_transformed = document_regex_sub(docs_transformed, r"\s+", " ")
-    docs_transformed = document_regex_sub(docs_transformed, r"javascript:void\(0\);", "")
+    docs_transformed = document_regex_sub(
+        docs_transformed, r"javascript:void\(0\);", ""
+    )
+    docs_transformed = document_regex_sub(docs_transformed, r"\\u[0-9A-Fa-f]{4}", "")
 
     t_flag2 = time.time()
     log.info(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
@@ -118,6 +123,16 @@ def preprocess_text(docs: Document, chunk_size: int = 400) -> Dict:
     log.info(f"Total data splits: {len(splits)}")
     return splits
 
+def process_search_links(links: List[str]) -> List[str]:
+    """
+    Process the search links to remove the unwanted links
+    """
+    avoid_links = ["instagram", "facebook", "twitter", "youtube", "makemytrip"]
+    processed_links = []
+    for link in links:
+        if not any(avoid_link in link for avoid_link in avoid_links):
+            processed_links.append(link)
+    return processed_links
 
 def contains_contacts(text: str) -> bool:
     """
@@ -125,7 +140,8 @@ def contains_contacts(text: str) -> bool:
     """
     # Regular expression patterns for emails and phone numbers
     email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
-    phone_pattern = r"\b(?:\+\d{1,2}\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}\b"
+    # phone_pattern = r"\b(?:\+\d{1,2}\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}\b"
+    phone_pattern = r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b|\b\d{10}\b"
 
     contains_email = bool(re.search(email_pattern, text))
     contains_phone = bool(re.search(phone_pattern, text))
@@ -150,12 +166,13 @@ def relevant_data(extracted_content):
 
     return data
 
+
 def extract_contacts(data, prompt: str) -> str:
     """
     Extract the contacts from the search results using LLM
     """
     # TODO: Take on max first 15 of the components of the data json
-    
+
     t_flag1 = time.time()
     client = OpenAI(api_key=OPENAI_ENV)
 
@@ -165,17 +182,19 @@ def extract_contacts(data, prompt: str) -> str:
         messages=[
             {
                 "role": "system",
-                "content": 'Task: Efficiently extract contact details from JSON input, aiming to assist users question in finding service providers. Your task is to process Context data which contains content and its source in JSON format, comprehend its content, and provide a structured output. The desired answer format is a list of service providers with their respective contact details and descriptions. The response should strictly adhere to the format:["Vendors": {"service_provider": "Name and description of the vendor", "source": "Source Link of the information", "contact": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},]. Ensure that the output follows this template, and if any fields are absent in the input, leave them as empty. It is crucial not to omit any contact information.',
+                "content": """Task: Efficiently extract contact details from JSON input, aiming to assist users question in finding service providers/vendors. Process complete Context data which contains content and its source in JSON format, comprehend its content, and provide a structured output with their respective contact details and descriptions. 
+The response should strictly adhere to the format : ["Vendors": {"service_provider": "Name and description of the vendor", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},].
+Ensure that the output follows this template, and if any fields are absent in the input, leave them as empty as "". It is crucial not to omit any contact information. Do not Give Empty or Wrong Information.""",
             },
             {
                 "role": "user",
-                "content": f"Context: {data}\n\n---\n\nQuestion: {prompt}\n\nAnswer:",
+                "content": f"Context: {data}\n\n---\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details of the vendors in JSON:",
             },
         ],
     )
     t_flag2 = time.time()
     log.info(f"OpenAI time: { t_flag2 - t_flag1}")
-    print(response.choices[0].message.content)
+    # print(response.choices[0].message.content)
 
     cost = gpt_cost_calculator(
         response.usage.prompt_tokens, response.usage.completion_tokens
@@ -198,16 +217,16 @@ def extract_contacts(data, prompt: str) -> str:
     return response.choices[0].message.content
 
 
-def sanitize_search_query(prompt:str, location:str=None)-> json :
+def sanitize_search_query(prompt: str, location: str = None) -> json:
     """
     Sanitize the search query using OpenAI for web search
     """
     t_flag1 = time.time()
     client = OpenAI(api_key=OPENAI_ENV)
 
-    prompt = f'{prompt.strip()}, {location}'
+    prompt = f"{prompt.strip()}, {location}"
 
-    system_prompt = "You are a helpful assistant designed to convert user input into a sanitized search query for web search (small and without adjectives) i.e. googling (with location). The output should be in JSON format also saying where to search in a list, enum (web, yelp), here web is used for all cases, yelp is used only for Restaurants, Home services, Auto service, and other service and repair."
+    system_prompt = "You are a helpful assistant designed to convert user input into a sanitized search query for web search (without adjectives) i.e. googling (with location). The output should be in JSON format also saying where to search in a list, enum (web, yelp), here web is used for all cases, yelp is used only for Restaurants, Home services, Auto service, and other service and repair."
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-1106",
@@ -218,14 +237,17 @@ def sanitize_search_query(prompt:str, location:str=None)-> json :
                     "role": "user",
                     "content": "I want a good chef for my anniversary party for 50 people, Kochi, Kerala",
                 },
-                {"role": "system", "content": '{"query":"Chefs in Kochi, Kerala", "search":["web", "yelp"]}'},
+                {
+                    "role": "system",
+                    "content": '{"search_query":"Chefs in Kochi, Kerala", "search":["web", "yelp"]}',
+                },
                 {"role": "user", "content": f"{prompt}"},
             ],
         )
     except Exception as e:
         log.error(f"Error in OpenAI query sanitation: {e}")
         exit(1)
-        
+
     t_flag2 = time.time()
     log.info(f"OpenAI sanitation time: {t_flag2 - t_flag1}")
 
@@ -243,6 +265,19 @@ def sanitize_search_query(prompt:str, location:str=None)-> json :
         log.error(f"Error parsing json: {e}")
         result = {}
     return result
+
+def print_response(response_json):
+    for vendor in response_json.get("Vendors", []):
+        print(f"Service Provider: {vendor.get('service_provider', '')}")
+        print(f"Source: {vendor.get('source', '')}")
+        
+        contacts = vendor.get("contacts", {})
+        print(f"Contacts:")
+        print(f"  Email: {contacts.get('email', '')}")
+        print(f"  Phone: {contacts.get('phone', '')}")
+        print(f"  Address: {contacts.get('address', '')}")
+        
+        print("\n" + "-"*40 + "\n")
 
 
 def internet_speed_test():
@@ -272,21 +307,39 @@ def main():
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
 
     # search the web for the query
-    search_results = search_web_google(
-        sanitized_prompt['query'], GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, "IN"
+    google_search_results = search_web_google(
+        sanitized_prompt["search_query"], GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, "IN"
     )
-    if search_results is not None:
-        log.info(f"\nSearch Results: {search_results}\n")
+    bing_search_results = search_web_bing(sanitized_prompt["search_query"], BING_API_KEY)
+    
+    if google_search_results is not None:
+        log.info(f"\ngoogle Search Results: {google_search_results}\n")
+    if bing_search_results is not None:
+        log.info(f"\nBing Search Results: {bing_search_results}\n")
     else:
         log.error("search failed")
         exit(1)
+    
+    # write both the search results to a same file
+    with open("src/log_data/search_results.json", "w") as f:
+        json.dump(google_search_results + bing_search_results, f)
+
+    # merge the search results
+    search_results = search_indexing(bing_search_results, google_search_results)
 
     # list of websites
     websites = [link["link"] for link in search_results]
 
+    # process the search links
+    refined_websites = process_search_links(websites[:14] if len(websites) > 14 else websites)
+
     # scrape the websites
-    extracted_content = scrape_with_playwright(websites)
+    extracted_content = scrape_with_playwright(refined_websites)
     log.info(f"\nScraped Content: {len(extracted_content)}\n")
+
+    if len(extracted_content) == 0:
+        log.error("No content extracted")
+        exit(1)
 
     # Preprocess the extracted content
     extracted_content = preprocess_text(extracted_content)
@@ -295,15 +348,24 @@ def main():
     # extract relevant data from the search results
     context_data = relevant_data(extracted_content)
     log.info(f"\nContext Data len: {len(context_data)}\n")
+
+    if len(context_data) == 0:
+        log.error("No relevant data extracted")
+        exit(1)
+
     # extract the contacts from the search results
-    extracted_contacts = extract_contacts(context_data, prompt)
+    extracted_contacts = extract_contacts(context_data[:12] if len(context_data) > 12 else context_data, prompt)
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
+
+    # print the response
+    # print_response(json.loads(extracted_contacts))
 
     process_end_time = time.time()
     log.info(f"\nTotal time: {process_end_time - process_start_time}")
 
     log.info(f"\nCompleted\n")
     exit(0)
+
 
 
 if __name__ == "__main__":

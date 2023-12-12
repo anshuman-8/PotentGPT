@@ -1,4 +1,5 @@
 import asyncio
+import re
 import playwright
 import logging as log
 from typing import Iterator, List
@@ -17,7 +18,7 @@ class AsyncChromiumLoader:
         log.info("Starting scraping...")
         results = []
         async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=True)
+            browser = await p.chromium.launch(headless=False)
             scraping_tasks = [self.scrape_url(browser, url) for url in urls]
             results = await asyncio.gather(*scraping_tasks)
             await browser.close()
@@ -32,20 +33,20 @@ class AsyncChromiumLoader:
         metadata = {"source": url}
         log.info(f"Scraping {url}...")
         try:
-            
             page = await browser.new_page()
-            await page.goto(url)
+            await page.route(
+                "**/*",
+                lambda route: route.abort()
+                if route.request.resource_type != "document"
+                else route.continue_(),
+            )
+            await page.goto(url, timeout=15000)
             web_content = await page.content()
             log.info(f"Content scraped for {url}")
-
-        # except playwright._impl._api_types.TimeoutError as e:
-        #     log.error(f"Timeout scraping {url}: {e}")
-        # except playwright._impl._api_types.NavigationError as e:
-        #     log.error(f"Navigation error scraping {url}: {e}")
         except Exception as e:
             log.error(f"Error scraping {url}: {e}")
-        # finally:
-        #     await page.close()
+        finally:
+            await page.close()
         result_doc = Document(page_content=web_content, metadata=metadata)
         return result_doc
 

@@ -103,6 +103,7 @@ def search_web_google(
 
     try:
         response = requests.get(api_endpoint, params=params)
+        log.info(f"Google search response code: {response.status_code}")
         response.raise_for_status()
     except Exception as e:
         log.error(f"Error on Google Search request: {e}")
@@ -263,7 +264,7 @@ def fetch_yelp(
         params["latitude"] = lat
         params["longitude"] = lon
 
-    data ={}
+    data = {}
 
     try:
         response = requests.get(yelp_url, headers=headers, params=params)
@@ -274,7 +275,15 @@ def fetch_yelp(
         print(f"Yelp search time: {t_flag2 - t_flag1}")
 
         print(data)
-        data = [{"title":business['name'], "link":business['url'], "phone":business['phone'], "location":business['location']['display_address']} for business in data["businesses"]]
+        data = [
+            {
+                "title": business["name"],
+                "link": business["url"],
+                "phone": business["phone"],
+                "location": business["location"]["display_address"],
+            }
+            for business in data["businesses"]
+        ]
 
         with open("./yelp.json", "w") as f:
             json.dump(data, f)
@@ -282,14 +291,5 @@ def fetch_yelp(
     except Exception as e:
         log.error(f"Error on Yelp Search request: {e}")
         return None
-    
+
     return data
-
-
-# query = "Veg restaurants in Cupertino, CA"
-# location = "Los Angeles, CA"
-# print(search_web_google(query, google_search_engine_id="c6e7c5f2a6a6b7b1d"))
-# print(search_web_bing(query))
-# print(serp_search(query, location))
-# print(fetch_yelp(query, location))
-
