@@ -12,7 +12,12 @@
 
     $0.005 for each search
 
-3. GPT  Input Cost ($0.0010 / 1K tokens), Output cost ($0.0020 / 1K tokens)\
+3. Bing search
+    $5 for 1000 search
+
+    $0.005 for each search
+
+4. GPT  Input Cost ($0.0010 / 1K tokens), Output cost ($0.0020 / 1K tokens)\
     for ~8000 input token and ~1000 output token
 
     GPT cost - $0.008 + $0.002

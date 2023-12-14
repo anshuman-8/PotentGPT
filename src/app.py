@@ -186,9 +186,9 @@ def extract_contacts(data, prompt: str) -> str:
         messages=[
             {
                 "role": "system",
-                "content": """Task: Efficiently extract contact details from JSON input, aiming to assist users question in finding service providers/vendors. Process complete Context data which contains content, comprehend its content, and provide a structured output with their respective contact details and descriptions. 
-The response should strictly adhere to the JSON list format : ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
-If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not Give Empty or Wrong Information.""",
+                "content": """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Understand and comprehend whole Context data, which contains content, and provide a structured output with their respective contact details and descriptions. 
+The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
+If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not give empty contacts or incorrect information.""",
             },
             {
                 "role": "user",
@@ -251,7 +251,7 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
                 },
                 {
                     "role": "system",
-                    "content": '{"search_query":"UC Davis molecular biology professors and internship contacts.", "search":["web"]}',
+                    "content": '{"search_query":"UC Davis molecular biology professors and internship lab contacts.", "search":["web"]}',
                 },
                 {"role": "user", "content": f"Goal: {prompt}"},
             ],
@@ -380,7 +380,7 @@ def main():
 
     # extract the contacts from the search results
     extracted_contacts = extract_contacts(
-        context_data[:16] if len(context_data) > 16 else context_data, prompt
+        context_data[:18] if len(context_data) > 18 else context_data, prompt
     )
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
 
