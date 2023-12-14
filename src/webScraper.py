@@ -1,4 +1,5 @@
 import asyncio
+import time
 import logging as log
 from typing import Iterator, List
 from playwright.async_api import async_playwright
@@ -30,17 +31,20 @@ class AsyncChromiumLoader:
         web_content = ""
         metadata = {"source": url}
         log.info(f"Scraping {url}...")
+        t_start = time.time()
         try:
             page = await browser.new_page()
+            excluded_resource_types = ["stylesheet", "script", "image", "font"] 
             await page.route(
                 "**/*",
                 lambda route: route.abort()
-                if route.request.resource_type != "document"
+                if route.request.resource_type in excluded_resource_types
                 else route.continue_(),
             )
-            await page.goto(url, timeout=15000)
+            await page.goto(url, timeout=8000)
             web_content = await page.content()
-            log.info(f"Content scraped for {url}")
+            t_end = time.time()
+            log.info(f"Content scraped for {url} in {t_end - t_start} seconds")
         except Exception as e:
             log.error(f"Error scraping {url}: {e}")
         finally:

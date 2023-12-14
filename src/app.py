@@ -180,17 +180,19 @@ def extract_contacts(data, prompt: str) -> str:
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-1106",
+        # timeout=8,
+        # temperature=0.1,
         response_format={"type": "json_object"},
         messages=[
             {
                 "role": "system",
-                "content": """Task: Efficiently extract contact details from JSON input, aiming to assist users question in finding service providers/vendors. Process complete Context data which contains content and its source in JSON format, comprehend its content, and provide a structured output with their respective contact details and descriptions. 
-The response should strictly adhere to the format : ["Vendors": {"service_provider": "Name and description of the vendor", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},].
-Ensure that the output follows this template, and if any fields are absent in the input, leave them as empty as "". It is crucial not to omit any contact information. Do not Give Empty or Wrong Information.""",
+                "content": """Task: Efficiently extract contact details from JSON input, aiming to assist users question in finding service providers/vendors. Process complete Context data which contains content, comprehend its content, and provide a structured output with their respective contact details and descriptions. 
+The response should strictly adhere to the JSON list format : ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
+If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not Give Empty or Wrong Information.""",
             },
             {
                 "role": "user",
-                "content": f"Context: {data}\n\n---\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details of the vendors in JSON:",
+                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details for above Question in JSON:",
             },
         ],
     )
@@ -226,9 +228,9 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
     t_flag1 = time.time()
     client = OpenAI(api_key=OPENAI_ENV)
 
-    prompt = f"{prompt.strip()}, {location}"
+    prompt = f"{prompt.strip()}"
 
-    system_prompt = "You are a helpful assistant designed to convert user input into a sanitized search query for web search (without adjectives) i.e. googling (with location). The output should be in JSON format also saying where to search in a list, enum (web, yelp), here web is used for all cases, yelp is used only for Restaurants, Home services, Auto service, and other service and repair."
+    system_prompt = "Convert the user goal into a useful search query for web search, i.e., googling (use location if necessary), basically searching for best person to contact for solving the Goal. The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, auto service, and other services and repairs."
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-1106",
@@ -237,13 +239,21 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
                 {"role": "system", "content": f"{system_prompt}"},
                 {
                     "role": "user",
-                    "content": "I want a good chef for my anniversary party for 50 people, Kochi, Kerala",
+                    "content": "Goal: I want a good chef for my anniversary party for 50 people, Kochi, Kerala",
                 },
                 {
                     "role": "system",
                     "content": '{"search_query":"Chefs in Kochi, Kerala", "search":["web", "yelp"]}',
                 },
-                {"role": "user", "content": f"{prompt}"},
+                {
+                    "role": "user",
+                    "content": "Goal: I need an internship in UC Davis in molecular biology this summer.",
+                },
+                {
+                    "role": "system",
+                    "content": '{"search_query":"UC Davis molecular biology professors and internship contacts.", "search":["web"]}',
+                },
+                {"role": "user", "content": f"Goal: {prompt}"},
             ],
         )
     except Exception as e:
@@ -269,11 +279,20 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
 
 
 def print_response(response_json):
-    for vendor in response_json.get("Vendors", []):
-        print(f"Service Provider: {vendor.get('service_provider', '')}")
-        print(f"Source: {vendor.get('source', '')}")
+    print("\n")
+    if isinstance(response_json, dict) and "results" in response_json:
+        results = response_json["results"]
+    elif isinstance(response_json, list):
+        results = response_json
+    else:
+        print("Invalid input. Please provide a valid JSON object or a list of them.")
+        return
 
-        contacts = vendor.get("contacts", {})
+    for service in results:
+        print(f"Service Provider: {service.get('service_provider', '')}")
+        print(f"Source: {service.get('source', '')}")
+
+        contacts = service.get("contacts", {})
         print(f"Contacts:")
         print(f"  Email: {contacts.get('email', '')}")
         print(f"  Phone: {contacts.get('phone', '')}")
@@ -361,12 +380,12 @@ def main():
 
     # extract the contacts from the search results
     extracted_contacts = extract_contacts(
-        context_data[:12] if len(context_data) > 12 else context_data, prompt
+        context_data[:16] if len(context_data) > 16 else context_data, prompt
     )
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
 
     # print the response
-    # print_response(json.loads(extracted_contacts))
+    print_response(json.loads(extracted_contacts))
 
     process_end_time = time.time()
     log.info(f"\nTotal time: {process_end_time - process_start_time}")
