@@ -2,12 +2,11 @@
     {
         "index": [
             0,
-            0,
-            2
+            4
         ],
-        "title": "Find Cooks in Cochin | Chef for Party - COOX",
-        "link": "https://www.coox.in/city/cochin",
-        "displayLink": "www.coox.in",
+        "title": "Biochemistry and Molecular Biology Major - UC Davis",
+        "link": "https://www.ucdavis.edu/majors/biochemistry-and-molecular-biology",
+        "displayLink": "www.ucdavis.edu",
         "source": [
             "google",
             "bing"
@@ -17,11 +16,13 @@
         "index": [
             1,
             3,
-            6
+            2,
+            3,
+            8
         ],
-        "title": "THE 10 BEST Romantic Restaurants in Kochi (Cochin)",
-        "link": "https://www.tripadvisor.com/Restaurants-g297633-zfp3-Kochi_Cochin_Ernakulam_District_Kerala.html",
-        "displayLink": "www.tripadvisor.com",
+        "title": "Global Learning Hub - Study Abroad in Biochemistry and Molecular ...",
+        "link": "https://globallearning.ucdavis.edu/pathways/academics/studyabroad/maps/bmb",
+        "displayLink": "globallearning.ucdavis.edu",
         "source": [
             "google",
             "bing"
@@ -31,32 +32,35 @@
         "index": [
             2
         ],
-        "title": "Exploring southern India and the backwaters of Kerala | International ...",
-        "link": "https://www.intltravelnews.com/2013/02/exploring-southern-india-and-kerala.html",
-        "displayLink": "www.intltravelnews.com",
+        "title": "Experiential Learning | College of Biological Sciences",
+        "link": "https://biology.ucdavis.edu/undergraduate/experiential-learning",
+        "displayLink": "biology.ucdavis.edu",
         "source": [
             "google"
         ]
     },
     {
         "index": [
-            4
-        ],
-        "title": "Happy Anniversary! Today we celebrate three years on the road",
-        "link": "https://globetrottergirls.com/happy-anniversary-today-we-celebrate-three-years-on-the-road/",
-        "displayLink": "globetrottergirls.com",
-        "source": [
-            "google"
-        ]
-    },
-    {
-        "index": [
+            4,
+            0,
             5,
-            7
+            6
         ],
-        "title": "Artisan by Elizabeth Njavally (@artisan_by_elizabeth_njavally ...",
-        "link": "https://www.instagram.com/artisan_by_elizabeth_njavally/",
-        "displayLink": "www.instagram.com",
+        "title": "Biological Sciences | Internship and Career Center",
+        "link": "https://icc.ucdavis.edu/research/industry/biological-sciences",
+        "displayLink": "icc.ucdavis.edu",
+        "source": [
+            "google",
+            "bing"
+        ]
+    },
+    {
+        "index": [
+            5
+        ],
+        "title": "Biochemistry and Molecular Biology | Washington Program",
+        "link": "https://washingtonprogram.ucdavis.edu/program-by-major/majors/biochem_molecular_bio",
+        "displayLink": "washingtonprogram.ucdavis.edu",
         "source": [
             "google"
         ]
@@ -65,9 +69,20 @@
         "index": [
             6
         ],
-        "title": "Dream Wedding Destinations by Xandari in Costa Rica and India",
-        "link": "https://www.xandari.com/xandari-events.php",
-        "displayLink": "www.xandari.com",
+        "title": "Outreach | Melotto Lab at UCD",
+        "link": "https://melotto.ucdavis.edu/outreach",
+        "displayLink": "melotto.ucdavis.edu",
+        "source": [
+            "google"
+        ]
+    },
+    {
+        "index": [
+            7
+        ],
+        "title": "Current Research Opportunities | Global Disease Biology",
+        "link": "https://gdb.ucdavis.edu/current-opportunities",
+        "displayLink": "gdb.ucdavis.edu",
         "source": [
             "google"
         ]
@@ -76,76 +91,33 @@
         "index": [
             8
         ],
-        "title": "Minar Cruise Boats in Cochin",
-        "link": "https://cochincruiseline.com/",
-        "displayLink": "cochincruiseline.com",
+        "title": "Welcome to COSMOS - COSMOS Platform",
+        "link": "https://cosmos-ucop.ucdavis.edu/",
+        "displayLink": "cosmos-ucop.ucdavis.edu",
         "source": [
             "google"
         ]
     },
     {
         "index": [
-            9
-        ],
-        "title": "Idukki Pet-Friendly Rentals - Kerala, India | Airbnb",
-        "link": "https://www.airbnb.com/idukki-india/stays/pet-friendly",
-        "displayLink": "www.airbnb.com",
-        "source": [
-            "google"
-        ]
-    },
-    {
-        "index": [
+            9,
             1
         ],
-        "title": "100+ Best Wedding Caterers in Kochi- Price Per Plate, Review",
-        "link": "https://www.weddingbazaar.com/catering-in-kochi",
-        "displayLink": "www.weddingbazaar.com",
+        "title": "Designated Emphasis, Biotechnology (DEB) - General Catalog",
+        "link": "https://catalog.ucdavis.edu/courses-subject-code/deb/",
+        "displayLink": "catalog.ucdavis.edu",
         "source": [
+            "google",
             "bing"
         ]
     },
     {
         "index": [
-            3
+            7
         ],
-        "title": "The best personal chefs in Kerala - StarOfService",
-        "link": "https://www.starofservice.in/requests/kerala/personal-chef-services",
-        "displayLink": "www.starofservice.in",
-        "source": [
-            "bing"
-        ]
-    },
-    {
-        "index": [
-            4
-        ],
-        "title": "Plaza Catering - Your Trusted Choice for No.1 best Catering Services in ...",
-        "link": "https://plazacatering.co.in/",
-        "displayLink": "plazacatering.co.in",
-        "source": [
-            "bing"
-        ]
-    },
-    {
-        "index": [
-            5
-        ],
-        "title": "Wedding Anniversary - Reviews, Photos - Kochi Kitchen - Tripadvisor",
-        "link": "https://www.tripadvisor.in/ShowUserReviews-g297633-d7360434-r913258522-Kochi_Kitchen-Kochi_Cochin_Ernakulam_District_Kerala.html",
-        "displayLink": "www.tripadvisor.in",
-        "source": [
-            "bing"
-        ]
-    },
-    {
-        "index": [
-            7,
-            8
-        ],
-        "title": "Anniversary Parties Service in Kochi - India Business Directory",
-        "link": "https://dir.indiamart.com/kochi/anniversary-parties-service.html",
-        "displayLink": "dir.indiamart.com",
+        "title": "Summer Internship for Undergraduate Students - CBST Website - UC Davis",
+        "link": "http://www.cbst.ucdavis.edu/educa/undergraduate/summer-internship-for-undergraduate-students",
+        "displayLink": "www.cbst.ucdavis.edu",
         "source": [
             "bing"
         ]

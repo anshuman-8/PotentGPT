@@ -1,67 +1,31 @@
 {
-    "results": [
-      {
-        "service_provider": "IndusGo",
-        "source": "https://www.indusgo.in/kerala/cochin/",
-        "contacts": {
-          "email": "support@indusgo.in",
-          "phone": "+91 9539580000",
-          "address": "3, 1047/2, Indus Motor Company Pvt LTD M.G. Road, Thevara, Ernakulam, Kerala, 682015"
-        }
-      },
-      {
-        "service_provider": "Europcar",
-        "source": "https://www.kayak.com/Cheap-Kochi-Car-Rentals.44818.cars.ksp",
-        "contacts": {
-          "email": "",
-          "phone": "+91 84487 65118",
-          "address": "Airport Rd, Kochi"
-        }
-      },
-      {
-        "service_provider": "Avis",
-        "source": "https://www.kayak.com/Cheap-Kochi-Car-Rentals.44818.cars.ksp",
-        "contacts": {
-          "email": "",
-          "phone": "+91 124 472 4850",
-          "address": "One location in Kochi"
-        }
-      },
-      {
-        "service_provider": "Cochin Car Rentals",
-        "source": "https://cochincarrentals.in/",
-        "contacts": {
-          "email": "mail@cochincarrentals.in",
-          "phone": "9387066804",
-          "address": "Not provided"
-        }
-      },
-      {
-        "service_provider": "TranzCars",
-        "source": "https://tranzcars.com/",
-        "contacts": {
-          "email": "",
-          "phone": "+91 (989) 504-1111",
-          "address": "Not provided"
-        }
-      },
-      {
-        "service_provider": "EVM Wheels",
-        "source": "https://www.evmwheels.com/",
-        "contacts": {
-          "email": "support@evmwheels.com",
-          "phone": "+91 790 281 0000",
-          "address": "Not provided"
-        }
-      },
-      {
-        "service_provider": "Avis",
-        "source": "https://www.avis.co.in/car-rental-kochi",
-        "contacts": {
-          "email": "",
-          "phone": "+91 124 4724 888",
-          "address": "Not provided"
-        }
+  "results": [
+    {
+      "service_provider": "UC Davis College of Biological Sciences",
+      "source": "https://biology.ucdavis.edu/undergraduate/experiential-learning",
+      "contacts": {
+        "email": "biology@ucdavis.edu",
+        "phone": "530-752-6653",
+        "address": "202 Green Hall 605 Hutchison Drive, Davis, CA 95616"
       }
-    ]
-  }
+    },
+    {
+      "service_provider": "UC Davis Washington Program",
+      "source": "https://washingtonprogram.ucdavis.edu/program-by-major/majors/biochem_molecular_bio",
+      "contacts": {
+        "email": "washingtonprogram@ucdavis.edu",
+        "phone": "+1 (530) 752-9095",
+        "address": ""
+      }
+    },
+    {
+      "service_provider": "Dr. Melotto Lab",
+      "source": "https://melotto.ucdavis.edu/outreach",
+      "contacts": {
+        "email": "",
+        "phone": "530-752-1011",
+        "address": "One Shields Avenue, Davis, CA 95616"
+      }
+    }
+  ]
+}

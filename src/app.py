@@ -12,6 +12,7 @@ from langchain.docstore.document import Document
 
 from webScraper import AsyncChromiumLoader
 from search_indexing import search_indexing
+from contactRetrival import llm_contacts_retrival
 from webSearch import search_web_google, search_web_bing
 from tokenSplit import split_text_on_tokens_custom, Tokenizer
 from documentUtils import create_documents, document_regex_sub, document2map
@@ -167,58 +168,6 @@ def relevant_data(extracted_content):
             json.dump(data, f)
 
     return data
-
-
-def extract_contacts(data, prompt: str) -> str:
-    """
-    Extract the contacts from the search results using LLM
-    """
-    # TODO: Take on max first 15 of the components of the data json
-
-    t_flag1 = time.time()
-    client = OpenAI(api_key=OPENAI_ENV)
-
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo-1106",
-        # timeout=8,
-        # temperature=0.1,
-        response_format={"type": "json_object"},
-        messages=[
-            {
-                "role": "system",
-                "content": """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Understand and comprehend whole Context data, which contains content, and provide a structured output with their respective contact details and descriptions. 
-The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
-If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not give empty contacts or incorrect information.""",
-            },
-            {
-                "role": "user",
-                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details for above Question in JSON:",
-            },
-        ],
-    )
-    t_flag2 = time.time()
-    log.info(f"OpenAI time: { t_flag2 - t_flag1}")
-    # print(response.choices[0].message.content)
-
-    cost = gpt_cost_calculator(
-        response.usage.prompt_tokens, response.usage.completion_tokens
-    )
-    log.debug(
-        f"Input Tokens used: {response.usage.prompt_tokens}, Output Tokens used: {response.usage.completion_tokens}"
-    )
-    log.info(f"Cost for contact retrival: ${cost}")
-
-    try:
-        json_response = json.loads(response.choices[0].message.content)
-    except Exception as e:
-        log.error(f"Error parsing json: {e}")
-        json_response = {}
-
-    if LOG_FILES:
-        with open("src/log_data/output.json", "w") as f:
-            json.dump(json_response, f)
-
-    return response.choices[0].message.content
 
 
 def sanitize_search_query(prompt: str, location: str = None) -> json:
@@ -379,9 +328,7 @@ def main():
         exit(1)
 
     # extract the contacts from the search results
-    extracted_contacts = extract_contacts(
-        context_data[:18] if len(context_data) > 18 else context_data, prompt
-    )
+    extracted_contacts = llm_contacts_retrival(context_data[:30], prompt, OPENAI_ENV)
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
 
     # print the response
