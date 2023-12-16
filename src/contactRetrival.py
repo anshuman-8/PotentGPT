@@ -7,7 +7,6 @@ from typing import Iterator, List
 
 LOG_FILES = True
 
-
 def gpt_cost_calculator(
     inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
 ) -> int:
@@ -37,66 +36,109 @@ def result_to_json(results: List[dict]) -> dict:
     """
     json_result = {"results": []}
     for result in results:
+        if result == {}:
+            continue
+
         json_result["results"].extend(result["results"])
     return json.dumps(json_result)
 
 
-async def extract_thread_contacts(id: int, data, prompt: str, open_ai_key: str) -> dict:
+def print_and_write_response(response_json, output_file="output.txt"):
+    """
+    Print and write the response to a file
+    """
+    print("\n")
+
+    if isinstance(response_json, dict) and "results" in response_json:
+        results = response_json["results"]
+    elif isinstance(response_json, list):
+        results = response_json
+    else:
+        print("Invalid input. Please provide a valid JSON object or a list of them.")
+        return
+
+    with open(output_file, "a") as file:
+        for service in results:
+            file.write(f"Service Provider: {service.get('service_provider', '')}\n")
+            file.write(f"Source: {service.get('source', '')}\n")
+
+            contacts = service.get("contacts", {})
+            file.write(f"Contacts:\n")
+            file.write(f"\tEmail: {contacts.get('email', '')}\n")
+            file.write(f"\tPhone: {contacts.get('phone', '')}\n")
+            file.write(f"\tAddress: {contacts.get('address', '')}\n")
+
+            file.write("\n" + "-" * 40 + "\n\n")
+
+            # Print to console
+            print(f"Service Provider: {service.get('service_provider', '')}")
+            print(f"Source: {service.get('source', '')}")
+            print(f"Contacts:")
+            print(f"\tEmail: {contacts.get('email', '')}")
+            print(f"\tPhone: {contacts.get('phone', '')}")
+            print(f"\tAddress: {contacts.get('address', '')}")
+            print("\n" + "-" * 40 + "\n")
+
+
+async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> dict:
     """
     Extract the contacts from the search results using LLM
     """
 
     t_flag1 = time.time()
-    client = AsyncOpenAI(api_key=open_ai_key)
+
     log.info(f"Contact Retrival Thread {id} started")
 
-    response = await client.chat.completions.create(
-        model="gpt-3.5-turbo-1106",
-        response_format={"type": "json_object"},
-        messages=[
-            {
-                "role": "system",
-                "content": """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Understand and comprehend whole Context data, which contains content, and provide a structured output with their respective contact details and descriptions. 
-The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
-If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not give empty contacts or incorrect information.""",
-            },
-            {
-                "role": "user",
-                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details for above Question in JSON:",
-            },
-        ],
-    )
-    t_flag2 = time.time()
-    log.info(f"OpenAI time: { t_flag2 - t_flag1}")
-
-    cost = gpt_cost_calculator(
-        response.usage.prompt_tokens, response.usage.completion_tokens
-    )
-    log.debug(
-        f"Input Tokens used: {response.usage.prompt_tokens}, Output Tokens used: {response.usage.completion_tokens}"
-    )
-    log.info(f"Cost for contact retrival: ${cost}\n")
-
     try:
-        json_response = json.loads(response.choices[0].message.content)
+        response = await openai_client.chat.completions.create(
+            model="gpt-3.5-turbo-1106",
+            response_format={"type": "json_object"},
+            messages=[
+                {
+                    "role": "system",
+                    "content": """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Understand and comprehend whole Context data, which contains content, and provide a structured output with their respective contact details and descriptions. 
+    The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
+    If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not give empty contacts or incorrect information.""",
+                },
+                {
+                    "role": "user",
+                    "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details for above Question in JSON:",
+                },
+            ],
+        )
+
+        t_flag2 = time.time()
+        log.info(f"OpenAI time: { t_flag2 - t_flag1}")
+
+        cost = gpt_cost_calculator(
+            response.usage.prompt_tokens, response.usage.completion_tokens
+        )
+        log.debug(
+            f"Input Tokens used: {response.usage.prompt_tokens}, Output Tokens used: {response.usage.completion_tokens}"
+        )
+        log.info(f"Cost for contact retrival {id}: ${cost}\n")
+
+        response = json.loads(response.choices[0].message.content)
+
+        # Print the response
+        print_and_write_response(response, output_file="src/output.txt")
+
+        log.info(f"Contact Retrival Thread {id} finished : {response}")
+
     except Exception as e:
-        log.error(f"Error parsing json: {e}")
-        json_response = {}
+        log.error(f"Error in {id} LLM API call: {e}")
+        response = {}
 
-    if LOG_FILES:
-        with open("src/log_data/output.json", "w") as f:
-            json.dump(json_response, f)
-
-    # convert data to json
-    response_json = json.loads(response.choices[0].message.content)
-
-    log.info(f"Contact Retrival Thread {id} finished : {response_json}")
-
-    return response_json
+    return response
 
 
 async def retrival_multithreading(
-    data, prompt: str, open_ai_key: str, chunk_size: int = 5, max_thread: int = 5, timeout: int = 9
+    data,
+    prompt: str,
+    open_ai_key: str,
+    chunk_size: int = 5,
+    max_thread: int = 5,
+    timeout: int = 10,
 ) -> dict:
     """
     Creates multiple LLM calls
@@ -107,19 +149,15 @@ async def retrival_multithreading(
     data_chunks = [data[i : i + chunk_size] for i in range(0, len(data), chunk_size)]
     data_chunks = data_chunks[:max_thread]
 
+    client = AsyncOpenAI(api_key=open_ai_key, max_retries=0, timeout=timeout)
+
     # Create asyncio tasks for each data chunk with enumeration
     for thread_id, chunk in enumerate(data_chunks):
-        task = extract_thread_contacts(thread_id, chunk, prompt, open_ai_key)
+        task = extract_thread_contacts(thread_id + 1, chunk, prompt, client)
         llm_threads.append(task)
 
-    # Set a timeout for each thread
-    timeout_tasks = [asyncio.wait_for(task, timeout) for task in llm_threads]
-
-    try:
-        results = await asyncio.gather(*timeout_tasks)
-    except asyncio.TimeoutError as e:
-        print(f"LLM Timeout error: {e}")
-        results = []
+    # Run all the tasks in parallel
+    results = await asyncio.gather(*llm_threads)
 
     results = result_to_json(results)
 

@@ -93,9 +93,7 @@ def preprocess_text(docs: Document, chunk_size: int = 400) -> Dict:
     )
     # remove long white space
     docs_transformed = document_regex_sub(docs_transformed, r"\s+", " ")
-    docs_transformed = document_regex_sub(
-        docs_transformed, r"javascript:void\(0\);", ""
-    )
+    # remove unicode characters
     docs_transformed = document_regex_sub(docs_transformed, r"\\u[0-9A-Fa-f]{4}", "")
 
     t_flag2 = time.time()
@@ -202,7 +200,7 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
                     "role": "system",
                     "content": '{"search_query":"UC Davis molecular biology professors and internship lab contacts.", "search":["web"]}',
                 },
-                {"role": "user", "content": f"Goal: {prompt}"},
+                {"role": "user", "content": f"Location: {location},\nGoal: {prompt}"},
             ],
         )
     except Exception as e:
@@ -226,30 +224,6 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
         result = {}
     return result
 
-
-def print_response(response_json):
-    print("\n")
-    if isinstance(response_json, dict) and "results" in response_json:
-        results = response_json["results"]
-    elif isinstance(response_json, list):
-        results = response_json
-    else:
-        print("Invalid input. Please provide a valid JSON object or a list of them.")
-        return
-
-    for service in results:
-        print(f"Service Provider: {service.get('service_provider', '')}")
-        print(f"Source: {service.get('source', '')}")
-
-        contacts = service.get("contacts", {})
-        print(f"Contacts:")
-        print(f"  Email: {contacts.get('email', '')}")
-        print(f"  Phone: {contacts.get('phone', '')}")
-        print(f"  Address: {contacts.get('address', '')}")
-
-        print("\n" + "-" * 40 + "\n")
-
-
 def internet_speed_test():
     import speedtest
 
@@ -266,6 +240,12 @@ def internet_speed_test():
 
 
 def main():
+
+    try:
+        os.remove("src/output.txt")
+    except Exception as e:
+        pass
+
     location = "Kochi, Kerala"
     prompt = input("\nEnter the search prompt: ").strip()
     log.info(f"\nPrompt: {prompt}\n")
@@ -328,11 +308,8 @@ def main():
         exit(1)
 
     # extract the contacts from the search results
-    extracted_contacts = llm_contacts_retrival(context_data[:30], prompt, OPENAI_ENV)
+    extracted_contacts = llm_contacts_retrival(context_data[:35], prompt, OPENAI_ENV)
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
-
-    # print the response
-    print_response(json.loads(extracted_contacts))
 
     process_end_time = time.time()
     log.info(f"\nTotal time: {process_end_time - process_start_time}")
