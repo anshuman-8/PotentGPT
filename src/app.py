@@ -7,14 +7,13 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_transformers import beautiful_soup_transformer
-from typing import List, Iterator, Dict
+from typing import List, Dict
 from langchain.docstore.document import Document
 
 from webScraper import AsyncChromiumLoader
 from search_indexing import search_indexing
-from contactRetrival import llm_contacts_retrival
+from contactRetrieval import llm_contacts_retrieval
 from webSearch import search_web_google, search_web_bing
-from tokenSplit import split_text_on_tokens_custom, Tokenizer
 from documentUtils import create_documents, document_regex_sub, document2map
 
 load_dotenv()
@@ -177,7 +176,7 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
 
     prompt = f"{prompt.strip()}"
 
-    system_prompt = "Convert the user goal into a useful search query for web search, i.e., googling (use location if necessary), basically searching for best person to contact for solving the Goal. The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, auto service, and other services and repairs."
+    system_prompt = "Convert the user goal into a useful web search query, for finding the best contacts for achieving the Goal through a targeted web search, include location if needed. The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, auto service, and other services and repairs."
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-1106",
@@ -186,7 +185,7 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
                 {"role": "system", "content": f"{system_prompt}"},
                 {
                     "role": "user",
-                    "content": "Goal: I want a good chef for my anniversary party for 50 people, Kochi, Kerala",
+                    "content": "Location: Kochi, Kerala;\nGoal: I want a good chef for my anniversary party for 50 people.",
                 },
                 {
                     "role": "system",
@@ -200,7 +199,7 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
                     "role": "system",
                     "content": '{"search_query":"UC Davis molecular biology professors and internship lab contacts.", "search":["web"]}',
                 },
-                {"role": "user", "content": f"Location: {location},\nGoal: {prompt}"},
+                {"role": "user", "content": f"Location: {location};\nGoal: {prompt}"},
             ],
         )
     except Exception as e:
@@ -246,7 +245,7 @@ def main():
     except Exception as e:
         pass
 
-    location = "Kochi, Kerala"
+    location = "Oakland, California, USA"
     prompt = input("\nEnter the search prompt: ").strip()
     log.info(f"\nPrompt: {prompt}\n")
 
@@ -308,7 +307,7 @@ def main():
         exit(1)
 
     # extract the contacts from the search results
-    extracted_contacts = llm_contacts_retrival(context_data[:35], prompt, OPENAI_ENV)
+    extracted_contacts = llm_contacts_retrieval(context_data[:35], prompt, OPENAI_ENV)
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
 
     process_end_time = time.time()

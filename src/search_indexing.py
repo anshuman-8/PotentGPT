@@ -24,7 +24,7 @@ def search_indexing(bing_search:dict | None, google_search:dict | None) -> dict:
 
     for results, source in zip([google_search, bing_search], ['google', 'bing']):
         for result in results:
-            search_link = extract_domain(result['link'])
+            search_link = result['link']
 
             if search_link in search_index:
                 # Update the existing result with the new index
@@ -37,7 +37,7 @@ def search_indexing(bing_search:dict | None, google_search:dict | None) -> dict:
                     'index': [result['index']],
                     'title': result['title'],
                     'link': result['link'],
-                    'displayLink': search_link,
+                    'displayLink': result['displayLink'],
                     'source': [source]
                 }
 

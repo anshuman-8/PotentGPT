@@ -7,6 +7,10 @@ from typing import Iterator, List
 
 LOG_FILES = True
 
+SYS_PROMPT = """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Response should be relevant to the question and accurate to the context.
+    The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
+    If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not give empty contacts or incorrect information."""
+
 def gpt_cost_calculator(
     inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
 ) -> int:
@@ -96,9 +100,7 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
             messages=[
                 {
                     "role": "system",
-                    "content": """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Understand and comprehend whole Context data, which contains content, and provide a structured output with their respective contact details and descriptions. 
-    The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
-    If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not give empty contacts or incorrect information.""",
+                    "content": SYS_PROMPT,
                 },
                 {
                     "role": "user",
@@ -132,7 +134,7 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
     return response
 
 
-async def retrival_multithreading(
+async def retrieval_multithreading(
     data,
     prompt: str,
     open_ai_key: str,
@@ -164,9 +166,9 @@ async def retrival_multithreading(
     return results
 
 
-def llm_contacts_retrival(data, prompt: str, open_ai_key: str) -> dict:
+def llm_contacts_retrieval(data, prompt: str, open_ai_key: str) -> dict:
     """
     Extract the contacts from the search results using LLM
     """
-    results = asyncio.run(retrival_multithreading(data, prompt, open_ai_key, 5))
+    results = asyncio.run(retrieval_multithreading(data, prompt, open_ai_key, 5))
     return results

@@ -1,5 +1,5 @@
 # PotentGPT
-
+### Probe 1.0
 Just the better assistant!
 
 ⚠️ Coming Soon!
