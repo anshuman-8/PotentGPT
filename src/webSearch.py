@@ -54,7 +54,7 @@ def search_web_google(
     search_query: str,
     google_search_engine_id: str,
     google_api_key: str = None,
-    country: str = "IN",
+    country: str = "US",
     site_limit: int = 10,
 ) -> List[dict] | None:
     """
@@ -134,7 +134,7 @@ def search_web_google(
 def search_web_bing(
     search_query: str,
     bing_api_key: str = None,
-    country: str = "IN",
+    country: str = "US",
     site_limit: int = 10,
 ) -> List[dict] | None:
     """
@@ -195,7 +195,7 @@ def search_web_bing(
     log.info(f"Bing search time: {t_flag2 - t_flag1}")
 
     # write it to a file
-    with open("./bing.json", "w") as f:
+    with open("src/log_data/bing.json", "w") as f:
         json.dump(data, f)
 
     if "error" not in data.keys():

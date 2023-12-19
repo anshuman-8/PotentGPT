@@ -8,8 +8,9 @@ from typing import Iterator, List
 LOG_FILES = True
 
 SYS_PROMPT = """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Response should be relevant to the question and accurate to the context.
-    The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information", "contacts": {"email": "Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"}},{...}].
-    If any fields are absent in the Context, leave them as empty as "". It is crucial not to omit any contact information. Do not give empty contacts or incorrect information."""
+The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information","provider":["Source from "Google", "Bing" or both"], "contacts": {"email": "Email of the vendor","phone": ["Phone number of the vendor"],"address": "Address of the vendor"}},{...}].
+Ensure all fields in the context are filled; use empty list if absent. Avoid providing incorrect or empty contact details. Present phone numbers and emails in a direct, usable format(no helper words).
+\nExample response (Only as an exmple format, data not to be used) : \n["results":{"service_provider": "One Toyota | New Toyota & Used Car Dealer in Oakland", "source": "https://www.onetoyota.com/","provider":["Google", "Bing"], "contacts": {"email": [],"phone": ["510-281-8909", "510-281-8910"],"address": "8181 Oakport St. Oakland, CA 94621"}}]\n"""
 
 def gpt_cost_calculator(
     inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
@@ -123,7 +124,7 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
         response = json.loads(response.choices[0].message.content)
 
         # Print the response
-        print_and_write_response(response, output_file="src/output.txt")
+        # print_and_write_response(response, output_file="src/output.txt")
 
         log.info(f"Contact Retrival Thread {id} finished : {response}")
 
@@ -131,7 +132,7 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
         log.error(f"Error in {id} LLM API call: {e}")
         response = {}
 
-    return response
+    yield response
 
 
 async def retrieval_multithreading(
@@ -151,24 +152,28 @@ async def retrieval_multithreading(
     data_chunks = [data[i : i + chunk_size] for i in range(0, len(data), chunk_size)]
     data_chunks = data_chunks[:max_thread]
 
-    client = AsyncOpenAI(api_key=open_ai_key, max_retries=0, timeout=timeout)
+    try:
+        client = AsyncOpenAI(api_key=open_ai_key, max_retries=0, timeout=timeout)
 
-    # Create asyncio tasks for each data chunk with enumeration
-    for thread_id, chunk in enumerate(data_chunks):
-        task = extract_thread_contacts(thread_id + 1, chunk, prompt, client)
-        llm_threads.append(task)
+        # Create asyncio tasks for each data chunk with enumeration
+        for thread_id, chunk in enumerate(data_chunks):
+            task = extract_thread_contacts(thread_id + 1, chunk, prompt, client)
+            llm_threads.append(task)
 
-    # Run all the tasks in parallel
-    results = await asyncio.gather(*llm_threads)
+        # Run all the tasks in parallel
+        results = await asyncio.gather(*llm_threads)
+    except Exception as e:
+        log.error(f"Error in multithreading: {e}")
+        results = []
 
     results = result_to_json(results)
 
     return results
 
 
-def llm_contacts_retrieval(data, prompt: str, open_ai_key: str) -> dict:
+async def llm_contacts_retrieval(id:str, data, prompt: str, open_ai_key: str) -> dict:
     """
     Extract the contacts from the search results using LLM
     """
-    results = asyncio.run(retrieval_multithreading(data, prompt, open_ai_key, 5))
+    results = await retrieval_multithreading(data, prompt, open_ai_key, 5)
     return results
