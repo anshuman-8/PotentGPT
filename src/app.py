@@ -11,7 +11,7 @@ from src.sanitize_query import sanitize_search_query
 from src.search_indexing import search_indexing
 from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
-from src.contactRetrieval import llm_contacts_retrieval
+from src.contactRetrieval import llm_contacts_retrieval, extract_contacts
 
 load_dotenv()
 
@@ -30,9 +30,10 @@ def process_search_results(results: List[str]) -> List[str]:
     avoid_links = ["instagram", "facebook", "twitter", "youtube", "makemytrip"]
     processed_results = []
     for result in results:
-        if not any(avoid_link in result['link'] for avoid_link in avoid_links):
+        if not any(avoid_link in result["link"] for avoid_link in avoid_links):
             processed_results.append(result)
     return processed_results
+
 
 async def web_probe(id: str, prompt: str, location: str, country_code: str):
     log.info(f"Prompt: {prompt}")
@@ -45,6 +46,7 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
         )
     except Exception as e:
         log.error(f"Prompt sanitization failed")
+        raise "Prompt sanitization failed"
         return HTTPException(
             status_code=500, detail={"id": id, "message": "Prompt sanitization failed"}
         )
@@ -52,7 +54,10 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
 
     # search the web for the query
     google_search_results = search_web_google(
-        sanitized_prompt["search_query"], GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, country_code
+        sanitized_prompt["search_query"],
+        GOOGLE_SEARCH_ENGINE_ID,
+        GOOGLE_API_KEY,
+        country_code,
     )
     bing_search_results = search_web_bing(
         sanitized_prompt["search_query"], BING_API_KEY, country_code
@@ -64,8 +69,11 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
         log.info(f"\nBing Search Results: {bing_search_results}\n")
     else:
         log.error("search failed")
-        return HTTPException(status_code=500, detail={"id": id, "message": "Web search failed!"})
-    
+        raise "Web search failed!"
+        return HTTPException(
+            status_code=500, detail={"id": id, "message": "Web search failed!"}
+        )
+
     # merge the search results
     search_results = search_indexing(bing_search_results, google_search_results)
 
@@ -79,25 +87,59 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
 
     if len(extracted_content) == 0:
         log.error("No content extracted")
-        return HTTPException(status_code=500, detail={"id": id, "message": "No web content extracted!"})
-    
+        raise "No web content extracted!"
+        return HTTPException(
+            status_code=500, detail={"id": id, "message": "No web content extracted!"}
+        )
+
     # Preprocess the extracted content
     context_data = process_data_docs(extracted_content, 500)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     if len(context_data) == 0:
         log.error("No relevant data extracted")
-        return HTTPException(status_code=500, detail={"id": id, "message": "No relevant data extracted!"})
-    
-    return context_data
-    
+        raise "No relevant data extracted!"
+        return HTTPException(
+            status_code=500, detail={"id": id, "message": "No relevant data extracted!"}
+        )
 
-async def contacts_retrieval(id: str,context_data ,prompt: str):
+    # extract contacts
+    extracted_contacts = extract_contacts(
+        context_data[:15] if len(context_data) > 15 else context_data,
+        prompt,
+        OPENAI_ENV,
+    )
+    log.info(f"Extracted Contacts: {extracted_contacts}\n")
+
+    time_taken = time.time() - start_time
+    log.info(f"Time taken: {time_taken}")
+
+    res = response_formatter(id, time_taken, prompt, location, extracted_contacts)
+
+    return res
+
+
+async def contacts_retrieval(id: str, context_data, prompt: str):
     """
     Extract the contacts from the search results using LLM
     """
-    contacts = []
-    async for response in llm_contacts_retrieval(id, context_data, prompt, open_ai_key=OPENAI_ENV):
-        contacts.append(response)
-    return contacts
+    async for response in llm_contacts_retrieval(
+        id, context_data, prompt, open_ai_key=OPENAI_ENV
+    ):
+        # contacts.append(response)
+        yield response_formatter(id, 12, prompt, "", response)
+    # return contacts
 
+
+def response_formatter(id, time, prompt, location, results):
+    response = {
+        "id": str(id),
+        "time": int(time),
+        "status": "complete",
+        "location": str(location),
+        "prompt": str(prompt),
+        "count": len(results["results"]),
+        "response": results["results"],
+    }
+
+    return response

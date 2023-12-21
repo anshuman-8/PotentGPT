@@ -2,7 +2,7 @@ import time
 import json
 import asyncio
 import logging as log
-from openai import AsyncOpenAI
+from openai import AsyncOpenAI, OpenAI
 from typing import Iterator, List
 
 LOG_FILES = True
@@ -91,7 +91,7 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
     """
 
     t_flag1 = time.time()
-
+    log.warning(f"this should run!")
     log.info(f"Contact Retrival Thread {id} started")
 
     try:
@@ -122,7 +122,6 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
         log.info(f"Cost for contact retrival {id}: ${cost}\n")
 
         response = json.loads(response.choices[0].message.content)
-
         # Print the response
         # print_and_write_response(response, output_file="src/output.txt")
 
@@ -146,34 +145,76 @@ async def retrieval_multithreading(
     """
     Creates multiple LLM calls
     """
-    llm_threads = []
-
     # Divide the data into chunks of size chunk_size
     data_chunks = [data[i : i + chunk_size] for i in range(0, len(data), chunk_size)]
     data_chunks = data_chunks[:max_thread]
 
     try:
-        client = AsyncOpenAI(api_key=open_ai_key, max_retries=0, timeout=timeout)
+        llm_threads = []
+        client = AsyncOpenAI(api_key=open_ai_key, max_retries=0)
 
         # Create asyncio tasks for each data chunk with enumeration
         for thread_id, chunk in enumerate(data_chunks):
-            task = extract_thread_contacts(thread_id + 1, chunk, prompt, client)
+            task = asyncio.create_task(extract_thread_contacts(thread_id + 1, chunk, prompt, client))
             llm_threads.append(task)
 
-        # Run all the tasks in parallel
-        results = await asyncio.gather(*llm_threads)
+        for task in asyncio.as_completed(llm_threads):
+            result = await task
+            yield result
+
     except Exception as e:
         log.error(f"Error in multithreading: {e}")
-        results = []
-
-    results = result_to_json(results)
-
-    return results
+        yield b'{}'
 
 
 async def llm_contacts_retrieval(id:str, data, prompt: str, open_ai_key: str) -> dict:
     """
     Extract the contacts from the search results using LLM
     """
-    results = await retrieval_multithreading(data, prompt, open_ai_key, 5)
-    return results
+    async for results in retrieval_multithreading(data, prompt, open_ai_key, 5):
+        yield results
+
+
+def extract_contacts(data, prompt: str, openai_key) -> str:
+    """
+    Extract the contacts from the search results using LLM
+    """
+    # TODO: Take on max first 15 of the components of the data json
+
+    t_flag1 = time.time()
+    client = OpenAI(api_key=openai_key)
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo-1106",
+        # timeout=8,
+        # temperature=0.1,
+        response_format={"type": "json_object"},
+        messages=[
+            {
+                "role": "system",
+                "content": SYS_PROMPT,
+            },
+            {
+                "role": "user",
+                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details for above Question in JSON:",
+            },
+        ],
+    )
+    t_flag2 = time.time()
+    log.info(f"OpenAI time: { t_flag2 - t_flag1}")
+
+    cost = gpt_cost_calculator(
+        response.usage.prompt_tokens, response.usage.completion_tokens
+    )
+    log.debug(
+        f"Input Tokens used: {response.usage.prompt_tokens}, Output Tokens used: {response.usage.completion_tokens}"
+    )
+    log.info(f"Cost for contact retrival: ${cost}")
+
+    try:
+        json_response = json.loads(response.choices[0].message.content)
+    except Exception as e:
+        log.error(f"Error parsing json: {e}")
+        json_response = {}
+
+    return json_response
