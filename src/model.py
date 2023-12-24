@@ -24,7 +24,7 @@ class ApiResponse(BaseModel):
     results: List[ServiceProvider]
 
 
-class ErrorResponseModel:
+class ErrorResponseModel(BaseModel):
     id: str
     prompt: str
     status: str = "error"

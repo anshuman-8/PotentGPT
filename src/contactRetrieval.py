@@ -105,7 +105,7 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
                 },
                 {
                     "role": "user",
-                    "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details for above Question in JSON:",
+                    "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details in JSON, according to above Solution to solve the Question:",
                 },
             ],
         )
@@ -175,7 +175,7 @@ async def llm_contacts_retrieval(id:str, data, prompt: str, open_ai_key: str) ->
         yield results
 
 
-def extract_contacts(data, prompt: str, openai_key) -> str:
+def extract_contacts(data, prompt: str, solution: str, openai_key) -> str:
     """
     Extract the contacts from the search results using LLM
     """
@@ -196,7 +196,7 @@ def extract_contacts(data, prompt: str, openai_key) -> str:
             },
             {
                 "role": "user",
-                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details for above Question in JSON:",
+                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\nSolution: {solution}\nAnswer:All relevant and accurate contact details for above Question in JSON:",
             },
         ],
     )

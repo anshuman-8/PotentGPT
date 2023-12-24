@@ -102,7 +102,7 @@ def search_web_google(
     params = {"q": search_query, "gl": country, "lr": "lang_en", "num": site_limit}
 
     try:
-        response = requests.get(api_endpoint, params=params)
+        response = requests.get(api_endpoint, params=params, timeout=5)
         log.info(f"Google search response code: {response.status_code}")
         response.raise_for_status()
     except Exception as e:
@@ -183,7 +183,7 @@ def search_web_bing(
     }
 
     try:
-        response = requests.get(api_endpoint, params=params, headers=headers)
+        response = requests.get(api_endpoint, params=params, headers=headers, timeout=5)
         response.raise_for_status()
     except Exception as e:
         log.error(f"Error on Bing Search request: {e}")

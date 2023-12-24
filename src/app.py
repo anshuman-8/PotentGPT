@@ -4,7 +4,7 @@ import time
 import logging as log
 from typing import List
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import HTTPException
 
 from src.webSearch import search_web_google, search_web_bing
 from src.sanitize_query import sanitize_search_query
@@ -38,15 +38,17 @@ def process_search_results(results: List[str]) -> List[str]:
 async def web_probe(id: str, prompt: str, location: str, country_code: str):
     log.info(f"Prompt: {prompt}")
     start_time = time.time()
-
+    goal_solution = ""
     # sanitize the prompt
     try:
         sanitized_prompt = sanitize_search_query(
             prompt, location=location, open_api_key=OPENAI_ENV
         )
+        search_query = sanitized_prompt["search_query"]
+        goal_solution = sanitized_prompt["solution"]
     except Exception as e:
         log.error(f"Prompt sanitization failed")
-        raise "Prompt sanitization failed"
+        raise Exception("Prompt sanitization failed")
         return HTTPException(
             status_code=500, detail={"id": id, "message": "Prompt sanitization failed"}
         )
@@ -54,13 +56,13 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
 
     # search the web for the query
     google_search_results = search_web_google(
-        sanitized_prompt["search_query"],
+        search_query,
         GOOGLE_SEARCH_ENGINE_ID,
         GOOGLE_API_KEY,
         country_code,
     )
     bing_search_results = search_web_bing(
-        sanitized_prompt["search_query"], BING_API_KEY, country_code
+        search_query, BING_API_KEY, country_code
     )
 
     if google_search_results is not None:
@@ -69,7 +71,7 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
         log.info(f"\nBing Search Results: {bing_search_results}\n")
     else:
         log.error("search failed")
-        raise "Web search failed!"
+        raise Exception("Web search failed!")
         return HTTPException(
             status_code=500, detail={"id": id, "message": "Web search failed!"}
         )
@@ -87,7 +89,7 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
 
     if len(extracted_content) == 0:
         log.error("No content extracted")
-        raise "No web content extracted!"
+        raise Exception("No web content extracted!")
         return HTTPException(
             status_code=500, detail={"id": id, "message": "No web content extracted!"}
         )
@@ -98,7 +100,7 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
 
     if len(context_data) == 0:
         log.error("No relevant data extracted")
-        raise "No relevant data extracted!"
+        raise Exception("No relevant data extracted!")
         return HTTPException(
             status_code=500, detail={"id": id, "message": "No relevant data extracted!"}
         )
@@ -107,6 +109,7 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
     extracted_contacts = extract_contacts(
         context_data[:15] if len(context_data) > 15 else context_data,
         prompt,
+        goal_solution,
         OPENAI_ENV,
     )
     log.info(f"Extracted Contacts: {extracted_contacts}\n")
@@ -123,7 +126,7 @@ async def contacts_retrieval(id: str, context_data, prompt: str):
     """
     Extract the contacts from the search results using LLM
     """
-    async for response in llm_contacts_retrieval(
+    async for response in llm_contacts_retrieval( 
         id, context_data, prompt, open_ai_key=OPENAI_ENV
     ):
         # contacts.append(response)
