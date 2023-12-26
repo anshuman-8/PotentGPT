@@ -1,17 +1,14 @@
 import os
-import json
-import time
 import logging as log
 from typing import List
 from dotenv import load_dotenv
 from fastapi import HTTPException
 
-from src.webSearch import search_web_google, search_web_bing
 from src.sanitize_query import sanitize_search_query
-from src.search_indexing import search_indexing
 from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
-from src.contactRetrieval import llm_contacts_retrieval, extract_contacts
+from src.contactRetrieval import extract_contacts, retrieval_multithreading
+from src.search import Search
 
 load_dotenv()
 
@@ -37,7 +34,6 @@ def process_search_results(results: List[str]) -> List[str]:
 
 async def web_probe(id: str, prompt: str, location: str, country_code: str):
     log.info(f"Prompt: {prompt}")
-    start_time = time.time()
     goal_solution = ""
     # sanitize the prompt
     try:
@@ -55,29 +51,12 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
 
     # search the web for the query
-    google_search_results = search_web_google(
-        search_query,
-        GOOGLE_SEARCH_ENGINE_ID,
-        GOOGLE_API_KEY,
-        country_code,
-    )
-    bing_search_results = search_web_bing(
-        search_query, BING_API_KEY, country_code
+    search_client = Search(
+        query=search_query, location=location, country_code=country_code, timeout=5
     )
 
-    if google_search_results is not None:
-        log.info(f"\ngoogle Search Results: {google_search_results}\n")
-    if bing_search_results is not None:
-        log.info(f"\nBing Search Results: {bing_search_results}\n")
-    else:
-        log.error("search failed")
-        raise Exception("Web search failed!")
-        return HTTPException(
-            status_code=500, detail={"id": id, "message": "Web search failed!"}
-        )
-
-    # merge the search results
-    search_results = search_indexing(bing_search_results, google_search_results)
+    # get the search results
+    search_results = await search_client.search_web()
 
     # process the search links
     refined_search_results = process_search_results(search_results[:14])
@@ -104,34 +83,20 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
         return HTTPException(
             status_code=500, detail={"id": id, "message": "No relevant data extracted!"}
         )
-
-    # extract contacts
-    extracted_contacts = extract_contacts(
-        context_data[:15] if len(context_data) > 15 else context_data,
-        prompt,
-        goal_solution,
-        OPENAI_ENV,
-    )
-    log.info(f"Extracted Contacts: {extracted_contacts}\n")
-
-    time_taken = time.time() - start_time
-    log.info(f"Time taken: {time_taken}")
-
-    res = response_formatter(id, time_taken, prompt, location, extracted_contacts)
-
-    return res
+    return (context_data, goal_solution)
 
 
-async def contacts_retrieval(id: str, context_data, prompt: str):
+async def contacts_retrieval(
+    id: str, data, prompt: str, solution, context_chunk_size: int = 5
+):
     """
     Extract the contacts from the search results using LLM
     """
-    async for response in llm_contacts_retrieval( 
-        id, context_data, prompt, open_ai_key=OPENAI_ENV
-    ):
-        # contacts.append(response)
-        yield response_formatter(id, 12, prompt, "", response)
-    # return contacts
+
+    response = await retrieval_multithreading(
+        data, prompt, solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10
+    )
+    return response
 
 
 def response_formatter(id, time, prompt, location, results):
@@ -141,8 +106,8 @@ def response_formatter(id, time, prompt, location, results):
         "status": "complete",
         "location": str(location),
         "prompt": str(prompt),
-        "count": len(results["results"]),
-        "response": results["results"],
+        "count": len(results),
+        "response": results,
     }
 
     return response

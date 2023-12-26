@@ -5,12 +5,12 @@ import logging as log
 from openai import AsyncOpenAI, OpenAI
 from typing import Iterator, List
 
-LOG_FILES = True
+LOG_FILES = False
 
-SYS_PROMPT = """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Response should be relevant to the question and accurate to the context.
-The response should strictly adhere to the JSON list format: ["results":{"service_provider": "Name and description of the service provider", "source": "Source Link of the information","provider":["Source from "Google", "Bing" or both"], "contacts": {"email": "Email of the vendor","phone": ["Phone number of the vendor"],"address": "Address of the vendor"}},{...}].
-Ensure all fields in the context are filled; use empty list if absent. Avoid providing incorrect or empty contact details. Present phone numbers and emails in a direct, usable format(no helper words).
-\nExample response (Only as an exmple format, data not to be used) : \n["results":{"service_provider": "One Toyota | New Toyota & Used Car Dealer in Oakland", "source": "https://www.onetoyota.com/","provider":["Google", "Bing"], "contacts": {"email": [],"phone": ["510-281-8909", "510-281-8910"],"address": "8181 Oakport St. Oakland, CA 94621"}}]\n"""
+SYS_PROMPT = """Extract all contact details from JSON input, aiming to assist user's question in finding right service providers or vendors. Response should be according to the solution given  accurate to the context.
+The response should strictly adhere to the JSON list format: ["results":{"name": "Name and description of the service provider", "source": "Source Link of the information","provider":["Source from "Google", "Bing" or both"], "contacts": {"email": "Email of the vendor","phone": ["Phone number of the vendor"],"address": "Address of the vendor"}},{...}].
+Ensure all fields in the context are filled; use empty list if absent. Avoid providing incorrect or invald contact details. Present phone numbers and emails in a direct, usable format(no helper words). Skip the service provider if contact details not available, but DO NOT write "Not available".
+\nExample response (Only as an exmple format, data not to be used) : \n["results":{"name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "source": "https://www.onetoyota.com/","provider":["Google", "Bing"], "contacts": {"email": ["oakland@onetoyota.com"],"phone": ["510-281-8909", "510-281-8910"],"address": "8181 Oakport St. Oakland, CA 94621"}}]\n"""
 
 def gpt_cost_calculator(
     inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
@@ -85,30 +85,29 @@ def print_and_write_response(response_json, output_file="output.txt"):
             print("\n" + "-" * 40 + "\n")
 
 
-async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> dict:
+async def extract_thread_contacts(id: int, data, prompt: str,solution:str|None, openai_client:OpenAI) -> dict:
     """
     Extract the contacts from the search results using LLM
     """
 
     t_flag1 = time.time()
-    log.warning(f"this should run!")
     log.info(f"Contact Retrival Thread {id} started")
 
     try:
         response = await openai_client.chat.completions.create(
             model="gpt-3.5-turbo-1106",
             response_format={"type": "json_object"},
-            messages=[
-                {
-                    "role": "system",
-                    "content": SYS_PROMPT,
-                },
-                {
-                    "role": "user",
-                    "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\n\nAnswer:All relevant and accurate contact details in JSON, according to above Solution to solve the Question:",
-                },
-            ],
-        )
+        messages=[
+            {
+                "role": "system",
+                "content": SYS_PROMPT,
+            },
+            {
+                "role": "user",
+                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\nSolution: {solution}\nAnswer:All relevant and accurate contact details for above Question in JSON:",
+            }
+        ]
+    )
 
         t_flag2 = time.time()
         log.info(f"OpenAI time: { t_flag2 - t_flag1}")
@@ -122,8 +121,6 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
         log.info(f"Cost for contact retrival {id}: ${cost}\n")
 
         response = json.loads(response.choices[0].message.content)
-        # Print the response
-        # print_and_write_response(response, output_file="src/output.txt")
 
         log.info(f"Contact Retrival Thread {id} finished : {response}")
 
@@ -131,51 +128,54 @@ async def extract_thread_contacts(id: int, data, prompt: str, openai_client) -> 
         log.error(f"Error in {id} LLM API call: {e}")
         response = {}
 
-    yield response
+    return response
 
 
 async def retrieval_multithreading(
     data,
     prompt: str,
+    solution: str|None,
     open_ai_key: str,
-    chunk_size: int = 5,
+    context_chunk_size: int = 5,
     max_thread: int = 5,
-    timeout: int = 10,
+    timeout: int = 10
 ) -> dict:
     """
     Creates multiple LLM calls
     """
     # Divide the data into chunks of size chunk_size
-    data_chunks = [data[i : i + chunk_size] for i in range(0, len(data), chunk_size)]
+    data_chunks = [data[i : i + context_chunk_size] for i in range(0, len(data), context_chunk_size)]
     data_chunks = data_chunks[:max_thread]
 
+    log.warning(f"starting openai async fetch. Data Chunk length :{len(data_chunks)}")
     try:
         llm_threads = []
         client = AsyncOpenAI(api_key=open_ai_key, max_retries=0)
 
         # Create asyncio tasks for each data chunk with enumeration
         for thread_id, chunk in enumerate(data_chunks):
-            task = asyncio.create_task(extract_thread_contacts(thread_id + 1, chunk, prompt, client))
+            task = extract_thread_contacts(thread_id + 1, chunk, prompt,solution, client)
             llm_threads.append(task)
 
-        for task in asyncio.as_completed(llm_threads):
-            result = await task
-            yield result
+        log.warn(f"OpenAI {len(llm_threads)} task created")
+
+        results = await asyncio.gather(*llm_threads, return_exceptions=True)
+
+        merge_results =[]
+        for items in results:
+            merge_results.extend(items["results"])
+
+        log.info(f"OpenAI {len(results)} task completed")
+        return merge_results
 
     except Exception as e:
         log.error(f"Error in multithreading: {e}")
-        yield b'{}'
+        return b'[]'
 
 
-async def llm_contacts_retrieval(id:str, data, prompt: str, open_ai_key: str) -> dict:
-    """
-    Extract the contacts from the search results using LLM
-    """
-    async for results in retrieval_multithreading(data, prompt, open_ai_key, 5):
-        yield results
+## ------------------------ OLD ------------------------ ##
 
-
-def extract_contacts(data, prompt: str, solution: str, openai_key) -> str:
+def extract_contacts(data, prompt: str, solution: str, openai_key, timeout:int=10) -> str:
     """
     Extract the contacts from the search results using LLM
     """
@@ -186,7 +186,7 @@ def extract_contacts(data, prompt: str, solution: str, openai_key) -> str:
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-1106",
-        # timeout=8,
+        timeout=timeout,
         # temperature=0.1,
         response_format={"type": "json_object"},
         messages=[
@@ -218,3 +218,4 @@ def extract_contacts(data, prompt: str, solution: str, openai_key) -> str:
         json_response = {}
 
     return json_response
+
