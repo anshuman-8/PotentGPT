@@ -1,12 +1,18 @@
 import uuid
-import logging as log
 import time
+import logging as log
 from typing import List
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse, StreamingResponse
-from src.app import web_probe, contacts_retrieval, response_formatter
+from src.app import (
+    web_probe,
+    response_formatter,
+    stream_contacts_retrieval,
+)
 from src.model import ApiResponse, ErrorResponseModel
+import tracemalloc
 
+tracemalloc.start()
 
 app = FastAPI(title="Margati Probe", version="0.1.0")
 
@@ -22,14 +28,24 @@ async def read_root():
     return response
 
 
+async def stream_response(id, data, prompt, solution, location, start_time):
+    async for chunk in stream_contacts_retrieval(id, data, prompt, solution):
+        end_time = time.time()
+        response = await response_formatter(
+            id, (end_time - start_time), prompt, location, chunk
+        )
+        log.info(f"\nStreaming Response: {response}")
+        yield response
+
+
 @app.get("/q/")
 async def probe(
     request: Request,
     prompt: str | None = "",
     location: str | None = "",
     country_code: str | None = "US",
-):
-    # error if prompt or location is none
+) -> ApiResponse | ErrorResponseModel:
+    
     if prompt is None or not prompt.strip():
         log.error(f"No prompt provided")
         raise HTTPException(status_code=400, detail="prompt needed!")
@@ -59,12 +75,6 @@ async def probe(
             status_code=500, detail={"id": ID, "status": "Internal Error", "message": e}
         )
 
-    contacts = await contacts_retrieval(ID, data, prompt, solution)
-    log.info(f"Contacts: {contacts}")
-
-    end_time = time.time()
-    log.info(f"Total Time: {end_time - start_time}")
-    response = response_formatter(
-        ID, (end_time - start_time), prompt, location, contacts
+    return StreamingResponse(
+        content=stream_response(ID, data, prompt, solution, location, start_time)
     )
-    return JSONResponse(content=response)

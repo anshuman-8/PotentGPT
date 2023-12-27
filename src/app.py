@@ -1,4 +1,5 @@
 import os
+import json
 import logging as log
 from typing import List
 from dotenv import load_dotenv
@@ -24,7 +25,7 @@ def process_search_results(results: List[str]) -> List[str]:
     """
     Process the search links to remove the unwanted links
     """
-    avoid_links = ["instagram", "facebook", "twitter", "youtube", "makemytrip"]
+    avoid_links = ["instagram", "facebook", "twitter", "youtube", "makemytrip", "linkedin", "justdial"]
     processed_results = []
     for result in results:
         if not any(avoid_link in result["link"] for avoid_link in avoid_links):
@@ -74,7 +75,7 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
         )
 
     # Preprocess the extracted content
-    context_data = process_data_docs(extracted_content, 500)
+    context_data = process_data_docs(extracted_content, 400)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     if len(context_data) == 0:
@@ -86,20 +87,17 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
     return (context_data, goal_solution)
 
 
-async def contacts_retrieval(
+async def stream_contacts_retrieval(
     id: str, data, prompt: str, solution, context_chunk_size: int = 5
 ):
     """
     Extract the contacts from the search results using LLM
     """
-
-    response = await retrieval_multithreading(
-        data, prompt, solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10
-    )
-    return response
+    async for response in retrieval_multithreading(data, prompt, solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10):
+        yield response
 
 
-def response_formatter(id, time, prompt, location, results):
+async def response_formatter(id, time, prompt, location, results):
     response = {
         "id": str(id),
         "time": int(time),
@@ -110,4 +108,6 @@ def response_formatter(id, time, prompt, location, results):
         "response": results,
     }
 
-    return response
+    json_response = json.dumps(response).encode('utf-8')
+
+    return json_response
