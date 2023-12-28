@@ -1,16 +1,19 @@
 import asyncio
+import json
 import time
 import logging as log
 from typing import Iterator, List
 from playwright.async_api import async_playwright
 from langchain.docstore.document import Document
+from src.documentUtils import document2map
 
+LOG_FILES = False
 
 class AsyncChromiumLoader:
-    def __init__(self, urls: List[str]):
-        self.urls = urls
+    def __init__(self, web_links: List[str]):
+        self.web_links = web_links
 
-    async def scrape_browser(self, urls: List[str]) -> List[Document]:
+    async def scrape_browser(self, web_links: List[str]) -> List[Document]:
         """
         Scrape the urls by creating async tasks for each url
         """
@@ -18,18 +21,19 @@ class AsyncChromiumLoader:
         results = []
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
-            scraping_tasks = [self.scrape_url(browser, url) for url in urls]
+            scraping_tasks = [self.scrape_url(browser, web_link) for web_link in web_links]
             results = await asyncio.gather(*scraping_tasks)
             await browser.close()
             log.debug(f"Browser closed")
         return results
 
-    async def scrape_url(self, browser, url: str) -> Document:
+    async def scrape_url(self, browser, web_link: str) -> Document:
         """
         Scrape the url and return the document, it also ignores assets
         """
         web_content = ""
-        metadata = {"source": url}
+        metadata = {"website": web_link['link'],"source": web_link['source'], "title": web_link['title']}
+        url = web_link['link']
         log.info(f"Scraping {url}...")
         t_start = time.time()
         try:
@@ -52,9 +56,26 @@ class AsyncChromiumLoader:
         result_doc = Document(page_content=web_content, metadata=metadata)
         return result_doc
 
-    def load_data(self) -> List[Document]:
+    async def load_data(self) -> List[Document]:
         """
         Load the data from the urls asynchronously
         """
-        data = asyncio.run(self.scrape_browser(self.urls))
+        data = await self.scrape_browser(self.web_links)
         return data
+    
+async def scrape_with_playwright(results: List[str]) -> List[dict]:
+    """
+    Scrape the websites using playwright and chunk the text tokens
+    """
+    t_flag1 = time.time()
+    loader = AsyncChromiumLoader(results)
+    docs = await loader.load_data()
+    t_flag2 = time.time()
+
+    if LOG_FILES:
+        with open("src/log_data/docs.json", "w") as f:
+            json.dump(document2map(docs), f)
+
+    log.info(f"AsyncChromiumLoader time: { t_flag2 - t_flag1}")
+
+    return docs

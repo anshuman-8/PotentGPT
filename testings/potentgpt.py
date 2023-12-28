@@ -90,7 +90,6 @@ urls = [
     "https://www.redbus.in/bus-hire/wedding",
     "https://www.asparkholidays.com/thiruvananthapuram/book-volvo-bus",
     "https://www.justdial.com/Ernakulam/Bus-On-Rent-For-Wedding/nct-11275471",
-
     "https://scikit-learn.org/stable/install.html",
     "https://www.nvidia.com/en-in/data-center/a100/",
     "https://www.nature.com/articles/s41467-023-43491-w",

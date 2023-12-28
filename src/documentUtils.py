@@ -42,6 +42,6 @@ def document2map(documents: List[Document]) -> List[dict]:
     """Convert a list of documents to a map."""
     log.info("Converting documents to map...")
     return [
-        {"metadata": doc.metadata["source"], "content": doc.page_content}
+        {"metadata": doc.metadata, "content": doc.page_content}
         for doc in documents
     ]
