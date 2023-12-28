@@ -44,9 +44,10 @@ def sanitize_search_query(prompt: str,open_api_key:str, location: str = None) ->
     prompt = f"{prompt.strip()}"
     client = OpenAI(api_key=open_api_key)
     # system_prompt = "Convert the user goal into a useful web search query, for finding the best contacts for achieving the Goal through a targeted web search, include location if needed. The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, auto service, and other services and repairs."
-    system_prompt = """Understand the user goal and provide the best search solution and web search query for the solution for solving and helping the user achieve their goals, as well as finding the best contacts for achieving them. Include the location if needed.
-The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, auto service, and other services and repairs.
-"""
+    system_prompt = """Understand the goal and provide the best solution task, and a web search query for the solution for solving and helping the user achieve their goals. Include the location if needed. 
+The solution should be based on the finding the best person or service to contact for helping or completing the user goal. 
+The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, food, and other services and repairs."""
+
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-1106",
@@ -67,7 +68,7 @@ The output should be in JSON format, also saying where to search in a list, an e
                 },
                 {
                     "role": "system",
-                    "content": '{"solution": "Search for all UC Davis professors specializing in molecular biology research, to email them as they provide intenship in Universitys", "search_query":"Professors UC Davis molecular biology and internship lab contacts.", "search":["web"]}',
+                    "content": '{"solution": "Search for all UC Davis professors specializing in molecular biology research, to email them", "search_query":"Professors UC Davis molecular biology and internship contacts.", "search":["web"]}',
                 },
                 {"role": "user", "content": f"Location: {location};\nGoal: {prompt}"},
             ],

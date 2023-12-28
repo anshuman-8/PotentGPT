@@ -3,7 +3,7 @@ import time
 import logging as log
 from typing import List
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.responses import StreamingResponse
 from src.app import (
     web_probe,
     response_formatter,
@@ -36,6 +36,10 @@ async def stream_response(id, data, prompt, solution, location, start_time):
         )
         log.info(f"\nStreaming Response: {response}")
         yield response
+    
+    final_response = await response_formatter(id, (end_time - start_time), prompt, location, [], status="completed", has_more=False)
+    log.info(f"\nStreaming Final Response: {final_response}")
+    yield final_response
 
 
 @app.get("/q/")

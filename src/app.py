@@ -97,17 +97,18 @@ async def stream_contacts_retrieval(
         yield response
 
 
-async def response_formatter(id, time, prompt, location, results):
+async def response_formatter(id:str, time, prompt:str, location:str, results, status="running", has_more:bool=True):
     response = {
         "id": str(id),
         "time": int(time),
-        "status": "complete",
+        "status": status,
+        "has_more": has_more,
         "location": str(location),
         "prompt": str(prompt),
         "count": len(results),
         "response": results,
     }
 
-    json_response = json.dumps(response).encode('utf-8')
+    json_response = json.dumps(response).encode('utf-8', errors="replace")
 
     return json_response
