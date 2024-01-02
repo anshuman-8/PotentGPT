@@ -10,16 +10,11 @@ from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
 from src.contactRetrieval import extract_contacts, retrieval_multithreading
 from src.search import Search
+from src.utils import process_api_json
 
 load_dotenv()
 
-SERP_ENV = os.getenv("SERP_API_AUTH")
 OPENAI_ENV = os.getenv("OPENAI_API_KEY")
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
-BING_API_KEY = os.getenv("BING_API_KEY")
-YELP_API_KEY = os.getenv("YELP_API_KEY")
-
 
 def process_search_results(results: List[str]) -> List[str]:
     """
@@ -53,14 +48,15 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
 
     # search the web for the query
     search_client = Search(
-        query=search_query, location=location, country_code=country_code, timeout=5
+        query=search_query, location=location, country_code=country_code, timeout=5, yelp_search=False
     )
 
     # get the search results
-    search_results = await search_client.search_web()
+    web_results = await search_client.search_web()
+    # web_results, yelp_results, google_business_results = await search_client.search()
 
     # process the search links
-    refined_search_results = process_search_results(search_results[:14])
+    refined_search_results = process_search_results(web_results[:14])
     log.info(f"\nRefined Search Results: {refined_search_results}\n")
 
     # scrape the websites
@@ -70,9 +66,6 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
     if len(extracted_content) == 0:
         log.error("No content extracted")
         raise Exception("No web content extracted!")
-        return HTTPException(
-            status_code=500, detail={"id": id, "message": "No web content extracted!"}
-        )
 
     # Preprocess the extracted content
     context_data = process_data_docs(extracted_content, 400)
@@ -81,9 +74,6 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
     if len(context_data) == 0:
         log.error("No relevant data extracted")
         raise Exception("No relevant data extracted!")
-        return HTTPException(
-            status_code=500, detail={"id": id, "message": "No relevant data extracted!"}
-        )
     return (context_data, goal_solution)
 
 
@@ -98,6 +88,7 @@ async def stream_contacts_retrieval(
 
 
 async def response_formatter(id:str, time, prompt:str, location:str, results, status="running", has_more:bool=True):
+
     response = {
         "id": str(id),
         "time": int(time),
@@ -106,8 +97,10 @@ async def response_formatter(id:str, time, prompt:str, location:str, results, st
         "location": str(location),
         "prompt": str(prompt),
         "count": len(results),
-        "response": results,
+        "results": results['results'] if results != [] else [],
     }
+
+    response = process_api_json(response)
 
     json_response = json.dumps(response).encode('utf-8', errors="replace")
 

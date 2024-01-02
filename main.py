@@ -76,7 +76,7 @@ async def probe(
         )
     except Exception as e:
         raise HTTPException(
-            status_code=500, detail={"id": ID, "status": "Internal Error", "message": e}
+            status_code=500, detail={"id": str(ID), "status": "Internal Error", "message": str(e)}
         )
 
     return StreamingResponse(

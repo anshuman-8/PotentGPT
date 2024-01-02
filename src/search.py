@@ -11,6 +11,7 @@ load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
+GOOGLE_MAPS_KEY = os.getenv("GOOGLE_MAPS_KEY")
 BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
@@ -326,7 +327,27 @@ class Search:
 
 
     def search_google_business(self):
-        pass
+        t_flag1= time.time()
+        log.info(f"Starting google maps search")
+        URL = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+
+        params = {
+            'query': self.query,
+            'radius':5000,
+            'key': GOOGLE_MAPS_KEY
+        }
+        try:
+            response = requests.get(URL, params=params)
+            response.raise_for_status()
+        except Exception as e:
+            log.error(f"Error on Google Maps Search request: {e}")
+            return None
+        t_flag2 = time.time()
+        log.info(f"Google Maps search results: {response.json()}")
+        log.info(f"Google Maps search time: {t_flag2 - t_flag1}")
+        results = response.json().get('results', [])
+
+        return results
 
 
     async def search_web(self):
@@ -358,5 +379,16 @@ class Search:
 
         return search_results
 
-    def search(self):
-        pass
+    async def search(self):
+        web_results = []
+        yelp_results = []
+        google_business_results = []
+
+        if self.do_web_search:
+            web_results = await self.search_web()
+        if self.do_yelp_search:
+            yelp_results = self.search_yelp(self.query, self.location)
+        if self.do_google_business_search:
+            google_business_results = self.search_google_business()
+
+        return web_results, yelp_results, google_business_results

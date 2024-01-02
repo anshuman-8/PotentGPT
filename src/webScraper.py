@@ -5,7 +5,7 @@ import logging as log
 from typing import Iterator, List
 from playwright.async_api import async_playwright
 from langchain.docstore.document import Document
-from src.documentUtils import document2map
+from src.utils import document2map
 
 LOG_FILES = False
 
@@ -22,7 +22,7 @@ class AsyncChromiumLoader:
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
             scraping_tasks = [self.scrape_url(browser, web_link) for web_link in web_links]
-            results = await asyncio.gather(*scraping_tasks)
+            results = await asyncio.gather(*scraping_tasks, return_exceptions=True)
             await browser.close()
             log.debug(f"Browser closed")
         return results
@@ -38,12 +38,21 @@ class AsyncChromiumLoader:
         t_start = time.time()
         try:
             page = await browser.new_page()
-            excluded_resource_types = ["stylesheet", "script", "image", "font"] 
+            excluded_resource_types = ["stylesheet", "script", "image", "font", "media"]
+
+            async def route_handler(route):
+                resource_type = route.request.resource_type
+                if resource_type in excluded_resource_types:
+                    await route.abort()
+                else:
+                    await route.continue_()
+
             await page.route(
                 "**/*",
-                lambda route: route.abort()
-                if route.request.resource_type in excluded_resource_types
-                else route.continue_(),
+                route_handler
+                # lambda route: route.abort()
+                # if route.request.resource_type in excluded_resource_types
+                # else route.continue_(),
             )
             await page.goto(url, timeout=8000)
             web_content = await page.content()

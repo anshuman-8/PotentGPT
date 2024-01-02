@@ -7,12 +7,11 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from typing import List, Dict
 
-from webScraper import AsyncChromiumLoader
-from search_indexing import search_indexing
-from contactRetrieval import llm_contacts_retrieval
-from webSearch import search_web_google, search_web_bing
-from data_preprocessing import process_data_docs
-from documentUtils import create_documents, document_regex_sub, document2map
+from src.webScraper import AsyncChromiumLoader
+from src.webSearch import search_web_google, search_web_bing
+from src.data_preprocessing import process_data_docs
+from utils import create_documents, document_regex_sub, document2map
+from src.search import Search
 
 load_dotenv()
 
@@ -174,6 +173,12 @@ def main():
     # sanitize the prompt
     sanitized_prompt = sanitize_search_query(prompt, location)
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
+    
+    search_client = Search(query=sanitized_prompt["search_query"],location=location, country_code="IN", timeout=23)
+    response = search_client.search_google_business()
+    print(f"Maps search: ${response}")
+
+    exit(0)
 
     # search the web for the query
     google_search_results = search_web_google(

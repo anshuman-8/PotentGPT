@@ -7,7 +7,7 @@ from langchain.docstore.document import Document
 from langchain.document_transformers import beautiful_soup_transformer
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-from src.documentUtils import create_documents, document_regex_sub, document2map
+from src.utils import create_documents, document_regex_sub, document2map
 
 LOG_FILES = False
 

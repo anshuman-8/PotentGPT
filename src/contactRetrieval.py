@@ -88,7 +88,7 @@ def print_and_write_response(response_json, output_file="output.txt"):
 
 async def extract_thread_contacts(
     id: int, data, prompt: str, solution: str | None, openai_client: OpenAI
-) -> dict:
+) -> json:
     """
     Extract the contacts from the search results using LLM
     """
@@ -142,7 +142,7 @@ async def retrieval_multithreading(
     context_chunk_size: int = 5,
     max_thread: int = 5,
     timeout: int = 10,
-) -> dict:
+) -> json:
     """
     Creates multiple LLM calls
     """
