@@ -1,3 +1,0 @@
-- [ ] Fix the preprocessing function of the scraped data, to remove repetitive text and javascript void object.
-- [ ] Fix the Web scraper class and functions.
-- [ ] Update the search query sanitizer LLM to give out relevant search engine options.

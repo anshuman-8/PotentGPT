@@ -170,6 +170,7 @@ async def retrieval_multithreading(
     for completed_task in asyncio.as_completed(llm_threads):
         try:
             result = await completed_task
+            result = result['results'] if result != [] else []
             yield result
         except Exception as e:
             log.error(f"Error in task: {e}")

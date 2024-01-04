@@ -325,16 +325,16 @@ class Search:
 
         return data
 
-
-    def search_google_business(self):
-        t_flag1= time.time()
-        log.info(f"Starting google maps search")
-        URL = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+    async def _search_google_business_details(self, place_id):
+        """
+        """
+        t_flag1 = time.time()
+        URL = "https://maps.googleapis.com/maps/api/place/details/json"
 
         params = {
-            'query': self.query,
-            'radius':5000,
-            'key': GOOGLE_MAPS_KEY
+            'place_id': place_id,
+            'fields': 'name,formatted_address,formatted_phone_number,website',
+            'key': GOOGLE_MAPS_KEY,
         }
         try:
             response = requests.get(URL, params=params)
@@ -343,12 +343,77 @@ class Search:
             log.error(f"Error on Google Maps Search request: {e}")
             return None
         t_flag2 = time.time()
-        log.info(f"Google Maps search results: {response.json()}")
+        log.info(f"Google Maps Business detail id: {place_id} search time: {t_flag2 - t_flag1}")
+        results = response.json()
+
+        return results
+
+    async def search_google_business(self):
+        """
+
+        """
+        t_flag1= time.time()
+        log.info(f"Starting google maps search")
+        URL = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+
+        params = {
+            'query': self.query,
+            'radius':5000,
+            'key': GOOGLE_MAPS_KEY,
+        }
+        try:
+            response = requests.get(URL, params=params)
+            response.raise_for_status()
+        except Exception as e:
+            log.error(f"Error on Google Maps Search request: {e}")
+            return None
+        t_flag2 = time.time()
+        log.debug(f"Google Maps search results: {response.json()}")
         log.info(f"Google Maps search time: {t_flag2 - t_flag1}")
         results = response.json().get('results', [])
 
         return results
 
+    async def google_business_details(self, place_ids: List[str]):
+        """
+        Async function to fetch the details of the business from Google Maps
+        """
+        log.info(f"Starting Google Maps Details search for {place_ids}")
+        t_start = time.time()
+        tasks = [self._search_google_business_details(place_id) for place_id in place_ids]
+        try:
+            results = await asyncio.gather(*tasks, return_exceptions=True)
+        except Exception as e:
+            log.error(f"Error in gathering tasks: {e}")
+            results = []
+
+        t_end = time.time()
+        log.info(f"Google Maps Details search completed in {t_end - t_start} seconds")
+        return results
+    
+    def process_google_business_results(self, results: List[dict]):
+        """
+        Formats the results from Google Maps API
+        """
+        processed_results = []
+        for result in results:
+            if result == None or isinstance(result, (Exception, str)) or result == []:
+                continue
+            if isinstance(result, dict) and 'result' in result:
+                result = result['result']
+                processed_result = {
+                    'name': result.get('name', ''),
+                    'source': result.get('website', ''),
+                    'provider': ['Google Maps'],
+                    'contacts': {
+                        'phone': [result.get('formatted_phone_number', '')],
+                        'email': [],
+                        'address': result.get('formatted_address', '')
+                    }
+                }
+                processed_results.append(processed_result)
+        return processed_results
+        
 
     async def search_web(self):
         """
