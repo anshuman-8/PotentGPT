@@ -46,7 +46,7 @@ def sanitize_search_query(prompt: str,open_api_key:str, location: str = None) ->
     # system_prompt = "Convert the user goal into a useful web search query, for finding the best contacts for achieving the Goal through a targeted web search, include location if needed. The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, auto service, and other services and repairs."
     system_prompt = """Understand the goal and provide the best solution task, and a web search query for the solution for solving and helping the user achieve their goals. Include the location if needed. 
 The solution should be based on the finding the best person or service to contact for helping or completing the user goal. 
-The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, food, and other services and repairs."""
+The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases and yelp is used only for restaurants, home services, food, and other services and repairs. `gmaps` is Google Maps, who can retrieve info about businesses and services in a location."""
 
     try:
         response = client.chat.completions.create(
@@ -61,6 +61,14 @@ The output should be in JSON format, also saying where to search in a list, an e
                 {
                     "role": "system",
                     "content": '{"solution":"Search for all event chefs in Kochi Kerala, to email and call them", "search_query":"Event Chefs in Kochi, Kerala", "search":["web", "yelp"]}',
+                },
+                {
+                    "role": "user",
+                    "content": "Location: Oakland, CA;\nGoal: I want a SUV car for rent for 2 days, for a trip to Yosemite.",
+                },
+                {
+                    "role": "system",
+                    "content": '{"solution":"Search for all Car rental service in Oakland, CA, Who can give SUV and find their contacts", "search_query":"SUVs car rental in Oakland, CA", "search":["web", "gmaps"]}',
                 },
                 {
                     "role": "user",

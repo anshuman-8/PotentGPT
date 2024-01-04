@@ -6,11 +6,12 @@ import logging as log
 from dotenv import load_dotenv
 from openai import OpenAI
 from typing import List, Dict
+import asyncio
 
 from src.webScraper import AsyncChromiumLoader
 from src.webSearch import search_web_google, search_web_bing
 from src.data_preprocessing import process_data_docs
-from utils import create_documents, document_regex_sub, document2map
+from src.utils import create_documents, document_regex_sub, document2map
 from src.search import Search
 
 load_dotenv()
@@ -95,7 +96,10 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
 
     prompt = f"{prompt.strip()}"
 
-    system_prompt = "Convert the user goal into a useful web search query, for finding the best contacts for achieving the Goal through a targeted web search, include location if needed. The output should be in JSON format, also saying where to search in a list, an enum (web, yelp), where web is used for all cases and yelp is used only for restaurants, home services, auto service, and other services and repairs."
+    system_prompt = """Understand the goal and provide the best solution task, and a web search query for the solution for solving and helping the user achieve their goals. Include the location if needed. 
+The solution should be based on the finding the best person or service to contact for helping or completing the user goal. 
+The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases and yelp is used only for restaurants, home services, food, and other services and repairs. `gmaps` is Google Maps, who can retrieve info about businesses and services in a location."""
+
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-1106",
@@ -108,15 +112,23 @@ def sanitize_search_query(prompt: str, location: str = None) -> json:
                 },
                 {
                     "role": "system",
-                    "content": '{"search_query":"Chefs in Kochi, Kerala", "search":["web", "yelp"]}',
+                    "content": '{"solution":"Search for all event chefs in Kochi Kerala, to email and call them", "search_query":"Event Chefs in Kochi, Kerala", "search":["web", "yelp"]}',
                 },
                 {
                     "role": "user",
-                    "content": "Goal: I need an internship in UC Davis in molecular biology this summer.",
+                    "content": "Location: Oakland, CA;\nGoal: I want a SUV car for rent for 2 days, for a trip to Yosemite.",
                 },
                 {
                     "role": "system",
-                    "content": '{"search_query":"UC Davis molecular biology professors and internship lab contacts.", "search":["web"]}',
+                    "content": '{"solution":"Search for all Car rental service in Oakland, CA, Who can give SUV", "search_query":"SUVs car rental in Oakland, CA", "search":["web", "gmaps"]}',
+                },
+                {
+                    "role": "user",
+                    "content": "Location: - ;\nGoal: I need an internship in UC Davis in molecular biology this summer.",
+                },
+                {
+                    "role": "system",
+                    "content": '{"solution": "Search for all UC Davis professors specializing in molecular biology research, to email them", "search_query":"Professors UC Davis molecular biology and internship contacts.", "search":["web"]}',
                 },
                 {"role": "user", "content": f"Location: {location};\nGoal: {prompt}"},
             ],
@@ -158,14 +170,17 @@ def internet_speed_test():
     print(f"Upload speed: {(upload_speed/(8 * 1024 * 1024)):5.3f} MB/s")
 
 
-def main():
+async def main():
     try:
         os.remove("src/output.txt")
     except Exception as e:
         pass
 
-    location = "Oakland, California, USA"
-    prompt = input("\nEnter the search prompt: ").strip()
+    location = "Kochi, Kerala"
+    # prompt = input("\nEnter the search prompt: ").strip()
+    # prompt = "I want a good chef for my anniversary party for 50 people."
+    # prompt = "I need an internship in UC Davis in molecular biology this summer."
+    prompt = "I want a car for rent for a week."
     log.info(f"\nPrompt: {prompt}\n")
 
     process_start_time = time.time()
@@ -173,13 +188,30 @@ def main():
     # sanitize the prompt
     sanitized_prompt = sanitize_search_query(prompt, location)
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
+    if len(sanitized_prompt) == 0:
+        log.error("Error in prompt sanitation")
+
+    search_space = sanitized_prompt["search"]
     
+    
+    print(f"Sanitized Prompt: {sanitized_prompt}")
     search_client = Search(query=sanitized_prompt["search_query"],location=location, country_code="IN", timeout=23)
     response = search_client.search_google_business()
     print(f"Maps search: ${response}")
 
-    exit(0)
+    with open("src/log_data/maps.json", "w") as f:
+            json.dump((response), f)
 
+    # get list of place id from the maps search
+    place_ids = []
+    for result in response:
+        place_ids.append(result["place_id"])
+
+    # get the contact details from the place ids
+    extracted_details = await search_client.google_business_details(place_ids)
+    processed_details = search_client.process_google_business_results(extracted_details)
+    print(f"Extracted details: ${processed_details}")
+    exit(0)
     # search the web for the query
     google_search_results = search_web_google(
         sanitized_prompt["search_query"], GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, "IN"
@@ -234,5 +266,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    asyncio.run(main())
     # internet_speed_test()

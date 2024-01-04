@@ -28,7 +28,7 @@ def process_search_results(results: List[str]) -> List[str]:
     return processed_results
 
 
-async def web_probe(id: str, prompt: str, location: str, country_code: str):
+def search_query_extrapolate(id: str, prompt: str, location: str):
     log.info(f"Prompt: {prompt}")
     goal_solution = ""
     # sanitize the prompt
@@ -38,15 +38,20 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
         )
         search_query = sanitized_prompt["search_query"]
         goal_solution = sanitized_prompt["solution"]
+        search_space  = list(sanitized_prompt["search"])
     except Exception as e:
-        log.error(f"Prompt sanitization failed")
+        log.error(f"Prompt sanitization failed, Error:{e}")
         raise Exception("Prompt sanitization failed")
-        return HTTPException(
-            status_code=500, detail={"id": id, "message": "Prompt sanitization failed"}
-        )
+       
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
+  
+    return (search_query, goal_solution, search_space)
 
-    # search the web for the query
+
+async def extract_web_context(search_query, location: str, country_code: str):
+    """
+    Extract the web context from the search results
+    """
     search_client = Search(
         query=search_query, location=location, country_code=country_code, timeout=5, yelp_search=False
     )
@@ -74,20 +79,36 @@ async def web_probe(id: str, prompt: str, location: str, country_code: str):
     if len(context_data) == 0:
         log.error("No relevant data extracted")
         raise Exception("No relevant data extracted!")
-    return (context_data, goal_solution)
+    return context_data
+
 
 
 async def stream_contacts_retrieval(
-    id: str, data, prompt: str, solution, context_chunk_size: int = 5
+    id: str, data, prompt: str, search_query:str, location:str, country_code:str, solution:str, search_space, context_chunk_size: int = 5
 ):
     """
     Extract the contacts from the search results using LLM
     """
+    if "gmaps" in search_space:
+        search_client = Search(
+            query=search_query, location=location, country_code=country_code, timeout=23
+        )
+        response = await search_client.search_google_business()
+        place_ids = []
+        for result in response:
+            place_ids.append(result["place_id"])
+        details = await search_client.google_business_details(place_ids)
+        details = search_client.process_google_business_results(details)
+        log.info(f"\nGoogle Business Details: {details}\n")
+        yield details
+    
     async for response in retrieval_multithreading(data, prompt, solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10):
         yield response
 
 
 async def response_formatter(id:str, time, prompt:str, location:str, results, status="running", has_more:bool=True):
+
+    # result = results['results'] if results != [] else []
 
     response = {
         "id": str(id),
@@ -97,7 +118,7 @@ async def response_formatter(id:str, time, prompt:str, location:str, results, st
         "location": str(location),
         "prompt": str(prompt),
         "count": len(results),
-        "results": results['results'] if results != [] else [],
+        "results": results,
     }
 
     response = process_api_json(response)

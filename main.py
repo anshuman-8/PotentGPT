@@ -5,7 +5,8 @@ from typing import List
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from src.app import (
-    web_probe,
+    search_query_extrapolate,
+    extract_web_context,
     response_formatter,
     stream_contacts_retrieval,
 )
@@ -28,8 +29,8 @@ async def read_root():
     return response
 
 
-async def stream_response(id, data, prompt, solution, location, start_time):
-    async for chunk in stream_contacts_retrieval(id, data, prompt, solution):
+async def stream_response(id, data, search_query, prompt, country_code, search_space, solution, location, start_time):
+    async for chunk in stream_contacts_retrieval(id, data, prompt, search_query, location, country_code, solution, search_space):
         end_time = time.time()
         response = await response_formatter(
             id, (end_time - start_time), prompt, location, chunk
@@ -71,8 +72,11 @@ async def probe(
     log.info(f"Request from: {request.client.host}")
     log.info(f"Total Time: {timestamp}")
     try:
-        data, solution = await web_probe(
-            id=ID, prompt=prompt, location=location, country_code=country_code
+        query, solution, search_space = search_query_extrapolate(
+            id=ID, prompt=prompt, location=location
+        )
+        web_context = await extract_web_context(
+            search_query=query, location=location, country_code=country_code
         )
     except Exception as e:
         raise HTTPException(
@@ -80,5 +84,5 @@ async def probe(
         )
 
     return StreamingResponse(
-        content=stream_response(ID, data, prompt, solution, location, start_time)
+        content=stream_response(ID, web_context,query, prompt,country_code, search_space, solution, location, start_time)
     )
