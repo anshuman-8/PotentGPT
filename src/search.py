@@ -242,8 +242,6 @@ class Search:
 
     def search_yelp(
         self,
-        search_term: str,
-        location: str,
         lat: int = None,
         lon: int = None,
         search_limit: int = 10,
@@ -254,8 +252,6 @@ class Search:
         Yelp is used for fetching business data
 
         ### Parameters
-        - search_term: The search term to search for
-        - location: The location to search in
         - lat: The latitude of the location
         - lon: The longitude of the location
         - search_limit: The number of results to return, default 10
@@ -267,7 +263,6 @@ class Search:
         - "link": The URL of the business.
         - "emails": The emails of the business.
         - "mobileNumbers": The mobile numbers of the business.
-        - "dataProvider": The data provider of the business.
         """
         yelp_url = "https://api.yelp.com/v3/businesses/search"
 
@@ -281,6 +276,9 @@ class Search:
             "Authorization": f"Bearer {yelp_api_key}",
             "accept": "application/json",
         }
+
+        search_term = self.query
+        location = self.location
 
         t_flag1 = time.time()
         params = {
@@ -301,9 +299,7 @@ class Search:
 
             data = response.json()
             t_flag2 = time.time()
-            print(f"Yelp search time: {t_flag2 - t_flag1}")
 
-            print(data)
             data = [
                 {
                     "title": business["name"],
@@ -313,15 +309,36 @@ class Search:
                 }
                 for business in data["businesses"]
             ]
+            log.info(f"Yelp search complete; {len(data)} results, time: {t_flag2 - t_flag1}")
 
-            with open("./yelp.json", "w") as f:
-                json.dump(data, f)
 
         except Exception as e:
             log.error(f"Error on Yelp Search request: {e}")
             return None
 
         return data
+    
+    def process_yelp_data(self, results: List[dict]):
+        """
+        Formats the results from Yelp API
+        """
+        processed_results = []
+        for result in results:
+            if result == None or isinstance(result, (Exception, str)) or result == []:
+                continue
+            if isinstance(result, dict):
+                processed_result = {
+                    "name": result["title"],
+                    "source": result["link"],
+                    "provider": ["Yelp"],
+                    "contacts": {
+                        "phone": [result["phone"]],
+                        "email": [],
+                        "address": ", ".join(result["location"])
+                    },
+                }
+                processed_results.append(processed_result)
+        return processed_results
 
     async def _search_google_business_details(self, place_id):
         """ """

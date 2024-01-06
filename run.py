@@ -176,11 +176,11 @@ async def main():
     except Exception as e:
         pass
 
-    location = "Kochi, Kerala"
+    location = "Oakland, CA"
     # prompt = input("\nEnter the search prompt: ").strip()
-    # prompt = "I want a good chef for my anniversary party for 50 people."
+    prompt = "I want a good chef for my anniversary party for 50 people."
     # prompt = "I need an internship in UC Davis in molecular biology this summer."
-    prompt = "I want a car for rent for a week."
+    # prompt = "I want a car for rent for a week."
     log.info(f"\nPrompt: {prompt}\n")
 
     process_start_time = time.time()
@@ -196,6 +196,10 @@ async def main():
     
     print(f"Sanitized Prompt: {sanitized_prompt}")
     search_client = Search(query=sanitized_prompt["search_query"],location=location, country_code="IN", timeout=23)
+    data = search_client.search_yelp()
+    data = search_client.process_yelp_data(data)
+    print(f"Yelp Data: {data}")
+    exit(0)
     response = await search_client.search_google_business()
 
     with open("src/log_data/maps.json", "w") as f:
@@ -203,7 +207,6 @@ async def main():
 
     processed_details = search_client.process_google_business_results(response)
     print(f"Extracted details: ${processed_details}")
-    exit(0)
     # search the web for the query
     google_search_results = search_web_google(
         sanitized_prompt["search_query"], GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, "IN"
