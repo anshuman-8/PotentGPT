@@ -94,15 +94,22 @@ async def stream_contacts_retrieval(
     )
     if "gmaps" in request_context.search_space:
         response = await search_client.search_google_business()
-        details = search_client.process_google_business_results(response)
-        log.info(f"\nGoogle Business Details: {details}\n")
-        yield details
+        if response is not None:
+            details = search_client.process_google_business_results(response)
+            log.info(f"\nGoogle Business Details: {details}\n")
+            yield details
+        else:
+            log.warning("Google Business data not used")
 
     if "yelp" in request_context.search_space:
         data = search_client.search_yelp()
-        data = search_client.process_yelp_data(data)
-        log.info(f"\nYelp Data: {data}\n")
-        yield data
+        if data is not None:
+            data = search_client.process_yelp_data(data)
+            log.info(f"\nYelp Data: {data}\n")
+            yield data
+        else:
+            log.warning("Yelp data not used")
+        
     
     async for response in retrieval_multithreading(data, request_context.prompt, request_context.solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10):
         yield response
