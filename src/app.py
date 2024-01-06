@@ -89,14 +89,20 @@ async def stream_contacts_retrieval(
     """
     Extract the contacts from the search results using LLM
     """
+    search_client = Search(
+        query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=23
+    )
     if "gmaps" in request_context.search_space:
-        search_client = Search(
-            query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=23
-        )
         response = await search_client.search_google_business()
         details = search_client.process_google_business_results(response)
         log.info(f"\nGoogle Business Details: {details}\n")
         yield details
+
+    if "yelp" in request_context.search_space:
+        data = search_client.search_yelp()
+        data = search_client.process_yelp_data(data)
+        log.info(f"\nYelp Data: {data}\n")
+        yield data
     
     async for response in retrieval_multithreading(data, request_context.prompt, request_context.solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10):
         yield response
