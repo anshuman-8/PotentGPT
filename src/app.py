@@ -10,6 +10,7 @@ from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
 from src.contactRetrieval import extract_contacts, retrieval_multithreading
 from src.search import Search
+from src.model import RequestContext
 from src.utils import process_api_json
 
 load_dotenv()
@@ -28,13 +29,13 @@ def process_search_results(results: List[str]) -> List[str]:
     return processed_results
 
 
-def search_query_extrapolate(id: str, prompt: str, location: str):
-    log.info(f"Prompt: {prompt}")
+def search_query_extrapolate(request_context: RequestContext):
+    log.info(f"Prompt: {request_context.prompt}")
     goal_solution = ""
     # sanitize the prompt
     try:
         sanitized_prompt = sanitize_search_query(
-            prompt, location=location, open_api_key=OPENAI_ENV
+            request_context.prompt, location=request_context.location, open_api_key=OPENAI_ENV
         )
         search_query = sanitized_prompt["search_query"]
         goal_solution = sanitized_prompt["solution"]
@@ -48,20 +49,19 @@ def search_query_extrapolate(id: str, prompt: str, location: str):
     return (search_query, goal_solution, search_space)
 
 
-async def extract_web_context(search_query, location: str, country_code: str):
+async def extract_web_context(request_context: RequestContext):
     """
     Extract the web context from the search results
     """
     search_client = Search(
-        query=search_query, location=location, country_code=country_code, timeout=5, yelp_search=False
+        query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=5, yelp_search=False
     )
 
     # get the search results
     web_results = await search_client.search_web()
-    # web_results, yelp_results, google_business_results = await search_client.search()
 
     # process the search links
-    refined_search_results = process_search_results(web_results[:14])
+    refined_search_results = process_search_results(web_results[:15])
     log.info(f"\nRefined Search Results: {refined_search_results}\n")
 
     # scrape the websites
@@ -84,31 +84,25 @@ async def extract_web_context(search_query, location: str, country_code: str):
 
 
 async def stream_contacts_retrieval(
-    id: str, data, prompt: str, search_query:str, location:str, country_code:str, solution:str, search_space, context_chunk_size: int = 5
+    request_context: RequestContext, data, context_chunk_size: int = 5
 ):
     """
     Extract the contacts from the search results using LLM
     """
-    if "gmaps" in search_space:
+    if "gmaps" in request_context.search_space:
         search_client = Search(
-            query=search_query, location=location, country_code=country_code, timeout=23
+            query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=23
         )
         response = await search_client.search_google_business()
-        place_ids = []
-        for result in response:
-            place_ids.append(result["place_id"])
-        details = await search_client.google_business_details(place_ids)
-        details = search_client.process_google_business_results(details)
+        details = search_client.process_google_business_results(response)
         log.info(f"\nGoogle Business Details: {details}\n")
         yield details
     
-    async for response in retrieval_multithreading(data, prompt, solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10):
+    async for response in retrieval_multithreading(data, request_context.prompt, request_context.solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10):
         yield response
 
 
 async def response_formatter(id:str, time, prompt:str, location:str, results, status="running", has_more:bool=True):
-
-    # result = results['results'] if results != [] else []
 
     response = {
         "id": str(id),

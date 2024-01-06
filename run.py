@@ -196,20 +196,12 @@ async def main():
     
     print(f"Sanitized Prompt: {sanitized_prompt}")
     search_client = Search(query=sanitized_prompt["search_query"],location=location, country_code="IN", timeout=23)
-    response = search_client.search_google_business()
-    print(f"Maps search: ${response}")
+    response = await search_client.search_google_business()
 
     with open("src/log_data/maps.json", "w") as f:
             json.dump((response), f)
 
-    # get list of place id from the maps search
-    place_ids = []
-    for result in response:
-        place_ids.append(result["place_id"])
-
-    # get the contact details from the place ids
-    extracted_details = await search_client.google_business_details(place_ids)
-    processed_details = search_client.process_google_business_results(extracted_details)
+    processed_details = search_client.process_google_business_results(response)
     print(f"Extracted details: ${processed_details}")
     exit(0)
     # search the web for the query
