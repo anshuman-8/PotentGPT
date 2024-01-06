@@ -35,8 +35,9 @@ class Search:
         self.do_yelp_search = yelp_search
         self.do_google_business_search = google_business_search
 
-
-    async def web_search_ranking(self, bing_search:dict | None, google_search:dict | None)-> dict:
+    async def web_search_ranking(
+        self, bing_search: dict | None, google_search: dict | None
+    ) -> dict:
         """
         This function takes the bing and google search results and returns a combined dictionary of all search links.
         """
@@ -44,32 +45,30 @@ class Search:
             return google_search
         elif not google_search:
             return bing_search
-        
+
         search_index = {}
 
-        for results, source in zip([google_search, bing_search], ['google', 'bing']):
+        for results, source in zip([google_search, bing_search], ["google", "bing"]):
             for result in results:
-                search_link = result['link']
+                search_link = result["link"]
 
                 if search_link in search_index:
-                    # Update the existing result with the new index
-                    search_index[search_link]['index'].append(result['index'])
-                    if source not in search_index[search_link]['source']:
-                        search_index[search_link]['source'].append(source)
+                    search_index[search_link]["index"].append(result["index"])
+                    if source not in search_index[search_link]["source"]:
+                        search_index[search_link]["source"].append(source)
                 else:
-                    # Add a new entry to the merged results
                     search_index[search_link] = {
-                        'index': [result['index']],
-                        'title': result['title'],
-                        'link': result['link'],
-                        'displayLink': result['displayLink'],
-                        'source': [source]
+                        "index": [result["index"]],
+                        "title": result["title"],
+                        "link": result["link"],
+                        "displayLink": result["displayLink"],
+                        "source": [source],
                     }
 
         final_result = list(search_index.values())
 
         # write to file
-        with open('src/log_data/search_index.json', 'w') as f:
+        with open("src/log_data/search_index.json", "w") as f:
             json.dump(final_result, f, indent=4)
 
         return final_result
@@ -160,7 +159,6 @@ class Search:
 
         return websites
 
-
     async def search_google(
         self,
         search_query: str,
@@ -239,7 +237,7 @@ class Search:
         else:
             log.error(f"Google search error: {data['error']['message']}")
             return None
-        
+
         return websites
 
     def search_yelp(
@@ -326,15 +324,14 @@ class Search:
         return data
 
     async def _search_google_business_details(self, place_id):
-        """
-        """
+        """ """
         t_flag1 = time.time()
         URL = "https://maps.googleapis.com/maps/api/place/details/json"
 
         params = {
-            'place_id': place_id,
-            'fields': 'name,formatted_address,formatted_phone_number,website',
-            'key': GOOGLE_MAPS_KEY,
+            "place_id": place_id,
+            "fields": "name,formatted_address,formatted_phone_number,website",
+            "key": GOOGLE_MAPS_KEY,
         }
         try:
             response = requests.get(URL, params=params)
@@ -343,54 +340,43 @@ class Search:
             log.error(f"Error on Google Maps Search request: {e}")
             return None
         t_flag2 = time.time()
-        log.info(f"Google Maps Business detail id: {place_id} search time: {t_flag2 - t_flag1}")
+        log.info(
+            f"Google Maps Business detail id: {place_id} search time: {t_flag2 - t_flag1}"
+        )
         results = response.json()
 
         return results
+    
 
     async def search_google_business(self):
         """
-
+        Search for the business using Google Maps API
         """
-        t_flag1= time.time()
+        t_flag1 = time.time()
         log.info(f"Starting google maps search")
-        URL = "https://maps.googleapis.com/maps/api/place/textsearch/json"
+        URL = "https://places.googleapis.com/v1/places:searchText"
 
-        params = {
-            'query': self.query,
-            'radius':5000,
-            'key': GOOGLE_MAPS_KEY,
+        headers = {
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": GOOGLE_MAPS_KEY,
+            "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.shortFormattedAddress,places.nationalPhoneNumber",
         }
+        data = {"textQuery": str(self.query)}
+
         try:
-            response = requests.get(URL, params=params)
+            response = requests.post(URL, json=data, headers=headers)
             response.raise_for_status()
         except Exception as e:
             log.error(f"Error on Google Maps Search request: {e}")
             return None
         t_flag2 = time.time()
-        log.debug(f"Google Maps search results: {response.json()}")
-        log.info(f"Google Maps search time: {t_flag2 - t_flag1}")
-        results = response.json().get('results', [])
+        results = response.json().get("places", [])
+        log.debug(f"Google Maps search results: {results}")
+        log.info(f"Google Maps search Complete; {len(results)} items, time: {t_flag2 - t_flag1}")
 
         return results
 
-    async def google_business_details(self, place_ids: List[str]):
-        """
-        Async function to fetch the details of the business from Google Maps
-        """
-        log.info(f"Starting Google Maps Details search for {place_ids}")
-        t_start = time.time()
-        tasks = [self._search_google_business_details(place_id) for place_id in place_ids]
-        try:
-            results = await asyncio.gather(*tasks, return_exceptions=True)
-        except Exception as e:
-            log.error(f"Error in gathering tasks: {e}")
-            results = []
 
-        t_end = time.time()
-        log.info(f"Google Maps Details search completed in {t_end - t_start} seconds")
-        return results
-    
     def process_google_business_results(self, results: List[dict]):
         """
         Formats the results from Google Maps API
@@ -399,21 +385,19 @@ class Search:
         for result in results:
             if result == None or isinstance(result, (Exception, str)) or result == []:
                 continue
-            if isinstance(result, dict) and 'result' in result:
-                result = result['result']
+            if isinstance(result, dict):
                 processed_result = {
-                    'name': result.get('name', ''),
-                    'source': result.get('website', ''),
-                    'provider': ['Google Maps'],
-                    'contacts': {
-                        'phone': [result.get('formatted_phone_number', '')],
-                        'email': [],
-                        'address': result.get('formatted_address', '')
-                    }
+                    "name": result["displayName"].get("text", ""),
+                    "source": result.get("websiteUri", ""),
+                    "provider": ["Google Maps"],
+                    "contacts": {
+                        "phone": [result.get("internationalPhoneNumber", "")],
+                        "email": [],
+                        "address": result.get("formattedAddress", ""),
+                    },
                 }
                 processed_results.append(processed_result)
         return processed_results
-        
 
     async def search_web(self):
         """
@@ -430,14 +414,13 @@ class Search:
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
         google_results, bing_results = results
-        
+
         log.info(f"Google search results: {google_results}")
         log.info(f"Bing search results: {bing_results}")
 
         # Merge the search results
         search_results = await self.web_search_ranking(bing_results, google_results)
         log.info(f"Web search results: {search_results}")
-
 
         t_flag2 = time.time()
         log.warning(f"Web search completed in {t_flag2 - t_flag1} seconds")
