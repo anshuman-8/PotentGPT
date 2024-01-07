@@ -140,8 +140,8 @@ class Search:
         log.info(f"Bing search time: {t_flag2 - t_flag1}")
 
         # write it to a file
-        with open("src/log_data/bing.json", "w") as f:
-            json.dump(data, f)
+        # with open("src/log_data/bing.json", "w") as f:
+        #     json.dump(data, f)
 
         if "error" not in data.keys():
             websites = [

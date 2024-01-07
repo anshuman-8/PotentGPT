@@ -8,9 +8,9 @@ from typing import Iterator, List
 LOG_FILES = False
 
 SYS_PROMPT = """Extract all contact details from context, aiming to assist user's question in finding right service providers or vendors. Response should be according to the solution given accurate to the context.
-The response should strictly adhere to the JSON list format: ["results":{"contacts": {"email": "Email of the vendor","phone": ["Phone number of the vendor"],"address": "Address of the vendor"}, "name": "Name and description of the service provider", "source": "Source Link of the information","provider":["Source from "Google", "Bing" or both"]},{...}].
-Ensure all contacts in the context are filled; use empty list if absent. Avoid providing incorrect or invald contact details. Present phone numbers and emails in a direct, usable format(no helper words). If contact info is unavailable, omit the service provider without stating "Not available."
-\nExample response (Only as an exmple format, data not to be used) : \n["results":{ "contacts": {"email": ["oakland@onetoyota.com"],"phone": ["510-281-8909", "510-281-8910"],"address": "8181 Oakport St. Oakland, CA 94621"}, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "source": "https://www.onetoyota.com/","provider":["Google", "Bing"]}]\n"""
+The response should strictly adhere to the JSON format: ["results":{"contacts": {"email": "Email of the vendor","phone": ["Phone number of the vendor"],"address": "Address of the vendor"}, "name": "Name and description of the service provider", "source": "Source Link of the information","provider":["Source from "Google", "Bing" or both"]},{...}].
+Ensure all contacts in the context are filled; use empty list if absent. Avoid providing incorrect or invald contact details. Present phone numbers and emails in a direct, usable format(no helper words). If any contact info is unavailable, just omit the service provider without stating "Not available."
+\nExample response (Only as an exmple format, data not to be used) : \n["results":{ "contacts": {"email": ["oakland@onetoyota.com"],"phone": ["+1510-281-8909", "+1510-281-8910"],"address": "8181 Oakport St. Oakland, CA 94621"}, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "source": "https://www.onetoyota.com/","provider":["Google", "Bing"]}]\n"""
 
 
 def gpt_cost_calculator(

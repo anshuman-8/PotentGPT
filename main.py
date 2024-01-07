@@ -41,6 +41,11 @@ async def stream_response(request_context:RequestContext, data:List[dict]):
     
     final_response = await response_formatter(request_context.id, (end_time - request_context.start_time), request_context.prompt, request_context.location, request_context.contacts, status="completed", has_more=False)
     log.info(f"\nStreaming Final Response: {final_response}")
+    
+    date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+    with open(f"response-logs/{date}.json", "w") as f:
+        f.write(str(final_response))
+
     yield final_response
 
 
@@ -51,20 +56,10 @@ async def probe(
     location: str | None = "",
     country_code: str | None = "US",
 ) -> ApiResponse | ErrorResponseModel:
-    
-    if prompt is None or not prompt.strip():
-        log.error(f"No prompt provided")
-        raise HTTPException(status_code=400, detail="prompt needed!")
-    if location is None or not location.strip():
-        log.error(f"Location not provided")
-        raise HTTPException(status_code=400, detail="location needed!")
 
     ID = uuid.uuid4()
-    start_time = time.time()
     timestamp = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
     print(ID)
-
-    request_context = RequestContext(str(ID), prompt, location, country_code)
 
     log.basicConfig(
         filename=f"logs/{ID}.log",
@@ -72,6 +67,16 @@ async def probe(
         format="%(name)s - %(levelname)s - %(message)s",
         level=log.INFO,
     )
+
+    if prompt is None or not prompt.strip():
+        log.error(f"No prompt provided")
+        raise HTTPException(status_code=400, detail="prompt needed!")
+    if location is None or not location.strip():
+        log.error(f"Location not provided")
+        raise HTTPException(status_code=400, detail="location needed!")
+    
+    request_context = RequestContext(str(ID), prompt, location, country_code)
+
     log.info(f"Request: {prompt}, {location}, {country_code}")
     log.info(f"Request from: {request.client.host}")
     log.info(f"Total Time: {timestamp}")

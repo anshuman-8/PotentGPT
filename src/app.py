@@ -78,7 +78,8 @@ async def extract_web_context(request_context: RequestContext):
 
     if len(context_data) == 0:
         log.error("No relevant data extracted")
-        raise Exception("No relevant data extracted!")
+        return []
+        # raise Exception("No relevant data extracted!")
     return context_data
 
 
@@ -93,20 +94,20 @@ async def stream_contacts_retrieval(
         query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=23
     )
     if "gmaps" in request_context.search_space:
-        response = await search_client.search_google_business()
-        if response is not None:
-            details = search_client.process_google_business_results(response)
-            log.info(f"\nGoogle Business Details: {details}\n")
-            yield details
+        response_gmaps = await search_client.search_google_business()
+        if response_gmaps is not None:
+            details_gmaps = search_client.process_google_business_results(response_gmaps)
+            log.info(f"\nGoogle Business Details: {details_gmaps}\n")
+            yield details_gmaps
         else:
             log.warning("Google Business data not used")
 
     if "yelp" in request_context.search_space:
-        data = search_client.search_yelp()
-        if data is not None:
-            data = search_client.process_yelp_data(data)
-            log.info(f"\nYelp Data: {data}\n")
-            yield data
+        response_yelp = search_client.search_yelp()
+        if response_yelp is not None:
+            details_yelp = search_client.process_yelp_data(response_yelp)
+            log.info(f"\nYelp Data: {details_yelp}\n")
+            yield details_yelp
         else:
             log.warning("Yelp data not used")
         

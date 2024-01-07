@@ -1,0 +1,367 @@
+{
+    "id": "327fc22d-caab-47d1-8482-49a939a71214",
+    "has_more": false,
+    "prompt": "I need a car for rent for a week",
+    "location": "Oakland, CA",
+    "time": 59,
+    "count": 27,
+    "results": [
+        {
+            "name": "Avis Car Rental",
+            "source": "https://www.avis.com/en/locations/us/ca/oakland/ok8",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-835-2910"
+                ],
+                "address": "2428 Webster St, Oakland, CA 94612, USA"
+            }
+        },
+        {
+            "name": "Long Term Car Rental Oakland",
+            "source": "https://carrental.tours/car-rental/usa-oakland?utm_campaign=0&utm_medium=02&utm_source=map",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [],
+                "address": "1106 5th Ave, Oakland, CA 94606, USA"
+            }
+        },
+        {
+            "name": "Rent A Car Airport Oakland",
+            "source": "https://car24.top/car-rental/usa-oakland-airport-oak",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [],
+                "address": "7480 Earhart Rd, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Enterprise Rent-A-Car",
+            "source": "https://www.enterprise.com/en/car-rental-locations/us/ca/oakland-downtown-2315.html?mcid=yext:245709",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-893-7000"
+                ],
+                "address": "3030 Broadway, Oakland, CA 94611, USA"
+            }
+        },
+        {
+            "name": "National Car Rental",
+            "source": "https://www.nationalcar.com/en/car-rental/locations/us/ca/oakland-international-airport-23n4.html?mcid=yext:245709",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "833-659-1912"
+                ],
+                "address": "7600 Earhart Rd, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Enterprise Rent-A-Car",
+            "source": "https://www.enterprise.com/en/car-rental-locations/us/ca/oakland-san-leandro-238c.html?mcid=yext:245709",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-638-8600"
+                ],
+                "address": "165 98th Ave, Oakland, CA 94603, USA"
+            }
+        },
+        {
+            "name": "Enterprise Rent-A-Car",
+            "source": "https://www.enterprise.com/en/car-rental-locations/us/ca/oakland-embarcadero-2389.html?mcid=yext:245709",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-532-0444"
+                ],
+                "address": "25 Embarcadero, Oakland, CA 94606, USA"
+            }
+        },
+        {
+            "name": "Budget Car Rental",
+            "source": "https://www.budget.com/en/locations/us/ca/oakland/oak",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-729-5021"
+                ],
+                "address": "7600 Earhart Rd, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Brandons Rentals Car",
+            "source": "",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [],
+                "address": "8181 Oakport St, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Budget Car Rental",
+            "source": "",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-733-9590"
+                ],
+                "address": "121 98th Ave, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Hertz Car Rental - Oakland International Airport",
+            "source": "https://www.hertz.com/us/en/location/unitedstates/california/oakland/oakt12?utm_campaign=gmb-Hertz-Car-Rental---Oakland-International-Airport-&utm_medium=gmb-websitelink&utm_source=Google",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-633-4300"
+                ],
+                "address": "7600 Earhart Rd SUITE 1, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Hertz Car Rental - Oakland Marriott HLE",
+            "source": "https://www.hertz.com/us/en/location/unitedstates/california/oakland/oakc18?utm_campaign=gmb-Hertz-Car-Rental---Oakland-Marriott-HLE&utm_medium=gmb-websitelink&utm_source=Google",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-451-3807"
+                ],
+                "address": "1001 Broadway, Oakland, CA 94607, USA"
+            }
+        },
+        {
+            "name": "Thrifty Car Rental - Oakland International Airport",
+            "source": "https://www.thrifty.com/us/en/location/unitedstates/california/oakland/oak?utm_campaign=gmb-Thrifty-Car-Rental---Oakland-International-Airport-&utm_medium=gmb-websitelink&utm_source=Google",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "877-283-0898"
+                ],
+                "address": "International Airport, 7600 Earhart Rd, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Rent-A-Relic",
+            "source": "http://www.rentarelic.com/",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-601-6560"
+                ],
+                "address": "5501 Telegraph Ave, Oakland, CA 94609, USA"
+            }
+        },
+        {
+            "name": "Fox Rent A Car Oakland",
+            "source": "https://www.foxrentacar.com/en/locations/united-states/california/oakland-airport.html?utm_campaign=localmaps&utm_content=OAK&utm_medium=local&utm_source=google",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-254-4410"
+                ],
+                "address": "7660 Earhart Rd, Oakland, CA 94603, USA"
+            }
+        },
+        {
+            "name": "Hertz Car Rental - Oakland - Jsx (private Flights Only)",
+            "source": "https://www.hertz.com/us/en/location/unitedstates/california/oakland/oakc12?utm_campaign=gmb-Hertz-Car-Rental---Oakland---Jsx--private-Flights-Only--&utm_medium=gmb-websitelink&utm_source=Google",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-398-9281"
+                ],
+                "address": "9351 Earhart Rd, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Airport Rent A Car",
+            "source": "",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-553-1500"
+                ],
+                "address": "8105 Edgewater Dr, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Rental Car Center",
+            "source": "https://rentacar.center/car-rental/usa-oakland",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-563-3300"
+                ],
+                "address": "7600 Earhart Rd, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "Hertz Car Rental - Oakland - Kaiser Air (private Flights Only)",
+            "source": "https://www.hertz.com/us/en/location/unitedstates/california/oakland/oakc06?utm_campaign=gmb-Hertz-Car-Rental---Oakland---Kaiser-Air--private-Flights-Only--&utm_medium=gmb-websitelink&utm_source=Google",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-633-4300"
+                ],
+                "address": "8735 Earhart Rd, Oakland, CA 94621, USA"
+            }
+        },
+        {
+            "name": "SUV Rental Oakland",
+            "source": "https://carrental.tours/car-rental/usa-oakland-suv?utm_campaign=0&utm_medium=06&utm_source=map",
+            "provider": [
+                "Google Maps"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "209-457-7016"
+                ],
+                "address": "815 Alice St, Oakland, CA 94607, USA"
+            }
+        },
+        {
+            "name": "Enterprise Rent-A-Car Oakland",
+            "source": "https://www.enterprise.com/en/car-rental-locations/us/ca/oakland.html",
+            "provider": [
+                "Google",
+                "Bing"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [],
+                "address": "Oakland, CA"
+            }
+        },
+        {
+            "name": "Enterprise Rent-A-Car",
+            "source": "https://www.enterprise.com/en/car-rental-locations/us/ca/oakland.html",
+            "provider": [
+                "Google",
+                "Bing"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [],
+                "address": "Address not available"
+            }
+        },
+        {
+            "name": "Enterprise Rent-A-Car",
+            "source": "https://www.enterprise.com/en/car-rental-locations/us/ca/oakland.html",
+            "provider": [
+                "Google",
+                "Bing"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-893-2006"
+                ],
+                "address": "7600 Earhart Rd, Oakland, CA 94621"
+            }
+        },
+        {
+            "name": "Budget Car Rental",
+            "source": "https://www.budget.com/en/locations/us/ca/oakland/qc7",
+            "provider": [
+                "Google"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "800-472-3325",
+                    "800-314-3932"
+                ],
+                "address": "2428 Webster St, Oakland, CA, California, 94612, United States"
+            }
+        },
+        {
+            "name": "Avis Car Rental",
+            "source": "https://www.budget.com/en/locations/us/ca/oakland/qc7",
+            "provider": [
+                "Google"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [
+                    "510-272-9626"
+                ],
+                "address": "2428 Webster St, Oakland, CA, California, 94612, United States"
+            }
+        },
+        {
+            "name": "Enterprise Rent-A-Car",
+            "source": "https://www.enterprise.com/en/car-rental-locations/us/ca/oakland.html",
+            "provider": [
+                "Google",
+                "Bing"
+            ],
+            "contacts": {
+                "email": [],
+                "phone": [],
+                "address": "Not available"
+            }
+        }
+    ]
+}
