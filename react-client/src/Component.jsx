@@ -19,7 +19,7 @@ const Component = () => {
 
     setLoading(true);
     try {
-      const url = `http://127.0.0.1:8000/static/?prompt=${pro}&location=${loc}&country_code=${cou}`;
+      const url = `http://52.87.226.136:5000/static/?prompt=${pro}&location=${loc}&country_code=${cou}`;
       const response = await fetch(url, {
         method: "GET",
       });
@@ -71,7 +71,7 @@ const Component = () => {
 
           <div className="flex flex-col w-1/6 ">
             <label htmlFor="country" className="text-sm mb-1">
-              Country:
+              Country Code:
             </label>
             <input
               id="country"
@@ -86,7 +86,7 @@ const Component = () => {
 
         <div>
           <button
-            className="border py-4 px-6 mt-2 text-lg"
+            className="border py-3 px-6 mt-2 text-lg"
             onClick={handleSearch}
           >
             {loading ? "Searching.." : "Search"}

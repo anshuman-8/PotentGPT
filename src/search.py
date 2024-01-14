@@ -16,7 +16,7 @@ BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
 ## --- Alert ---
-LOG_FILES = True # Set to True to log the results to files
+LOG_FILES = False # Set to True to log the results to files
 
 class Search:
     def __init__(

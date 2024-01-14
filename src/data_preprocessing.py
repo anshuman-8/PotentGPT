@@ -9,7 +9,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from src.utils import create_documents, document_regex_sub, document2map
 
-LOG_FILES = True
+LOG_FILES = False
 
 def preprocess_text(docs: Document) -> Dict:
     """
