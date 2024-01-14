@@ -124,7 +124,7 @@ def process_api_json(response):
             "prompt": response.get("prompt", ""),
             "location": response.get("location", ""),
             "time": response.get("time", 0),
-            "count": response.get("count", 0),
+            "count": len(processed_results),
             "results": processed_results,
         }
     except Exception as e:

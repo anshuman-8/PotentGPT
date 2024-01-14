@@ -8,9 +8,9 @@ from typing import Iterator, List
 LOG_FILES = False
 
 SYS_PROMPT = """Extract all contact details from context, aiming to assist user's question in finding right service providers or vendors. Response should be according to the solution given accurate to the context.
-The response should strictly adhere to the JSON format: ["results":{"contacts": {"email": "Email of the vendor","phone": ["Phone number of the vendor"],"address": "Address of the vendor"}, "name": "Name and description of the service provider", "source": "Source Link of the information","provider":["Source from "Google", "Bing" or both"]},{...}].
+The response should strictly adhere to the JSON format: ["results":{"contacts": {"email": "Email of the vendor","phone": ["Phone number of the vendor"],"address": "Address of the vendor"}, "name": "Name and description of the service provider","info":"Describe the service provider and there service in 30-50 words" "source": "Source Link of the information","provider":["Source from "Google", "Bing" or both"]},{...}].
 Ensure all contacts in the context are filled; use empty list if absent. Avoid providing incorrect or invald contact details. Present phone numbers and emails in a direct, usable format(no helper words). If any contact info is unavailable, just omit the service provider without stating "Not available."
-\nExample response (Only as an exmple format, data not to be used) : \n["results":{ "contacts": {"email": ["oakland@onetoyota.com"],"phone": ["+1510-281-8909", "+1510-281-8910"],"address": "8181 Oakport St. Oakland, CA 94621"}, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "source": "https://www.onetoyota.com/","provider":["Google", "Bing"]}]\n"""
+\nExample response (Only as an exmple format, data not to be used) : \n["results":{ "contacts": {"email": ["oakland@onetoyota.com"],"phone": ["+1510-281-8909", "+1510-281-8910"],"address": "8181 Oakport St. Oakland, CA 94621"}, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "info":"One Toyota of Oakland offers a diverse selection of both new and pre-owned vehicles, prioritizing customer satisfaction with attentive service. They provide competitive pricing, efficient car care, and personalized financing solutions, ensuring a seamless automotive experience.", "source": "https://www.onetoyota.com/","provider":["Google", "Bing"]}]\n"""
 
 
 def gpt_cost_calculator(
@@ -170,7 +170,7 @@ async def retrieval_multithreading(
     for completed_task in asyncio.as_completed(llm_threads):
         try:
             result = await completed_task
-            result = result['results'] if result != [] else []
+            result = result["results"] if result != [] else []
             yield result
         except Exception as e:
             log.error(f"Error in task: {e}")
@@ -178,7 +178,7 @@ async def retrieval_multithreading(
     log.info(f"OpenAI task completed")
 
 
-## ------------------------ OLD ------------------------ ##
+## ------------------------ Static Old ------------------------ ##
 
 
 def extract_contacts(
@@ -193,7 +193,6 @@ def extract_contacts(
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-1106",
         timeout=timeout,
-        # temperature=0.1,
         response_format={"type": "json_object"},
         messages=[
             {
@@ -224,3 +223,49 @@ def extract_contacts(
         json_response = {}
 
     return json_response
+
+
+async def static_retrieval_multithreading(
+    data,
+    prompt: str,
+    solution: str | None,
+    open_ai_key: str,
+    context_chunk_size: int = 5,
+    max_thread: int = 5,
+    timeout: int = 10,
+) -> json:
+    """
+    Creates multiple LLM calls
+    """
+    # Divide the data into chunks of size chunk_size
+    data_chunks = [
+        data[i : i + context_chunk_size]
+        for i in range(0, len(data), context_chunk_size)
+    ]
+    data_chunks = data_chunks[:max_thread]
+
+    log.warning(f"Starting openai async fetch. Data Chunk length :{len(data_chunks)}\n")
+    try:
+        llm_threads = []
+        client = AsyncOpenAI(api_key=open_ai_key, max_retries=0)
+
+        for thread_id, chunk in enumerate(data_chunks):
+            task = extract_thread_contacts(
+                thread_id + 1, chunk, prompt, solution, client
+            )
+            llm_threads.append(task)
+
+        results = await asyncio.gather(*llm_threads)
+        results = [
+            contact
+            for result in results
+            if result != []
+            for contact in result["results"]
+        ]
+
+        log.info(f"OpenAI task completed")
+        return results
+
+    except Exception as e:
+        log.error(f"Error in async open ai: {e}")
+        return b"[]"

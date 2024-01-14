@@ -8,7 +8,7 @@ from fastapi import HTTPException
 from src.sanitize_query import sanitize_search_query
 from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
-from src.contactRetrieval import extract_contacts, retrieval_multithreading
+from src.contactRetrieval import extract_contacts, retrieval_multithreading, static_retrieval_multithreading
 from src.search import Search
 from src.model import RequestContext
 from src.utils import process_api_json
@@ -21,7 +21,7 @@ def process_search_results(results: List[str]) -> List[str]:
     """
     Process the search links to remove the unwanted links
     """
-    avoid_links = ["instagram", "facebook", "twitter", "youtube", "makemytrip", "linkedin", "justdial"]
+    avoid_links = ["instagram", "facebook", "twitter", "youtube", "makemytrip", "linkedin", "justdial", "yelp"]
     processed_results = []
     for result in results:
         if not any(avoid_link in result["link"] for avoid_link in avoid_links):
@@ -73,7 +73,7 @@ async def extract_web_context(request_context: RequestContext):
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data = process_data_docs(extracted_content, 400)
+    context_data = process_data_docs(extracted_content, 900)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     if len(context_data) == 0:
@@ -103,7 +103,7 @@ async def stream_contacts_retrieval(
             log.warning("Google Business data not used")
 
     if "yelp" in request_context.search_space:
-        response_yelp = search_client.search_yelp()
+        response_yelp = await search_client.search_yelp()
         if response_yelp is not None:
             details_yelp = search_client.process_yelp_data(response_yelp)
             log.info(f"\nYelp Data: {details_yelp}\n")
@@ -112,8 +112,47 @@ async def stream_contacts_retrieval(
             log.warning("Yelp data not used")
         
     
-    async for response in retrieval_multithreading(data, request_context.prompt, request_context.solution, OPENAI_ENV, context_chunk_size, max_thread=5, timeout=10):
+    async for response in retrieval_multithreading(data, request_context.prompt, request_context.solution, OPENAI_ENV, context_chunk_size=2, max_thread=8, timeout=10):
         yield response
+
+
+async def static_contacts_retrieval(
+    request_context: RequestContext, data, context_chunk_size: int = 5
+):
+    """
+    Extract the contacts from the search results using LLM
+    """
+    results = []
+
+    search_client = Search(
+        query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=23
+    )
+    if "gmaps" in request_context.search_space:
+        response_gmaps = await search_client.search_google_business()
+        if response_gmaps is not None:
+            details_gmaps = await search_client.process_google_business_results(response_gmaps)
+            log.info(f"\nGoogle Business Details: {details_gmaps}\n")
+            # return details_gmaps
+            results = results + details_gmaps
+        else:
+            log.warning("Google Business data not used")
+
+    if "yelp" in request_context.search_space:
+        response_yelp = await search_client.search_yelp()
+        if response_yelp is not None:
+            details_yelp = search_client.process_yelp_data(response_yelp)
+            log.info(f"\nYelp Data: {details_yelp}\n")
+            # return details_yelp
+            results = results + details_yelp
+        else:
+            log.warning("Yelp data not used")
+        
+    
+    # OpenAI response
+    web_result = await static_retrieval_multithreading(data, request_context.prompt, request_context.solution, OPENAI_ENV, context_chunk_size=2, max_thread=8, timeout=10)
+    results = results + web_result
+    return results
+
 
 
 async def response_formatter(id:str, time, prompt:str, location:str, results, status="running", has_more:bool=True):
@@ -129,8 +168,7 @@ async def response_formatter(id:str, time, prompt:str, location:str, results, st
         "results": results,
     }
 
-    response = process_api_json(response)
-
-    json_response = json.dumps(response).encode('utf-8', errors="replace")
+    # response = process_api_json(response)
+    json_response = json.dumps(response).strip().encode('utf-8', errors="replace")
 
     return json_response

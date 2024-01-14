@@ -15,6 +15,8 @@ GOOGLE_MAPS_KEY = os.getenv("GOOGLE_MAPS_KEY")
 BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
+## --- Alert ---
+LOG_FILES = True # Set to True to log the results to files
 
 class Search:
     def __init__(
@@ -139,9 +141,9 @@ class Search:
         t_flag2 = time.time()
         log.info(f"Bing search time: {t_flag2 - t_flag1}")
 
-        # write it to a file
-        # with open("src/log_data/bing.json", "w") as f:
-        #     json.dump(data, f)
+        if LOG_FILES:
+            with open("src/log_data/bing.json", "w") as f:
+                json.dump(data, f)
 
         if "error" not in data.keys():
             websites = [
@@ -237,14 +239,18 @@ class Search:
         else:
             log.error(f"Google search error: {data['error']['message']}")
             return None
+        
+        if LOG_FILES:
+            with open("src/log_data/google.json", "w") as f:
+                json.dump(data, f)
 
         return websites
 
-    def search_yelp(
+    async def search_yelp(
         self,
         lat: int = None,
         lon: int = None,
-        search_limit: int = 10,
+        search_limit: int = 20,
         yelp_api_key: str = None,
     ):
         """
@@ -285,6 +291,7 @@ class Search:
             "term": search_term.replace(" ", "+"),
             "location": location.replace(" ", "+"),
             "limit": search_limit,
+            "sort_by": "rating"
         }
 
         if lat and lon:
@@ -299,6 +306,10 @@ class Search:
 
             data = response.json()
             t_flag2 = time.time()
+
+            if LOG_FILES:
+                with open("src/log_data/yelp.json", "w") as f:
+                    json.dump(data, f)
 
             data = [
                 {
@@ -315,6 +326,7 @@ class Search:
         except Exception as e:
             log.error(f"Error on Yelp Search request: {e}")
             return None
+        
 
         return data
     
@@ -338,10 +350,16 @@ class Search:
                     },
                 }
                 processed_results.append(processed_result)
+
+        if LOG_FILES:
+            with open("src/log_data/yelp_processed.json", "w") as f:
+                json.dump(processed_results, f, indent=4)
         return processed_results
 
     async def _search_google_business_details(self, place_id):
-        """ """
+        """ 
+        Search for the business details using Google Maps API, given the place_id
+        """
         t_flag1 = time.time()
         URL = "https://maps.googleapis.com/maps/api/place/details/json"
 

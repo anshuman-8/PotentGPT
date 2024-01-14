@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Guitar Center",
+        "source": "https://www.yelp.com/biz/guitar-center-santa-clara?adjust_creative=RbHAajSUNYKtX3IC6wzFGQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=RbHAajSUNYKtX3IC6wzFGQ",
+        "provider": [
+            "Yelp"
+        ],
+        "contacts": {
+            "phone": [
+                "+14082490455"
+            ],
+            "email": [],
+            "address": "3677 Stevens Creek Blvd, Santa Clara, CA 95051"
+        }
+    }
+]
