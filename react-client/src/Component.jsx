@@ -8,7 +8,7 @@ const Component = () => {
   );
   const [location, setLocation] = useState("Santa Clara, CA");
   const [country, setCountry] = useState("US");
-  const [response, setResponse] = useState([]);
+  const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(false);
   const [vendors, setVendors] = useState([]);
 
@@ -19,7 +19,7 @@ const Component = () => {
 
     setLoading(true);
     try {
-      const url = `http://52.87.226.136:5000/static/?prompt=${pro}&location=${loc}&country_code=${cou}`;
+      const url = `http://127.0.0.1:8000/static/?prompt=${pro}&location=${loc}&country_code=${cou}`;
       const response = await fetch(url, {
         method: "GET",
       });
@@ -33,7 +33,6 @@ const Component = () => {
       setLoading(false);
     }
     setLoading(false);
-    // setResponse(data.response.groups[0].items)
   };
 
   return (
@@ -86,19 +85,36 @@ const Component = () => {
 
         <div>
           <button
-            className="border py-3 px-6 mt-2 text-lg"
+            className={`border py-3 px-6 mt-2 text-lg ${
+              loading
+                ? "cursor-not-allowed opacity-50"
+                : "hover:bg-slate-500 hover:text-white"
+            }`}
             onClick={handleSearch}
+            disabled={loading}
           >
-            {loading ? "Searching.." : "Search"}
+            {loading ? (
+              <div className="flex items-center">
+                <div className="animate-spin h-4 w-4 border-t-2 border-slate-800 border-solid rounded-full mr-2"></div>
+                Searching...
+              </div>
+            ) : (
+              "Search"
+            )}
           </button>
         </div>
       </div>
-      <Details
-        prompt={response.prompt}
-        id={response.id}
-        time={response.time}
-        count={response.count}
-      />
+      {Object.keys(response).length > 0 && (
+        <Details
+          prompt={response.prompt}
+          id={response.id}
+          time={response.meta.time}
+          count={response.count}
+          query={response.meta.search_query}
+          solution={response.meta.solution}
+          searchSpace={response.meta.search_space}
+        />
+      )}
       {/* Grid of cards */}
       <div className="grid grid-cols-4 gap-4">
         {vendors.length > 0 ? (

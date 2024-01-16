@@ -3,9 +3,9 @@
         "index": [
             0
         ],
-        "title": "Violin Teacher Tim Yip",
-        "link": "http://timyipviolin.com/",
-        "displayLink": "timyipviolin.com",
+        "title": "Piano, Guitar and Violin Lessons at our Bay Area Music School",
+        "link": "https://www.thecaliforniaconservatory.com/",
+        "displayLink": "www.thecaliforniaconservatory.com",
         "source": [
             "google"
         ]
@@ -14,9 +14,9 @@
         "index": [
             1
         ],
-        "title": "Piano, Guitar and Violin Lessons at our Bay Area Music School",
-        "link": "https://www.thecaliforniaconservatory.com/",
-        "displayLink": "www.thecaliforniaconservatory.com",
+        "title": "Violin Teacher Tim Yip",
+        "link": "http://timyipviolin.com/",
+        "displayLink": "timyipviolin.com",
         "source": [
             "google"
         ]
@@ -36,17 +36,6 @@
         "index": [
             3
         ],
-        "title": "Suzuki Method - Violin Lessons For Santa Clara & Redwood City",
-        "link": "https://www.thecaliforniaconservatory.com/suzuki-program/",
-        "displayLink": "www.thecaliforniaconservatory.com",
-        "source": [
-            "google"
-        ]
-    },
-    {
-        "index": [
-            4
-        ],
         "title": "25 Highest Rated Violin Tutors Near San Jose, CA",
         "link": "https://www.wyzant.com/San_Jose_CA_violin_lessons.aspx",
         "displayLink": "www.wyzant.com",
@@ -56,7 +45,7 @@
     },
     {
         "index": [
-            5
+            4
         ],
         "title": "Faculty and Staff - College of Arts and Sciences - Santa Clara ...",
         "link": "https://www.scu.edu/cas/music/faculty-and-staff/",
@@ -67,7 +56,7 @@
     },
     {
         "index": [
-            6
+            5
         ],
         "title": "Santa Clara,California : Heather Hunter is a passionate violin ...",
         "link": "https://www.superprof.com/heather-hunter-passionate-violin-teacher-with-eight-years-experience-graduate-the-university-south-carolina-violin.html",
@@ -78,7 +67,7 @@
     },
     {
         "index": [
-            7
+            6
         ],
         "title": "Find a Suzuki Teacher | Suzuki Association of the Americas",
         "link": "https://suzukiassociation.org/find-a-suzuki-teacher/?do=directory&zip=95051",
@@ -89,7 +78,7 @@
     },
     {
         "index": [
-            8
+            7
         ],
         "title": "Music Teacher Jobs, Employment in Santa Clara, CA | Indeed.com",
         "link": "https://www.indeed.com/q-music-teacher-l-santa-clara,-ca-jobs.html",
@@ -100,11 +89,22 @@
     },
     {
         "index": [
-            9
+            8
         ],
         "title": "Looking for violin teachers in the San Francisco/Bay Area",
         "link": "https://www.violinist.com/discussion/archive/27269/",
         "displayLink": "www.violinist.com",
+        "source": [
+            "google"
+        ]
+    },
+    {
+        "index": [
+            9
+        ],
+        "title": "Veksler Academy of Music & Dance | Premier Piano, Voice, Guitar ...",
+        "link": "https://www.veksleracademy.com/",
+        "displayLink": "www.veksleracademy.com",
         "source": [
             "google"
         ]
@@ -146,9 +146,9 @@
         "index": [
             3
         ],
-        "title": "Violin Lessons in Santa Clara CA - Musika Music Teachers",
-        "link": "https://www.musikalessons.com/violin-lessons-santa-clara-ca",
-        "displayLink": "https://www.musikalessons.com/violin-lessons-santa-clara-ca",
+        "title": "Violin Lessons & Private Teachers Near Santa Clara, CA | In-home ...",
+        "link": "https://takelessons.com/ca/santa-clara/violin-lessons",
+        "displayLink": "https://takelessons.com/ca/santa-clara/violin-lessons",
         "source": [
             "bing"
         ]
@@ -157,9 +157,9 @@
         "index": [
             4
         ],
-        "title": "Violin Lessons & Private Teachers Near Santa Clara, CA | In-home ...",
-        "link": "https://takelessons.com/ca/santa-clara/violin-lessons",
-        "displayLink": "https://takelessons.com/ca/santa-clara/violin-lessons",
+        "title": "Violin Lessons in Santa Clara CA - Musika Music Teachers",
+        "link": "https://www.musikalessons.com/violin-lessons-santa-clara-ca",
+        "displayLink": "https://www.musikalessons.com/violin-lessons-santa-clara-ca",
         "source": [
             "bing"
         ]
@@ -190,20 +190,9 @@
         "index": [
             7
         ],
-        "title": "The 10 best intermediate violin instructors in Santa Clara, CA ...",
-        "link": "https://crackerjack.app/ca/santa-clara/lessons-tutoring/intermediate-violin-lessons",
-        "displayLink": "https://crackerjack.app/ca/santa-clara/lessons-tutoring/intermediate-violin-lessons",
-        "source": [
-            "bing"
-        ]
-    },
-    {
-        "index": [
-            8
-        ],
-        "title": "Best Violin Classes near Santa Clara, CA - UrbanPro",
-        "link": "https://www.urbanpro.com/usa/ca-santa-clara/violin-classes",
-        "displayLink": "https://www.urbanpro.com/usa/ca-santa-clara/violin-classes",
+        "title": "Private Music Lessons in Santa Clara CA USA | Music Teachers Directory",
+        "link": "https://musicteachersdirectory.org/USA/CA/Santa-Clara-Music-Teachers-California-Music-Lessons",
+        "displayLink": "https://musicteachersdirectory.org/USA/CA/Santa-Clara-Music-Teachers-California-Music...",
         "source": [
             "bing"
         ]

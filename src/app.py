@@ -8,7 +8,11 @@ from fastapi import HTTPException
 from src.sanitize_query import sanitize_search_query
 from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
-from src.contactRetrieval import extract_contacts, retrieval_multithreading, static_retrieval_multithreading
+from src.contactRetrieval import (
+    extract_contacts,
+    retrieval_multithreading,
+    static_retrieval_multithreading,
+)
 from src.search import Search
 from src.model import RequestContext
 from src.utils import process_api_json
@@ -17,11 +21,21 @@ load_dotenv()
 
 OPENAI_ENV = os.getenv("OPENAI_API_KEY")
 
+
 def process_search_results(results: List[str]) -> List[str]:
     """
     Process the search links to remove the unwanted links
     """
-    avoid_links = ["instagram", "facebook", "twitter", "youtube", "makemytrip", "linkedin", "justdial", "yelp"]
+    avoid_links = [
+        "instagram",
+        "facebook",
+        "twitter",
+        "youtube",
+        "makemytrip",
+        "linkedin",
+        "justdial",
+        "yelp",
+    ]
     processed_results = []
     for result in results:
         if not any(avoid_link in result["link"] for avoid_link in avoid_links):
@@ -35,17 +49,19 @@ def search_query_extrapolate(request_context: RequestContext):
     # sanitize the prompt
     try:
         sanitized_prompt = sanitize_search_query(
-            request_context.prompt, location=request_context.location, open_api_key=OPENAI_ENV
+            request_context.prompt,
+            location=request_context.location,
+            open_api_key=OPENAI_ENV,
         )
         search_query = sanitized_prompt["search_query"]
         goal_solution = sanitized_prompt["solution"]
-        search_space  = list(sanitized_prompt["search"])
+        search_space = list(sanitized_prompt["search"])
     except Exception as e:
         log.error(f"Prompt sanitization failed, Error:{e}")
         raise Exception("Prompt sanitization failed")
-       
+
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
-  
+
     return (search_query, goal_solution, search_space)
 
 
@@ -54,7 +70,11 @@ async def extract_web_context(request_context: RequestContext):
     Extract the web context from the search results
     """
     search_client = Search(
-        query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=5, yelp_search=False
+        query=request_context.search_query,
+        location=request_context.location,
+        country_code=request_context.country_code,
+        timeout=5,
+        yelp_search=False,
     )
 
     # get the search results
@@ -83,7 +103,6 @@ async def extract_web_context(request_context: RequestContext):
     return context_data
 
 
-
 async def stream_contacts_retrieval(
     request_context: RequestContext, data, context_chunk_size: int = 5
 ):
@@ -91,12 +110,17 @@ async def stream_contacts_retrieval(
     Extract the contacts from the search results using LLM
     """
     search_client = Search(
-        query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=23
+        query=request_context.search_query,
+        location=request_context.location,
+        country_code=request_context.country_code,
+        timeout=23,
     )
     if "gmaps" in request_context.search_space:
         response_gmaps = await search_client.search_google_business()
         if response_gmaps is not None:
-            details_gmaps = search_client.process_google_business_results(response_gmaps)
+            details_gmaps = search_client.process_google_business_results(
+                response_gmaps
+            )
             log.info(f"\nGoogle Business Details: {details_gmaps}\n")
             yield details_gmaps
         else:
@@ -110,9 +134,16 @@ async def stream_contacts_retrieval(
             yield details_yelp
         else:
             log.warning("Yelp data not used")
-        
-    
-    async for response in retrieval_multithreading(data, request_context.prompt, request_context.solution, OPENAI_ENV, context_chunk_size=2, max_thread=8, timeout=10):
+
+    async for response in retrieval_multithreading(
+        data,
+        request_context.prompt,
+        request_context.solution,
+        OPENAI_ENV,
+        context_chunk_size=2,
+        max_thread=8,
+        timeout=10,
+    ):
         yield response
 
 
@@ -125,12 +156,17 @@ async def static_contacts_retrieval(
     results = []
 
     search_client = Search(
-        query=request_context.search_query, location=request_context.location, country_code=request_context.country_code, timeout=23
+        query=request_context.search_query,
+        location=request_context.location,
+        country_code=request_context.country_code,
+        timeout=23,
     )
     if "gmaps" in request_context.search_space:
         response_gmaps = await search_client.search_google_business()
         if response_gmaps is not None:
-            details_gmaps = await search_client.process_google_business_results(response_gmaps)
+            details_gmaps = await search_client.process_google_business_results(
+                response_gmaps
+            )
             log.info(f"\nGoogle Business Details: {details_gmaps}\n")
             # return details_gmaps
             results = results + details_gmaps
@@ -146,29 +182,54 @@ async def static_contacts_retrieval(
             results = results + details_yelp
         else:
             log.warning("Yelp data not used")
-        
-    
+
     # OpenAI response
-    web_result = await static_retrieval_multithreading(data, request_context.prompt, request_context.solution, OPENAI_ENV, context_chunk_size=2, max_thread=8, timeout=10)
+    web_result = await static_retrieval_multithreading(
+        data,
+        request_context.prompt,
+        request_context.solution,
+        OPENAI_ENV,
+        context_chunk_size=2,
+        max_thread=8,
+        timeout=10,
+    )
     results = results + web_result
     return results
 
 
-
-async def response_formatter(id:str, time, prompt:str, location:str, results, status="running", has_more:bool=True):
-
+async def response_formatter(
+    id: str,
+    time,
+    prompt: str,
+    location: str,
+    results,
+    solution:str,
+    search_space,
+    search_query :str,
+    status="running",
+    has_more: bool = True,
+):
+    """
+    Format the response for the API
+    """
+    meta = {
+        "solution": solution,
+        "search_space": search_space,
+        "search_query": search_query,
+        "time": int(time),
+    }
     response = {
         "id": str(id),
-        "time": int(time),
         "status": status,
         "has_more": has_more,
         "location": str(location),
         "prompt": str(prompt),
         "count": len(results),
         "results": results,
+        "meta": meta,
     }
 
     # response = process_api_json(response)
-    json_response = json.dumps(response).strip().encode('utf-8', errors="replace")
+    json_response = json.dumps(response).strip().encode("utf-8", errors="replace")
 
     return json_response
