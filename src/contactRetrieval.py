@@ -257,16 +257,19 @@ async def static_retrieval_multithreading(
             llm_threads.append(task)
 
         results = await asyncio.gather(*llm_threads)
-        results = [
-            contact
-            for result in results
-            if result != []
-            for contact in result["results"]
-        ]
+        combined_results = []
+        
+        for result in results:
+            if result != [] and result != {} and  not isinstance(result["results"], dict):
+                combined_results.extend(result["results"])
+            elif isinstance(result, dict):
+                combined_results.append(result["results"])
+            else:
+                log.warning(f"Unexpected result format: {result}")
 
         log.info(f"OpenAI task completed")
-        log.info(f"Contacts extracted by OpenAI: {results}")
-        return results
+        log.info(f"Contacts extracted by OpenAI: {combined_results}")
+        return combined_results
 
     except Exception as e:
         log.error(f"Error in async open ai: {e}")

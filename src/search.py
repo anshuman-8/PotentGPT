@@ -70,8 +70,9 @@ class Search:
         final_result = list(search_index.values())
 
         # write to file
-        with open("src/log_data/search_index.json", "w") as f:
-            json.dump(final_result, f, indent=4)
+        if LOG_FILES:
+            with open("src/log_data/search_index.json", "w") as f:
+                json.dump(final_result, f, indent=4)
 
         return final_result
 

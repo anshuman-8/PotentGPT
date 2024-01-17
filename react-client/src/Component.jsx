@@ -25,7 +25,7 @@ const Component = () => {
       });
 
       const data = await response.json();
-      console.log(data);
+      console.log("The response: ",data);
       setResponse(data);
       setVendors(data.results);
     } catch (err) {
