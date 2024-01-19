@@ -1,5 +1,6 @@
 import uuid
 import time
+import json
 import logging as log
 from typing import List
 from fastapi import FastAPI, HTTPException, Request
@@ -12,7 +13,7 @@ from src.app import (
     stream_contacts_retrieval,
     static_contacts_retrieval,
 )
-from src.model import ApiResponse, ErrorResponseModel, RequestContext
+from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback
 import tracemalloc
 
 tracemalloc.start()
@@ -194,3 +195,30 @@ async def staticProbe(
     response = await static_response(request_context, web_context)
 
     return Response(content=response)
+
+
+@app.post("/feedback/")
+async def feedback(request: Request, feedback: Feedback) -> JSONResponse:
+    date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+
+    feedback_data = {
+        "request_id": feedback.id,
+        "feedback": feedback.message,
+        "rating": feedback.rating,
+        "prompt": feedback.prompt,
+        "user_ip": request.client.host,
+        "user_agent": request.headers["user-agent"],
+        "timestamp": date,
+        "data": feedback.data,
+    }
+
+    with open(f"feedbacks/{date}_{feedback.id}.json", "w") as f:
+        json.dump(feedback_data, f)
+
+    return JSONResponse(
+        content={
+            "status": "ok",
+            "message": "Feedback received",
+        },
+        status_code=200,
+    )

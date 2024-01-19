@@ -32,6 +32,13 @@ class ErrorResponseModel(BaseModel):
     status: str = "error"
     message: str
 
+class Feedback(BaseModel):
+    id:str
+    prompt:str
+    message:str
+    rating:int
+    data: List[dict]
+
 class RequestContext():
     def __init__(self, id:str, prompt:str, location:str, country_code:str, search_space:list=["web"]):
         self.id = id

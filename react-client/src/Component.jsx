@@ -35,6 +35,7 @@ const Component = () => {
     setLoading(false);
   };
 
+
   return (
     <div className="container mx-auto p-4">
       {/* Input boxes */}
@@ -106,13 +107,14 @@ const Component = () => {
       </div>
       {Object.keys(response).length > 0 && (
         <Details
-          prompt={response.prompt}
-          id={response.id}
-          time={response.meta.time}
-          count={response.count}
-          query={response.meta.search_query}
-          solution={response.meta.solution}
-          searchSpace={response.meta.search_space}
+          // prompt={response.prompt}
+          // id={response.id}
+          // time={response.meta.time}
+          // count={response.count}
+          // query={response.meta.search_query}
+          // solution={response.meta.solution}
+          // searchSpace={response.meta.search_space}
+          data={response}
         />
       )}
       {/* Grid of cards */}
