@@ -4,7 +4,7 @@ import Details from "./Details";
 
 const Component = () => {
   const [prompt, setPrompt] = useState(
-    "I need a violin tutor for my daughter for a month."
+    "Looking for a catering service for a wedding party with approximately 50 guests."
   );
   const [location, setLocation] = useState("Santa Clara, CA");
   const [country, setCountry] = useState("US");
@@ -39,12 +39,12 @@ const Component = () => {
   return (
     <div className="container mx-auto p-4">
       {/* Input boxes */}
-      <h1 className="text-2xl font-semibold">SearchProbe</h1>
+      <h1 className="text-2xl font-semibold">SearchProbe <span className="font-thin text-pretty border rounded-xl p-1 text-sm">developmental</span></h1>
       <div className="mb-4 py-8">
         <div className="flex w-full">
           <div className="flex flex-col mr-4 w-2/3">
             <label htmlFor="prompt" className="text-sm mb-1">
-              Prompt:
+              Goal:
             </label>
             <textarea
               id="prompt"
@@ -107,18 +107,11 @@ const Component = () => {
       </div>
       {Object.keys(response).length > 0 && (
         <Details
-          // prompt={response.prompt}
-          // id={response.id}
-          // time={response.meta.time}
-          // count={response.count}
-          // query={response.meta.search_query}
-          // solution={response.meta.solution}
-          // searchSpace={response.meta.search_space}
           data={response}
         />
       )}
       {/* Grid of cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         {vendors.length > 0 ? (
           vendors.map((item, index) => <Card key={index} vendor={item} />)
         ) : (

@@ -260,9 +260,9 @@ async def static_retrieval_multithreading(
         combined_results = []
         
         for result in results:
-            if result != [] and result != {} and  not isinstance(result["results"], dict):
+            if result != [] and isinstance(result["results"], list):
                 combined_results.extend(result["results"])
-            elif isinstance(result, dict):
+            elif isinstance(result, dict) and result != {}:
                 combined_results.append(result["results"])
             else:
                 log.warning(f"Unexpected result format: {result}")

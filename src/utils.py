@@ -63,6 +63,7 @@ def process_api_json(response):
                     result = json.loads(result)  # Assuming result is a JSON string
                 except json.JSONDecodeError:
                     result = {}
+                    continue
 
             # Extract contacts and initialize empty lists for email and phone
             contacts = result.get("contacts", {})
@@ -132,6 +133,75 @@ def process_api_json(response):
         raise Exception("Error processing API response")
 
     return processed_json
+
+def process_results(results):
+    log.info(f"Processing API results : {results}")
+    # Initialize an empty list to store processed results
+    processed_results = []
+
+    try:
+        for result in results:
+            if isinstance(result, str):
+                    try:
+                        result = json.loads(result)
+                    except json.JSONDecodeError:
+                        result = {}
+
+            contacts = result.get("contacts", {})
+            emails = []
+            phones = []
+
+            if contacts.get("email"):
+                if isinstance(contacts["email"], list):
+                    emails = re.findall(
+                        r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
+                        ", ".join(contacts["email"]),
+                    )
+                else:
+                    emails = re.findall(
+                        r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
+                        contacts["email"],
+                    )
+
+            if contacts.get("phone"):
+                if isinstance(contacts["phone"], list):
+                    phones = re.findall(
+                        r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b|\b\d{10}\b",
+                        ", ".join(contacts["phone"]),
+                    )
+                else:
+                    phones = re.findall(
+                        r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b|\b\d{10}\b",
+                        contacts["phone"],
+                    )
+
+            processed_result = {
+                "name": result.get("name", ""),
+                "source": result.get("source", ""),
+                "info": result.get("info",""),
+                "provider": result.get("provider", []),
+                "contacts": {
+                    "email": emails if emails else [],
+                    "phone": phones if phones else [],
+                    "address": contacts.get("address", ""),
+                },
+            }
+
+            if (
+                processed_result["contacts"]["email"] == []
+                and processed_result["contacts"]["phone"] == []
+                and processed_result["contacts"]["address"].strip() == ""
+            ):
+                continue
+
+            # Append the processed result to the list
+            processed_results.append(processed_result)
+
+    except Exception as e:
+        log.error(f"Error processing API results : {e}")
+        raise Exception("Error processing API results")
+    
+    return processed_results
 
 
 def merge_response(car_rental_list):

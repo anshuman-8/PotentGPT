@@ -15,7 +15,7 @@ from src.contactRetrieval import (
 )
 from src.search import Search
 from src.model import RequestContext
-from src.utils import process_api_json
+from src.utils import process_api_json, process_results
 
 load_dotenv()
 
@@ -212,6 +212,7 @@ async def response_formatter(
     """
     Format the response for the API
     """
+    results = process_results(results)
     meta = {
         "solution": solution,
         "search_space": search_space,
