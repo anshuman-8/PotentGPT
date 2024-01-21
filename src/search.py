@@ -314,6 +314,7 @@ class Search:
 
             data = [
                 {
+                    "id": business["id"],
                     "title": business["name"],
                     "link": business["url"],
                     "phone": business["phone"],
@@ -327,9 +328,54 @@ class Search:
         except Exception as e:
             log.error(f"Error on Yelp Search request: {e}")
             return None
-        
 
         return data
+    
+
+    def yelp_business_details(self, yelp_id: str, yelp_api_key: str = None):
+        """
+        """
+        log.info(f"Fetching Yelp business details for {yelp_id}")
+        yelp_url = f"https://api.yelp.com/v3/businesses/{yelp_id}"
+
+        if yelp_api_key is None:
+            try:
+                yelp_api_key = os.getenv("YELP_API_KEY")
+            except Exception as e:
+                log.error(f"No Yelp API key found")
+                return None
+        headers = {
+            "Authorization": f"Bearer {yelp_api_key}",
+            "accept": "application/json",
+        }
+
+        try:
+            response = requests.get(yelp_url , headers=headers)
+            response.raise_for_status()
+
+            data = response.json()
+
+            return {
+                "title": data["name"],
+                "link": data["url"],
+                "phone": data["phone"],
+                "location": data["location"]["display_address"],
+            }
+        except Exception as e:
+            log.error(f"Error on Yelp Search request: {e}")
+            return None
+
+    
+    
+    async def search_yelp_business_details(self, yelp_links: List[dict]):
+        """
+        Fetch the business details from Yelp API
+        """
+        tasks = []
+        for link in yelp_links:
+            tasks.append(self.yelp_business_details(link["id"]))
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        return results
     
     def process_yelp_data(self, results: List[dict]):
         """
@@ -341,6 +387,7 @@ class Search:
                 continue
             if isinstance(result, dict):
                 processed_result = {
+                    "yelp_id": result["id"],
                     "name": result["title"],
                     "source": result["link"],
                     "provider": ["Yelp"],
@@ -356,6 +403,26 @@ class Search:
             with open("src/log_data/yelp_processed.json", "w") as f:
                 json.dump(processed_results, f, indent=4)
         return processed_results
+    
+    def process_yelp_links(self, results: List[dict]):
+        processed_results = []
+        for result in results:
+            if result == None or isinstance(result, (Exception, str)) or result == []:
+                continue
+            if isinstance(result, dict):
+                processed_result = {
+                    "title": result["title"],
+                    "link": result["link"],
+                    "source": ["Yelp"]
+                }
+                processed_results.append(processed_result)
+
+        if LOG_FILES:
+            with open("src/log_data/yelp_links.json", "w") as f:
+                json.dump(processed_results, f, indent=4)
+
+        return processed_results
+
 
     async def _search_google_business_details(self, place_id):
         """ 

@@ -77,6 +77,8 @@ async def extract_web_context(request_context: RequestContext):
         yelp_search=False,
     )
 
+    search_links = []
+
     # get the search results
     web_results = await search_client.search_web()
 
@@ -84,8 +86,21 @@ async def extract_web_context(request_context: RequestContext):
     refined_search_results = process_search_results(web_results[:15])
     log.info(f"\nRefined Search Results: {refined_search_results}\n")
 
+    search_links.append(refined_search_results)
+
+    if "yelp" in request_context.search_space:
+        response_yelp = await search_client.search_yelp()
+        yelp_links = await search_client.search_yelp_business_details(response_yelp)
+        if response_yelp is not None:
+            yelp_results = search_client.process_yelp_links(response_yelp)  
+            log.info(f"\nYelp Data: {yelp_results}\n")
+            search_links = yelp_results.extend(search_links)
+        else:
+            log.warning("Yelp data not used")
+
+    log.warning(f"\nSearch Links: {search_links}\n")
     # scrape the websites
-    extracted_content = await scrape_with_playwright(refined_search_results)
+    extracted_content = await scrape_with_playwright(search_links)
     log.info(f"\nScraped Content: {len(extracted_content)}\n")
 
     if len(extracted_content) == 0:
@@ -173,15 +188,15 @@ async def static_contacts_retrieval(
         else:
             log.warning("Google Business data not used")
 
-    if "yelp" in request_context.search_space:
-        response_yelp = await search_client.search_yelp()
-        if response_yelp is not None:
-            details_yelp = search_client.process_yelp_data(response_yelp)
-            log.info(f"\nYelp Data: {details_yelp}\n")
-            # return details_yelp
-            results = results + details_yelp
-        else:
-            log.warning("Yelp data not used")
+    # if "yelp" in request_context.search_space:
+    #     response_yelp = await search_client.search_yelp()
+    #     if response_yelp is not None:
+    #         details_yelp = search_client.process_yelp_data(response_yelp)
+    #         log.info(f"\nYelp Data: {details_yelp}\n")
+    #         # return details_yelp
+    #         results = results + details_yelp
+    #     else:
+    #         log.warning("Yelp data not used")
 
     # OpenAI response
     web_result = await static_retrieval_multithreading(
