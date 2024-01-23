@@ -3,19 +3,17 @@ import json
 import logging as log
 from typing import List
 from dotenv import load_dotenv
-from fastapi import HTTPException
 
 from src.sanitize_query import sanitize_search_query
 from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
 from src.contactRetrieval import (
-    extract_contacts,
     retrieval_multithreading,
     static_retrieval_multithreading,
 )
 from src.search import Search
 from src.model import RequestContext
-from src.utils import process_api_json, process_results
+from src.utils import process_results
 
 load_dotenv()
 
@@ -149,7 +147,7 @@ async def stream_contacts_retrieval(
 
 async def static_contacts_retrieval(
     request_context: RequestContext, data, context_chunk_size: int = 5
-):
+) -> List[dict]:
     """
     Extract the contacts from the search results using LLM
     """
@@ -164,11 +162,10 @@ async def static_contacts_retrieval(
     if "gmaps" in request_context.search_space:
         response_gmaps = await search_client.search_google_business()
         if response_gmaps is not None:
-            details_gmaps = await search_client.process_google_business_results(
+            details_gmaps = search_client.process_google_business_results(
                 response_gmaps
             )
             log.info(f"\nGoogle Business Details: {details_gmaps}\n")
-            # return details_gmaps
             results = results + details_gmaps
         else:
             log.warning("Google Business data not used")
@@ -203,9 +200,9 @@ async def response_formatter(
     prompt: str,
     location: str,
     results,
-    solution:str,
+    solution: str,
     search_space,
-    search_query :str,
+    search_query: str,
     status="running",
     has_more: bool = True,
 ):

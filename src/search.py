@@ -407,6 +407,11 @@ class Search:
             return None
         t_flag2 = time.time()
         results = response.json().get("places", [])
+
+        if LOG_FILES:
+            with open("src/log_data/google_maps.json", "w") as f:
+                json.dump(results, f, indent=4)
+
         log.debug(f"Google Maps search results: {results}")
         log.info(f"Google Maps search Complete; {len(results)} items, time: {t_flag2 - t_flag1}")
 
