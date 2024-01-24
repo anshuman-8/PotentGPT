@@ -51,9 +51,10 @@ class RequestContext():
 
         self.solution = None
         self.search_space = search_space
+        self.keyword = None
         self.search_query = None
 
-    def update_search_param(self, search_query:str, solution:str, search_space:list=["web"]):
+    def update_search_param(self, search_query:str, solution:str, keyword:str, search_space:list=["web"]):
         if search_query is None or not search_query.strip():
             log.error(f"No search query provided")
             raise Exception("Search query not passed")
@@ -62,12 +63,17 @@ class RequestContext():
             log.error(f"No solution provided")
             raise Exception("Solution not passed")
         
+        if keyword is None or not keyword.strip():
+            log.error(f"No keyword provided")
+            # raise Exception("Keyword not passed")
+        
         if not search_space or all(item == "" for item in search_space) or not isinstance(search_space, list):
             log.error(f"No search space provided")
             raise Exception("Search space not passed")
         
         self.search_query = search_query
         self.solution = solution
+        self.keyword = keyword
         self.search_space = search_space
 
     def add_contacts(self, contacts):

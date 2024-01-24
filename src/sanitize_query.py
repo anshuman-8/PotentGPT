@@ -45,7 +45,9 @@ def sanitize_search_query(prompt: str,open_api_key:str, location: str = None) ->
     client = OpenAI(api_key=open_api_key)
     system_prompt = """Understand the goal and provide the best solution task, and a web search query for the solution for solving and helping the user achieve their goals. Include the location if needed. 
 The solution should be based on the finding the best individual person or an expert, to contact for helping or completing the user goal. 
-The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases and yelp is used for local businesses, including personal, small, and medium-sized enterprises, based on location. `gmaps` is Google Maps, who can retrieve info about businesses and services in a location."""
+The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases and yelp is used for local businesses, including personal, small, and medium-sized enterprises, based on location. `gmaps` is Google Maps, who can retrieve info about businesses and services in a location.
+keyword is the search keyword, which is used to search for the solution, without location detail.
+"""
 
     try:
         response = client.chat.completions.create(
@@ -59,7 +61,7 @@ The output should be in JSON format, also saying where to search in a list, an e
                 },
                 {
                     "role": "system",
-                    "content": '{"solution":"Search for all event chefs in Kochi Kerala, to email and call them", "search_query":"Event Chefs in Kochi, Kerala", "search":["web", "yelp"]}',
+                    "content": '{"solution":"Search for all event chefs in Kochi Kerala, to email and call them", "search_query":"Event Chefs in Kochi, Kerala","keyword":"Event Chefs", "search":["web", "yelp"]}',
                 },
                 {
                     "role": "user",
@@ -67,7 +69,7 @@ The output should be in JSON format, also saying where to search in a list, an e
                 },
                 {
                     "role": "system",
-                    "content": '{"solution":"Search for all Car rental service in Oakland, CA, Who can give SUV and find their contacts", "search_query":"SUVs car rental in Oakland, CA", "search":["web", "gmaps"]}',
+                    "content": '{"solution":"Search for all Car rental service in Oakland, CA, Who can give SUV and find their contacts", "search_query":"SUVs car rental in Oakland, CA", "keyword":"Car Rental", "search":["web", "gmaps"]}',
                 },
                 {
                     "role": "user",
@@ -75,7 +77,7 @@ The output should be in JSON format, also saying where to search in a list, an e
                 },
                 {
                     "role": "system",
-                    "content": '{"solution": "Search for all UC Davis professors researching in molecular biology research, to email them", "search_query":"Professors UC Davis molecular biology and internship", "search":["web"]}',
+                    "content": '{"solution": "Search for all UC Davis professors researching in molecular biology research, to email them", "search_query":"Professors UC Davis molecular biology and internship", "keyword": "UC Davis Professors", "search":["web"]}',
                 },
 
                 {"role": "user", "content": f"Location: {location};\nGoal: {prompt}"},

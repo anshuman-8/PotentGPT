@@ -11,8 +11,14 @@ const Component = () => {
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(false);
   const [vendors, setVendors] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const handleSearch = async () => {
+    setErrorMsg(null);
+    if (!prompt || !location || !country) {
+      setErrorMsg("All fields are required");
+      return;
+    }
     const loc = location.replace(" ", "%20");
     const cou = country.replace(" ", "%20");
     const pro = prompt.replace(" ", "%20");
@@ -24,8 +30,25 @@ const Component = () => {
         method: "GET",
       });
 
+      if (response.status === 500) {
+        console.log("Error");
+        setLoading(false);
+        setResponse({});
+        setVendors([]);
+        try {
+          const data = await response.json();
+          setErrorMsg(
+            `Error : ${data.detail.message};  \t\n Id : ${data.detail.id}`
+          );
+          return;
+        } catch (err) {
+          setErrorMsg(`Error : ${response.statusText}`);
+          return;
+        }
+        
+      }
       const data = await response.json();
-      console.log("The response: ",data);
+      console.log("The response: ", data);
       setResponse(data);
       setVendors(data.results);
     } catch (err) {
@@ -35,11 +58,15 @@ const Component = () => {
     setLoading(false);
   };
 
-
   return (
     <div className="container mx-auto p-4">
       {/* Input boxes */}
-      <h1 className="text-2xl font-semibold">SearchProbe <span className="font-thin text-pretty border rounded-xl p-1 text-sm">developmental</span></h1>
+      <h1 className="text-2xl font-semibold">
+        SearchProbe{" "}
+        <span className="font-thin text-pretty border rounded-xl p-1 text-sm">
+          Experimental
+        </span>
+      </h1>
       <div className="mb-4 py-8">
         <div className="flex w-full">
           <div className="flex flex-col mr-4 w-2/3">
@@ -105,17 +132,16 @@ const Component = () => {
           </button>
         </div>
       </div>
-      {Object.keys(response).length > 0 && (
-        <Details
-          data={response}
-        />
-      )}
+      {Object.keys(response).length > 0 && <Details data={response} />}
       {/* Grid of cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         {vendors.length > 0 ? (
           vendors.map((item, index) => <Card key={index} vendor={item} />)
         ) : (
           <div>No results</div>
+        )}
+        {errorMsg && (
+          <div className="col-span-4 text-red-500 text-center">{errorMsg}</div>
         )}
       </div>
     </div>

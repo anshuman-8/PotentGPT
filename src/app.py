@@ -53,6 +53,7 @@ def search_query_extrapolate(request_context: RequestContext):
         )
         search_query = sanitized_prompt["search_query"]
         goal_solution = sanitized_prompt["solution"]
+        keyword = sanitized_prompt["keyword"]
         search_space = list(sanitized_prompt["search"])
     except Exception as e:
         log.error(f"Prompt sanitization failed, Error:{e}")
@@ -60,16 +61,17 @@ def search_query_extrapolate(request_context: RequestContext):
 
     log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
 
-    return (search_query, goal_solution, search_space)
+    return (search_query, goal_solution, keyword, search_space)
 
 
-async def extract_web_context(request_context: RequestContext):
+async def extract_web_context(request_context: RequestContext, deep_scrape: bool = False):
     """
     Extract the web context from the search results
     """
     search_client = Search(
         query=request_context.search_query,
         location=request_context.location,
+        keyword=request_context.keyword,
         country_code=request_context.country_code,
         timeout=5,
         yelp_search=False,
@@ -81,6 +83,19 @@ async def extract_web_context(request_context: RequestContext):
     # process the search links
     refined_search_results = process_search_results(web_results[:15])
     log.info(f"\nRefined Search Results: {refined_search_results}\n")
+
+    if deep_scrape and "gmaps" in request_context.search_space:
+        response_gmaps = await search_client.search_google_business()
+        if response_gmaps is not None:
+            gmaps_links = search_client.process_google_business_links(
+                response_gmaps
+            )
+            gmaps_links = gmaps_links[:10]
+            log.info(f"\nGoogle Business Details: {gmaps_links}\n")
+            refined_search_results = gmaps_links + refined_search_results
+        else:
+            log.warning("Google Business data not used")
+    log.warning(f"Refined Search Results: {refined_search_results}")
 
     # scrape the websites
     extracted_content = await scrape_with_playwright(refined_search_results)
@@ -110,6 +125,7 @@ async def stream_contacts_retrieval(
     search_client = Search(
         query=request_context.search_query,
         location=request_context.location,
+        keyword=request_context.keyword,
         country_code=request_context.country_code,
         timeout=23,
     )
@@ -156,6 +172,7 @@ async def static_contacts_retrieval(
     search_client = Search(
         query=request_context.search_query,
         location=request_context.location,
+        keyword=request_context.keyword,
         country_code=request_context.country_code,
         timeout=23,
     )

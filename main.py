@@ -80,7 +80,6 @@ async def stream_response(request_context: RequestContext, data: List[dict]):
 
 async def static_response(request_context: RequestContext, data: List[dict]):
     results = await static_contacts_retrieval(request_context, data)
-
     end_time = time.time()
     response = await response_formatter(
         request_context.id,
@@ -157,7 +156,6 @@ async def staticProbe(
 ) -> ApiResponse | ErrorResponseModel:
     ID = uuid.uuid4()
     timestamp = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
-    print(ID)
 
     log.basicConfig(
         filename=f"logs/{ID}.log",
@@ -165,6 +163,7 @@ async def staticProbe(
         format="%(name)s - %(levelname)s - %(message)s",
         level=log.INFO,
     )
+    print(f'logs/{ID}.log')
 
     if prompt is None or not prompt.strip():
         log.error(f"No prompt provided")
@@ -180,10 +179,10 @@ async def staticProbe(
     log.info(f"Total Time: {timestamp}")
 
     try:
-        query, solution, search_space = search_query_extrapolate(
+        query, solution, keyword, search_space = search_query_extrapolate(
             request_context=request_context,
         )
-        request_context.update_search_param(query, solution, search_space)
+        request_context.update_search_param(query, solution, keyword, search_space)
 
         web_context = await extract_web_context(request_context=request_context)
     except Exception as e:
@@ -191,7 +190,7 @@ async def staticProbe(
             status_code=500,
             detail={"id": str(ID), "status": "Internal Error", "message": str(e)},
         )
-
+    
     response = await static_response(request_context, web_context)
 
     return Response(content=response)

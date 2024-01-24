@@ -16,13 +16,15 @@ BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
 ## --- Alert ---
-LOG_FILES = False # Set to True to log the results to files
+LOG_FILES = False  # Set to True to log the results to files
+
 
 class Search:
     def __init__(
         self,
         query,
         location,
+        keyword,
         country_code,
         timeout,
         web_search: bool = True,
@@ -31,6 +33,7 @@ class Search:
     ):
         self.query = query
         self.location = location
+        self.keyword = keyword
         self.country_code = country_code
         self.timeout = timeout
         self.do_web_search = web_search
@@ -240,7 +243,7 @@ class Search:
         else:
             log.error(f"Google search error: {data['error']['message']}")
             return None
-        
+
         if LOG_FILES:
             with open("src/log_data/google.json", "w") as f:
                 json.dump(data, f)
@@ -284,7 +287,7 @@ class Search:
             "accept": "application/json",
         }
 
-        search_term = self.query
+        search_term = self.keyword
         location = self.location
 
         t_flag1 = time.time()
@@ -292,7 +295,7 @@ class Search:
             "term": search_term.replace(" ", "+"),
             "location": location.replace(" ", "+"),
             "limit": search_limit,
-            "sort_by": "rating"
+            "sort_by": "rating",
         }
 
         if lat and lon:
@@ -321,16 +324,16 @@ class Search:
                 }
                 for business in data["businesses"]
             ]
-            log.info(f"Yelp search complete; {len(data)} results, time: {t_flag2 - t_flag1}")
-
+            log.info(
+                f"Yelp search complete; {len(data)} results, time: {t_flag2 - t_flag1}"
+            )
 
         except Exception as e:
             log.error(f"Error on Yelp Search request: {e}")
             return None
-        
 
         return data
-    
+
     def process_yelp_data(self, results: List[dict]):
         """
         Formats the results from Yelp API
@@ -347,7 +350,7 @@ class Search:
                     "contacts": {
                         "phone": [result["phone"]],
                         "email": [],
-                        "address": ", ".join(result["location"])
+                        "address": ", ".join(result["location"]),
                     },
                 }
                 processed_results.append(processed_result)
@@ -358,7 +361,7 @@ class Search:
         return processed_results
 
     async def _search_google_business_details(self, place_id):
-        """ 
+        """
         Search for the business details using Google Maps API, given the place_id
         """
         t_flag1 = time.time()
@@ -382,7 +385,6 @@ class Search:
         results = response.json()
 
         return results
-    
 
     async def search_google_business(self):
         """
@@ -413,10 +415,31 @@ class Search:
                 json.dump(results, f, indent=4)
 
         log.debug(f"Google Maps search results: {results}")
-        log.info(f"Google Maps search Complete; {len(results)} items, time: {t_flag2 - t_flag1}")
+        log.info(
+            f"Google Maps search Complete; {len(results)} items, time: {t_flag2 - t_flag1}"
+        )
 
         return results
 
+    def process_google_business_links(self, results: List[dict]):
+        """ """
+        processed_results = []
+        for result in results:
+            if (
+                result == None
+                or isinstance(result, (Exception, str))
+                or result == []
+                or "websiteUri" not in result.keys()
+            ):
+                continue
+            if isinstance(result, dict):
+                processed_result = {
+                    "title": result["displayName"].get("text", ""),
+                    "link": result.get("websiteUri", ""),
+                    "source": ["Google Maps"],
+                }
+                processed_results.append(processed_result)
+        return processed_results
 
     def process_google_business_results(self, results: List[dict]):
         """
