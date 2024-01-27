@@ -5,15 +5,15 @@ import logging as log
 from openai import AsyncOpenAI, OpenAI
 from typing import Iterator, List
 
-LOG_FILES = False
+LOG_FILES = True
 
-SYS_PROMPT = """Extract all contact details from context, aiming to assist the user's goal in finding the right service providers or vendors. Response should be according to the solution given and accurate to the context.
-The response should strictly adhere to the JSON format: {"results": [{"contacts": {"email": "Email of the vendor","phone": ["Phone number of the vendor"],"address": "Address of the vendor"},"name": "Name and description of the vendor helping the goal","info": "Describe the service provider and their service in 30-50 words(Optional)","source": "Source Link of the information","provider": ["Source from 'Google', 'Bing' or both" or also 'Google Maps']}, {...}]}.
-Ensure all contacts in the context are filled; use an empty list if they are absent. Avoid providing incorrect or incorrect contact details. Present phone numbers and emails in a direct, usable format (no helper words). If any contact information is unavailable, just omit the service provider without stating "Not available.".
-Provide data that is available in the context; do not give dummy or example data. If the context is not sufficient to extract the contact details, just omit the service provider without stating "Not available.".
-\nExample response (Only as an exmple format, data not to be used) : \n{"results": [{"contacts": {"email": ["oakland@onetoyota.com"],"phone": ["+1510-281-8909", "+1510-281-8910"],"address": "8181 Oakport St. Oakland, CA 94621"}, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "info":"One Toyota of Oakland offers a diverse selection of both new and pre-owned vehicles, prioritizing customer satisfaction with attentive service. They provide competitive pricing, efficient car care, and personalized financing solutions, ensuring a seamless automotive experience.", "source": "https://www.onetoyota.com/","provider": ["Google","Bing"]}]}\n"""
+SYS_PROMPT = """Extract all vendors/peoples and their contact detail from context, aiming to assist the user's goal in finding the right service providers or vendors. Response should be according to the solution given and accurate to the context.
+The response should strictly adhere to the JSON format: {"results": [{"contacts": {"email": " Email of the vendor","phone": "Phone number of the vendor","address": "Address of the vendor"},"name": "Name and description of the vendor helping the goal","info": "Describe the service provider and their service in 30-50 words(Optional)","source": "Source Link of the information from metadata website","provider": ["Source from 'Google', 'Bing' or both" or also 'Google Maps']}, {...}]}.
+Ensure all contacts in the context are extracted; use an empty string "" if they are absent or any data not available. Avoid providing incorrect contact details. Give phone numbers and emails in usable/correct format (no helper words). If any contact information is unavailable, just omit the service provider. Give only one email and one phone number for each vendor/person.
+Provide data that is available in the context; do not give dummy or example data. If the context data is not enough the omit the service provider.
+\nExample response (Only as an example format, data not to be used) : \n{"results": [{"contacts": {"email": "oakland@onetoyota.com","phone": "+1510-281-8909", "address": "8181 Oakport St. Oakland, CA 94621"}, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "info":"One Toyota of Oakland offers a diverse selection of both new and pre-owned vehicles, prioritising customer satisfaction with attentive service. They provide competitive pricing, efficient car care, and personalised financing solutions, ensuring a seamless automotive experience.", "source": "https://www.onetoyota.com/","provider": ["Google","Bing"]}]}\n"""
 
-
+## ------------------------ Async ------------------------ ##
 def gpt_cost_calculator(
     inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
 ) -> int:
@@ -108,7 +108,7 @@ async def extract_thread_contacts(
                 },
                 {
                     "role": "user",
-                    "content": f"Context: {data}\n\n-----\n\nGoal: {prompt}\nSolution: {solution}\nAnswer:All relevant and accurate contact details for above Question in JSON:",
+                    "content": f"Context: {data}\n\nGoal: {prompt}\nSolution: {solution}\nAnswer:All relevant and accurate contact details for above Question in JSON:",
                 },
             ],
         )

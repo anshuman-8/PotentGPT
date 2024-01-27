@@ -69,7 +69,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
     Extract the web context from the search results
     """
     search_client = Search(
-        query=request_context.search_query,
+        queries=request_context.search_query,
         location=request_context.location,
         keyword=request_context.keyword,
         country_code=request_context.country_code,
@@ -170,7 +170,7 @@ async def static_contacts_retrieval(
     results = []
 
     search_client = Search(
-        query=request_context.search_query,
+        queries=request_context.search_query,
         location=request_context.location,
         keyword=request_context.keyword,
         country_code=request_context.country_code,
@@ -226,7 +226,7 @@ async def response_formatter(
     """
     Format the response for the API
     """
-    results = process_results(results)
+    # results = process_results(results)
     meta = {
         "solution": solution,
         "search_space": search_space,

@@ -4,12 +4,12 @@ import time
 import logging as log
 from typing import List, Dict
 from langchain.docstore.document import Document
-from langchain.document_transformers import beautiful_soup_transformer
+from langchain_community.document_transformers import beautiful_soup_transformer
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from src.utils import create_documents, document_regex_sub, document2map
 
-LOG_FILES = False
+LOG_FILES = True
 
 def preprocess_text(docs: Document) -> Dict:
     """

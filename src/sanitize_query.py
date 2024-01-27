@@ -5,6 +5,7 @@ import logging as log
 from openai import OpenAI
 
 
+
 def gpt_cost_calculator(
     inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
 ) -> int:
@@ -43,10 +44,9 @@ def sanitize_search_query(prompt: str,open_api_key:str, location: str = None) ->
 
     prompt = f"{prompt.strip()}"
     client = OpenAI(api_key=open_api_key)
-    system_prompt = """Understand the goal and provide the best solution task, and a web search query for the solution for solving and helping the user achieve their goals. Include the location if needed. 
-The solution should be based on the finding the best individual person or an expert, to contact for helping or completing the user goal. 
-The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases and yelp is used for local businesses, including personal, small, and medium-sized enterprises, based on location. `gmaps` is Google Maps, who can retrieve info about businesses and services in a location.
-keyword is the search keyword, which is used to search for the solution, without location detail.
+    system_prompt = """Understand the goal and provide the best solution for the task, and web search queries for the solution for solving and helping the user achieve their goals. The solution should be based on finding the best individual person or an expert, to contact for helping or completing the user goal. 
+The search queries should be in a list of strings. If it's a location based goal, then the first query in the list should be a location based query. Have only 1-3 search queries in the list.
+The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases .`yelp` and `gmaps` are used for local businesses, including personal, small, and medium-sized enterprises, based on location. keyword is the search keyword, which is used to search for the solution, without location detail.
 """
 
     try:
@@ -61,7 +61,7 @@ keyword is the search keyword, which is used to search for the solution, without
                 },
                 {
                     "role": "system",
-                    "content": '{"solution":"Search for all event chefs in Kochi Kerala, to email and call them", "search_query":"Event Chefs in Kochi, Kerala","keyword":"Event Chefs", "search":["web", "yelp"]}',
+                    "content": '{"solution":"Search for all event chefs in Kochi Kerala, to email and call them", "search_query":["Event Chefs in Kochi, Kerala", "Catering chefs, Kochi"], "keyword":"Event Chefs", "search":["web", "yelp"]}',
                 },
                 {
                     "role": "user",
@@ -69,7 +69,7 @@ keyword is the search keyword, which is used to search for the solution, without
                 },
                 {
                     "role": "system",
-                    "content": '{"solution":"Search for all Car rental service in Oakland, CA, Who can give SUV and find their contacts", "search_query":"SUVs car rental in Oakland, CA", "keyword":"Car Rental", "search":["web", "gmaps"]}',
+                    "content": '{"solution":"Search for all Car rental service in Oakland, CA, Who can give SUV and find their contacts", "search_query":["SUVs car rental in Oakland, CA", "Car rentals in Oakland"], "keyword":"Car Rental", "search":["web", "gmaps"]}',
                 },
                 {
                     "role": "user",
@@ -77,7 +77,7 @@ keyword is the search keyword, which is used to search for the solution, without
                 },
                 {
                     "role": "system",
-                    "content": '{"solution": "Search for all UC Davis professors researching in molecular biology research, to email them", "search_query":"Professors UC Davis molecular biology and internship", "keyword": "UC Davis Professors", "search":["web"]}',
+                    "content": '{"solution": "Search for all UC Davis professors researching in molecular biology research, to email them", "search_query":["UC Davis professors in molecular biology contacts","UC Davis internship in molecular biology","UC Davis molecular biology research labs"], "keyword": "UC Davis Professors", "search":["web"]}',
                 },
 
                 {"role": "user", "content": f"Location: {location};\nGoal: {prompt}"},
