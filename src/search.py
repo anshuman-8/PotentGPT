@@ -22,16 +22,16 @@ LOG_FILES = False  # Set to True to log the results to files
 class Search:
     def __init__(
         self,
-        query,
-        location,
-        keyword,
-        country_code,
-        timeout,
+        queries: List[str],
+        location: str,
+        keyword: str,
+        country_code: str,
+        timeout: int,
         web_search: bool = True,
         yelp_search: bool = True,
         google_business_search: bool = True,
     ):
-        self.query = query
+        self.queries = queries
         self.location = location
         self.keyword = keyword
         self.country_code = country_code
@@ -399,7 +399,7 @@ class Search:
             "X-Goog-Api-Key": GOOGLE_MAPS_KEY,
             "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.shortFormattedAddress,places.nationalPhoneNumber",
         }
-        data = {"textQuery": str(self.query)}
+        data = {"textQuery": str(self.queries[0])}
 
         try:
             response = requests.post(URL, json=data, headers=headers)
@@ -462,18 +462,18 @@ class Search:
                 }
                 processed_results.append(processed_result)
         return processed_results
-
-    async def search_web(self):
+    
+    async def single_web_search(self, query, location) -> List[dict]:
         """
         Parallely search the web using Google and Bing
         """
-        log.warning(f"Starting web search for {self.query} in {self.location}")
+        log.warning(f"Starting web search for {query} in {location}")
         t_flag1 = time.time()
         tasks = [
             self.search_google(
-                self.query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code
+                query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code
             ),
-            self.search_bing(self.query, BING_API_KEY, self.country_code),
+            self.search_bing(query, BING_API_KEY, self.country_code),
         ]
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -490,6 +490,53 @@ class Search:
         log.warning(f"Web search completed in {t_flag2 - t_flag1} seconds")
 
         return search_results
+    
+    def gen_search_results(self, search_results, max_results: int = 15):
+        """
+        Generate the search results
+        """
+        if len(search_results) == 0:
+            return []
+        if len(search_results) == 1:
+            return search_results[0][:max_results]
+        
+        common_results = []
+        total=0
+        i=0
+        
+        while total <= max_results:
+            for result in search_results:
+                if total > max_results:
+                    break
+                if not result == None or isinstance(result, (Exception, str, dict)) or len(result) > i:
+                    if result[i]["link"] not in [r["link"] for r in common_results]:
+                        log.warning(f"Adding {result[i]['link']} to common results")
+                        common_results.append(result[i])
+                        total+=1
+            i+=1
+
+        common_results = list(common_results[:max_results])
+        return common_results
+
+
+    async def search_web(self, max_results: int = 15):
+        """
+        Parallely search multiple queries on the web
+        """
+        log.info(f"Starting multiple web search ")
+        t_flag1 = time.time()
+        search_jobs = []
+
+        for query in self.queries:
+            search_jobs.append(self.single_web_search(query, self.location))
+        
+        search_results = await asyncio.gather(*search_jobs, return_exceptions=True)
+        search_results = self.gen_search_results(search_results, max_results)
+
+        t_flag2 = time.time()
+        log.warning(f"Complete Web search completed in {t_flag2 - t_flag1} seconds")
+
+        return search_results
 
     async def search(self):
         web_results = []
@@ -499,7 +546,7 @@ class Search:
         if self.do_web_search:
             web_results = await self.search_web()
         if self.do_yelp_search:
-            yelp_results = self.search_yelp(self.query, self.location)
+            yelp_results = self.search_yelp(self.queries, self.location)
         if self.do_google_business_search:
             google_business_results = self.search_google_business()
 

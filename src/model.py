@@ -54,8 +54,8 @@ class RequestContext():
         self.keyword = None
         self.search_query = None
 
-    def update_search_param(self, search_query:str, solution:str, keyword:str, search_space:list=["web"]):
-        if search_query is None or not search_query.strip():
+    def update_search_param(self, search_query:List[str], solution:str, keyword:str, search_space:list=["web"]):
+        if search_query is None or not isinstance(search_query, list) or all(item == "" for item in search_query):
             log.error(f"No search query provided")
             raise Exception("Search query not passed")
         
