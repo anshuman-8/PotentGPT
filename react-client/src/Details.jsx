@@ -50,10 +50,19 @@ export default function Details({ data }) {
           </h3>
         </div>
         <div className="flex flex-row space-x-6 justify-start">
-          <h3>
+          <div>
             <span className="font-bold">Search Query:</span>{" "}
-            {data.meta.search_query}
-          </h3>
+            {data.meta.search_query.map((query) => (
+              <a
+                href={`https://www.google.com/search?q=${query}`}
+                className=" mx-1 my-1 bg-slate-100 rounded-md p-1 border hover:border-2 hover:border-blue-400"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {query} {"->"}
+              </a>
+            ))}
+          </div>
           <h3>
             <span className="font-bold">Solution:</span> {data.meta.solution}
           </h3>
