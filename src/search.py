@@ -67,6 +67,7 @@ class Search:
                         "title": result["title"],
                         "link": result["link"],
                         "displayLink": result["displayLink"],
+                        "query": result["query"],
                         "source": [source],
                     }
 
@@ -156,6 +157,7 @@ class Search:
                     "title": result["name"],
                     "link": result["url"],
                     "displayLink": result["displayUrl"],
+                    "query": search_query
                 }
                 for index, result in enumerate(data["webPages"]["value"])
             ]
@@ -193,6 +195,7 @@ class Search:
         - "title": The title of the web page.
         - "link": The URL of the web page.
         - "displayLink": The display URL of the web page.
+        - "query": Search Query
 
         If the search is unsuccessful or encounters an error, None is returned.
         """
@@ -237,6 +240,7 @@ class Search:
                     "title": result["title"],
                     "link": result["link"],
                     "displayLink": result["displayLink"],
+                    "query": search_query,
                 }
                 for index, result in enumerate(data["items"])
             ]
@@ -502,7 +506,7 @@ class Search:
         
         common_results = []
         total=0
-        i=0
+        i = 0
         
         while total <= max_results:
             for result in search_results:
@@ -510,10 +514,10 @@ class Search:
                     break
                 if not result == None or isinstance(result, (Exception, str, dict)) or len(result) > i:
                     if result[i]["link"] not in [r["link"] for r in common_results]:
-                        log.warning(f"Adding {result[i]['link']} to common results")
+                        log.info(f"Adding search result '{result[i]["title"]}'; from query :  '{result[i]["query"]}'")
                         common_results.append(result[i])
                         total+=1
-            i+=1
+            i += 1
 
         common_results = list(common_results[:max_results])
         return common_results

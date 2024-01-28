@@ -78,10 +78,10 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
     )
 
     # get the search results
-    web_results = await search_client.search_web()
+    web_results = await search_client.search_web(max_results=20)
 
     # process the search links
-    refined_search_results = process_search_results(web_results[:15])
+    refined_search_results = process_search_results(web_results[:20])
     log.info(f"\nRefined Search Results: {refined_search_results}\n")
 
     if deep_scrape and "gmaps" in request_context.search_space:

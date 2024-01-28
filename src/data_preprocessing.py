@@ -21,7 +21,7 @@ def preprocess_text(docs: Document) -> Dict:
     bs_transformer = beautiful_soup_transformer.BeautifulSoupTransformer()
     docs_transformed = bs_transformer.transform_documents(
         docs,
-        tags_to_extract=["p", "li", "div", "a", "span"],
+        tags_to_extract=["p", "li", "div", "a", "span","table", "tr", "article"],
         unwanted_tags=["script", "style", "noscript", "svg"],
     )
     # remove long white space
