@@ -21,8 +21,8 @@ def preprocess_text(docs: Document) -> Dict:
     bs_transformer = beautiful_soup_transformer.BeautifulSoupTransformer()
     docs_transformed = bs_transformer.transform_documents(
         docs,
-        tags_to_extract=["p", "li", "div", "a", "span","table", "tr", "article"],
-        unwanted_tags=["script", "style", "noscript", "svg"],
+        tags_to_extract=["p", "li", "div", "a", "span", "table", "tr", "article"],
+        unwanted_tags=["script", "style", "noscript", "svg", "img", "input", "pre", "template"],
     )
     # remove long white space
     docs_transformed = document_regex_sub(docs_transformed, r"\s+", " ")
@@ -39,10 +39,10 @@ def preprocess_text(docs: Document) -> Dict:
     return docs_transformed
 
 
-def docs_recursive_split(docs: Document, chunk_size: int = 400) -> List[Document]:
+def docs_recursive_split(docs: Document, chunk_size: int = 400, overlap:int=50) -> List[Document]:
     t_flag1 = time.time()
     splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-        chunk_size=chunk_size, chunk_overlap=40
+        chunk_size=chunk_size, chunk_overlap=overlap
     )
     splits = splitter.split_documents(docs)
 

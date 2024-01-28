@@ -7,7 +7,7 @@ from playwright.async_api import async_playwright
 from langchain.docstore.document import Document
 from src.utils import document2map
 
-LOG_FILES = False
+LOG_FILES = True # Logs the data (keep it False)
 
 class AsyncChromiumLoader:
     def __init__(self, web_links: List[str]):
@@ -51,7 +51,7 @@ class AsyncChromiumLoader:
                 "**/*",
                 route_handler
             )
-            await page.goto(url, timeout=10000)
+            await page.goto(url, timeout=14000)
             web_content = await page.content()
             t_end = time.time()
             log.info(f"Content scraped for {url} in {t_end - t_start} seconds")
