@@ -106,7 +106,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data = process_data_docs(extracted_content, 900)
+    context_data = process_data_docs(extracted_content, 1100)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     if len(context_data) == 0:
@@ -204,7 +204,7 @@ async def static_contacts_retrieval(
         request_context.solution,
         OPENAI_ENV,
         context_chunk_size=2,
-        max_thread=8,
+        max_thread=10,
         timeout=10,
     )
     results = results + web_result
