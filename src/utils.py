@@ -148,30 +148,29 @@ def process_results(results):
                         result = {}
 
             contacts = result.get("contacts", {})
-            emails = []
-            phones = []
-
+            email = ""
+            phone = ""
             if contacts.get("email"):
                 if isinstance(contacts["email"], list):
-                    emails = re.findall(
+                    email = re.search(
                         r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
-                        ", ".join(contacts["email"]),
+                        contacts["email"][0],
                     )
                 else:
-                    emails = re.findall(
+                    email = re.search(
                         r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
                         contacts["email"],
                     )
 
             if contacts.get("phone"):
                 if isinstance(contacts["phone"], list):
-                    phones = re.findall(
-                        r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b|\b\d{10}\b",
-                        ", ".join(contacts["phone"]),
+                    phone = re.search(
+                        r'\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b',
+                        contacts["phone"][0],
                     )
                 else:
-                    phones = re.findall(
-                        r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b|\b\d{10}\b",
+                    phone = re.search(
+                        r'\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b',
                         contacts["phone"],
                     )
 
@@ -181,15 +180,14 @@ def process_results(results):
                 "info": result.get("info",""),
                 "provider": result.get("provider", []),
                 "contacts": {
-                    "email": emails if emails else [],
-                    "phone": phones if phones else [],
+                    "email": email.string if email else "",
+                    "phone": phone.string if phone else "",
                     "address": contacts.get("address", ""),
                 },
             }
-
             if (
-                processed_result["contacts"]["email"] == []
-                and processed_result["contacts"]["phone"] == []
+                processed_result["contacts"]["email"].strip() == ""
+                and processed_result["contacts"]["phone"].strip() == ""
                 and processed_result["contacts"]["address"].strip() == ""
             ):
                 continue

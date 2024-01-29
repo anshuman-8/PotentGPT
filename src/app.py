@@ -78,10 +78,10 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
     )
 
     # get the search results
-    web_results = await search_client.search_web(max_results=20)
+    web_results = await search_client.search_web(max_results=25)
 
     # process the search links
-    refined_search_results = process_search_results(web_results[:20])
+    refined_search_results = process_search_results(web_results[:25])
     log.info(f"\nRefined Search Results: {refined_search_results}\n")
 
     if deep_scrape and "gmaps" in request_context.search_space:
@@ -106,7 +106,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data = process_data_docs(extracted_content, 1100)
+    context_data = process_data_docs(extracted_content, 900)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     if len(context_data) == 0:
@@ -156,7 +156,7 @@ async def stream_contacts_retrieval(
         OPENAI_ENV,
         context_chunk_size=2,
         max_thread=8,
-        timeout=10,
+        timeout=11,
     ):
         yield response
 
@@ -226,7 +226,7 @@ async def response_formatter(
     """
     Format the response for the API
     """
-    # results = process_results(results)
+    results = process_results(results)
     meta = {
         "solution": solution,
         "search_space": search_space,
