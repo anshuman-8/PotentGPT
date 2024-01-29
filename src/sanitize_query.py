@@ -45,8 +45,8 @@ def sanitize_search_query(prompt: str,open_api_key:str, location: str = None) ->
     prompt = f"{prompt.strip()}"
     client = OpenAI(api_key=open_api_key)
     system_prompt = """Comprehend the goal, suggest the optimal solution, and provide web search queries to assist in achieving it. The solution should be based on finding the best individual person or an expert, to contact for helping or completing the user goal. 
-For location-based goals, prioritize location in the first query, then generalize in subsequent queries(if needed) to find the best expert for the user's goal. List the queries as strings. Make multiple search queries only if its needed, try to keep number of queries minimum.
-The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases .`yelp` and `gmaps` are used for local businesses, including personal, small, and medium-sized enterprises, based on location. keyword is the search keyword, which is used to search for the solution, without location detail.
+For location-based goals, prioritize location in the first query, then generalize in subsequent queries(if needed), based on finding the best expert/person/vendor for the user's goal. List the queries as strings. Make multiple search queries only if its needed, try to keep number of queries minimum.
+The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases .`yelp` and `gmaps` both are used for local businesses, including personal, small, and medium-sized enterprises, based on location. keyword is the search keyword, which is used to search for the solution, without location detail.
 """
 
     try:
