@@ -7,6 +7,7 @@ const Component = () => {
     "Looking for a catering service for a wedding party with approximately 50 guests."
   );
   const [location, setLocation] = useState("Santa Clara, CA");
+  const [isLocationBased, setIsLocationBased] = useState(false);
   const [country, setCountry] = useState("US");
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(false);
@@ -15,11 +16,14 @@ const Component = () => {
 
   const handleSearch = async () => {
     setErrorMsg(null);
-    if (!prompt || !location || !country) {
+    if (!prompt || !country) {
       setErrorMsg("All fields are required");
       return;
     }
-    const loc = location.replace(" ", "%20");
+    let loc = "-";
+    if (isLocationBased) {
+      loc = location.replace(" ", "%20");
+    }
     const cou = country.replace(" ", "%20");
     const pro = prompt.replace(" ", "%20");
 
@@ -45,7 +49,6 @@ const Component = () => {
           setErrorMsg(`Error : ${response.statusText}`);
           return;
         }
-        
       }
       const data = await response.json();
       console.log("The response: ", data);
@@ -82,20 +85,6 @@ const Component = () => {
             />
           </div>
 
-          <div className="flex flex-col mr-4 w-1/6">
-            <label htmlFor="location" className="text-sm mb-1">
-              Location:
-            </label>
-            <input
-              id="location"
-              className="border px-2 py-4"
-              type="text"
-              placeholder="Location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </div>
-
           <div className="flex flex-col w-1/6 ">
             <label htmlFor="country" className="text-sm mb-1">
               Country Code:
@@ -109,6 +98,32 @@ const Component = () => {
               onChange={(e) => setCountry(e.target.value)}
             />
           </div>
+        </div>
+        <div className="my-5">
+          <div className="flex items-center space-x-2">
+            <span className="font-semibold">Is it a location based goal?</span>
+            <input
+              type="checkbox"
+              checked={isLocationBased}
+              onChange={() => setIsLocationBased(!isLocationBased)}
+              className="h-5 w-5 text-blue-500 focus:ring-1 focus:ring-blue-500 focus:ring-offset-2"
+            />
+          </div>
+          {isLocationBased && (
+            <div className="flex flex-col mr-4 w-1/6">
+              <label htmlFor="location" className="text-sm mb-1">
+                Location:
+              </label>
+              <input
+                id="location"
+                className="border px-2 py-4"
+                type="text"
+                placeholder="Location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
+          )}
         </div>
 
         <div>

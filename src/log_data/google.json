@@ -1,1 +1,605 @@
-{"kind": "customsearch#search", "url": {"type": "application/json", "template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"}, "queries": {"request": [{"title": "Google Custom Search - Car rental services in Santa Clara, CA", "totalResults": "8320000", "searchTerms": "Car rental services in Santa Clara, CA", "count": 10, "startIndex": 1, "language": "lang_en", "inputEncoding": "utf8", "outputEncoding": "utf8", "safe": "off", "cx": "b0749578b46ab4778", "gl": "US"}], "nextPage": [{"title": "Google Custom Search - Car rental services in Santa Clara, CA", "totalResults": "8320000", "searchTerms": "Car rental services in Santa Clara, CA", "count": 10, "startIndex": 11, "language": "lang_en", "inputEncoding": "utf8", "outputEncoding": "utf8", "safe": "off", "cx": "b0749578b46ab4778", "gl": "US"}]}, "context": {"title": "Margati Search"}, "searchInformation": {"searchTime": 0.368918, "formattedSearchTime": "0.37", "totalResults": "8320000", "formattedTotalResults": "8,320,000"}, "items": [{"kind": "customsearch#result", "title": "Santa Clara Steven's Creek Blvd. Car Rental | Enterprise Rent-A-Car", "htmlTitle": "<b>Santa Clara</b> Steven&#39;s Creek Blvd. <b>Car Rental</b> | Enterprise Rent-A-Car", "link": "https://www.enterprise.com/en/car-rental-locations/us/ca/santa-clara-stevens-creek-blvd-2314.html", "displayLink": "www.enterprise.com", "snippet": "Rental Policies \u00b7 Additional Driver \u00b7 After Hours Service \u00b7 Age Requirements \u00b7 Corporate Account Verification \u00b7 Cross Border Policy \u00b7 Damage Waiver \u00b7 Disclosure.", "htmlSnippet": "<b>Rental</b> Policies &middot; Additional Driver &middot; After Hours <b>Service</b> &middot; Age Requirements &middot; Corporate Account Verification &middot; Cross Border Policy &middot; Damage Waiver &middot; Disclosure.", "cacheId": "tar_0mzZLXEJ", "formattedUrl": "https://www.enterprise.com/.../car-rental.../ca/santa-clara-stevens-creek-blvd...", "htmlFormattedUrl": "https://www.enterprise.com/.../<b>car</b>-<b>rental</b>.../<b>ca</b>/<b>santa</b>-<b>clara</b>-stevens-creek-blvd...", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRmxKiRcUlVfMPMycxm-FLFdRTZpX4nzB8PIFuXE5_EMKZegnWiZIYRcy9a", "width": "300", "height": "168"}], "imageobject": [{"contenturl": "https://www.enterprise.com/en/car-rental-locations/us/ca/santa-clara-stevens-creek-blvd-2314.coreimg.png/structure/_jcr_content/root/container/container/container/container_293677111/image/1683899587659/1920x1080-white-solid-color-background.png"}, {"contenturl": "https://www.enterprise.com/content/experience-fragments/ecom/en/footer/master/_jcr_content/root/footer/footer/container/container/image.coreimg.png/1692607172448/logo-enterprise.png"}, {"contenturl": "https://www.enterprise.com/content/experience-fragments/ecom/en/footer/master/_jcr_content/root/footer/footer/container/container_column_4/container_731319996/image.coreimg.svg/1668193948335/ios-app-store-enus.svg"}, {"contenturl": "https://www.enterprise.com/content/experience-fragments/ecom/en/footer/master/_jcr_content/root/footer/footer/container/container_column_4/container_731319996/image_918534690.coreimg.png/1668193958642/google-play-store-enus.png"}], "metatags": [{"template": "branch-page", "og:image": "/content/dam/enterprise-social-share-icon.png", "apple-itunes-app": "app-id=1020641417", "og:type": "website", "viewport": "width=device-width, initial-scale=1, minimum-scale=1", "msvalidate.01": "B16DAE08DD118EF0B1A7D8A91199A837", "og:sitename": "Enterprise Rent-A-Car", "og:title": "Car Rental Santa Clara Steven's Creek Blvd. | Enterprise Rent-A-Car", "og:url": "https://www.enterprise.com/en/car-rental-locations/us/ca/santa-clara-stevens-creek-blvd-2314.html", "og:description": "Plan ahead and lock in great rates when you book your rental car at Santa Clara Steven's Creek Blvd. with Enterprise."}], "cse_image": [{"src": "https://www.enterprise.com/en/car-rental-locations/us/ca/santa-clara-stevens-creek-blvd-2314.coreimg.png/structure/_jcr_content/root/container/container/container/container_293677111/image/1683899587659/1920x1080-white-solid-color-background.png"}], "listitem": [{"item": "Home", "name": "Home", "position": "1"}, {"item": "Car Rental Locations", "name": "Car Rental Locations", "position": "2"}, {"item": "United States", "name": "United States", "position": "3"}, {"item": "California", "name": "California", "position": "4"}, {"name": "Santa Clara Steven's Creek Blvd.", "position": "5"}]}}, {"kind": "customsearch#result", "title": "Car Rentals in Santa Clara from $19/day - Search for Rental Cars on ...", "htmlTitle": "<b>Car Rentals</b> in <b>Santa Clara</b> from $19/day - Search for Rental Cars on ...", "link": "https://www.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp", "displayLink": "www.kayak.com", "snippet": "From here, pick up the car you rented through KAYAK from Santa Clara car rentals, including Alamo, Avis, Hertz, and National. These companies have a wide range\u00a0...", "htmlSnippet": "From here, pick up the car you rented through KAYAK from <b>Santa Clara car rentals</b>, including Alamo, Avis, Hertz, and National. These <b>companies</b> have a wide range&nbsp;...", "formattedUrl": "https://www.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp", "htmlFormattedUrl": "https://www.kayak.com/Cheap-<b>Santa</b>-<b>Clara</b>-<b>Car</b>-<b>Rental</b>s.33354.<b>car</b>s.ksp", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1K9X1Vriib8rUppxrzsqyDfoh3wAn3Oc5kJ_sOq_59tMLSR4dm3nmmPs", "width": "310", "height": "163"}], "metatags": [{"r9-rendered": "20240116.191821.+00:00", "seo-cache": "true", "og:image": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=1200&height=630&xhint=2302&yhint=2670&crop=true", "og:image:width": "1200", "twitter:card": "summary_large_image", "og:site_name": "KAYAK", "seop": "33354", "og:description": "Looking for car rentals in Santa Clara? Search prices from Ace, Fox Autorent, Priceline, Reach Rental, TravelCar and VIPCars Recommendation. Latest prices: Economy $19/day. Compact $20/day. Compact $26/day. Intermediate $20/day. Intermediate $28/day. Full-size $22/day. Search and find Santa Clara rental car deals on KAYAK now.", "twitter:creator": "@KAYAK", "kayak_page": "car,static-city-cars,unknown", "twitter:site": "@KAYAK", "r9-built": "20240116.080227", "og:type": "website", "twitter:title": "Car Rentals in Santa Clara from $19/day - Search for Rental Cars on KAYAK", "r9-build-number": "130", "msvalidate.01": "F474AA342B64B17CDE53F5C5D4C07C7A", "og:title": "Car Rentals in Santa Clara from $19/day - Search for Rental Cars on KAYAK", "og:image:height": "630", "r9-version": "R700b", "kayak_seo_splitxp": "seo-kk-city-cars-user-tips=enabled,seo-kayak-city-cars-page-manufacturer-and-model-in-deals-xp=control-group,seo-mcfly-search-redesign=control-group,seo-kayak-cars-shared-search-form=control-group,seo-domestic-international-destinations-dates=control-group,seo-kayak-city-car-header-with-cover-image-redesign=enabled", "fb:pages": "90811893045", "tags": "b_faq,b_tips", "twitter:image:src": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=440&height=220&xhint=2302&yhint=2670&crop=true", "insight-app-sec-validation": "af188ca0-1818-47ab-bc00-80a6b93a47d0", "viewport": "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1", "twitter:description": "Looking for car rentals in Santa Clara? Search prices from Ace, Fox Autorent, Priceline, Reach Rental, TravelCar and VIPCars Recommendation. Latest prices: Economy $19/day. Compact $20/day. Compact $26/day. Intermediate $20/day. Intermediate $28/day. Full-size $22/day. Search and find Santa Clara rental car deals on KAYAK now.", "og:url": "https://www.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp", "format-detection": "telephone=no"}], "cse_image": [{"src": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=1200&height=630&xhint=2302&yhint=2670&crop=true"}]}}, {"kind": "customsearch#result", "title": "Car Rental Santa Clara, CA - Expedia", "htmlTitle": "<b>Car Rental Santa Clara</b>, <b>CA</b> - Expedia", "link": "https://www.expedia.com/Car-Rentals-In-Santa-Clara.d6172.Car-Rental-Guide", "displayLink": "www.expedia.com", "snippet": "Finding the cheapest car rentals in Santa Clara. Using our Search Wizard. If the deals that are available on our page do not suit your needs, then enter Santa\u00a0...", "htmlSnippet": "Finding the cheapest <b>car rentals</b> in <b>Santa Clara</b>. Using our Search Wizard. If the <b>deals</b> that are available on our page do not suit your needs, then enter <b>Santa</b>&nbsp;...", "formattedUrl": "https://www.expedia.com/Car-Rentals-In-Santa-Clara.d6172.Car-Rental-Gui...", "htmlFormattedUrl": "https://www.expedia.com/<b>Car</b>-<b>Rental</b>s-In-<b>Santa</b>-<b>Clara</b>.d6172.<b>Car</b>-<b>Rental</b>-Gui...", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmzVf9886WuX9f4UUiI0iQMAu8X1borC7dinQrH86xnkf45k24sA9Iuf6M", "width": "285", "height": "177"}], "metatags": [{"og:image": "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/25000/25470-San-Jose.jpg?impolicy=fcrop&w=360&h=224&q=medium", "flex:template-version": "140", "og:type": "website", "theme-color": "#000000", "flex:template-fm-id": "21809", "og:site_name": "Expedia.com", "og:title": "Car Rental Santa Clara, CA - Expedia", "og:image:type": "image/jpeg", "ewe:page": "FLEX", "og:description": "Book now and get FREE cancellation on your selected Cheap Santa Clara car rental + pay at pick up! Expedia partners with + suppliers to get you the lowest prices & great deals on short and long term car rental.", "essclientid": "flex.car.Car-Rental-Guide", "viewport": "width=device-width, initial-scale=1.0", "flex:page-type": "Car-Rental-Guide", "apple-mobile-web-app-capable": "yes", "og:locale": "en_US", "mobile-web-app-capable": "yes", "flex:template-id": "1-en_US-EXP-CRG-Blossom", "og:url": "https://www.expedia.com/Car-Rentals-In-Santa-Clara.d6172.Car-Rental-Guide"}], "cse_image": [{"src": "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/25000/25470-San-Jose.jpg?impolicy=fcrop&w=360&h=224&q=medium"}]}}, {"kind": "customsearch#result", "title": "Car Rental Santa Clara, CA: Book online now and save | Budget Car ...", "htmlTitle": "<b>Car Rental Santa Clara</b>, <b>CA</b>: Book online now and save | Budget Car ...", "link": "https://www.budget.com/en/locations/us/ca/santa-clara", "displayLink": "www.budget.com", "snippet": "Santa Clara Car Rental & Nearby Locations ; 1 Santa Clara - Lafayette St .87 miles away \u00b7 2390 Lafayette St \u00b7 (1) 408-445-2330 ; 3 San Jose - Stevens Creek Blvd\u00a0...", "htmlSnippet": "<b>Santa Clara Car Rental</b> &amp; Nearby Locations ; 1 <b>Santa Clara</b> - Lafayette St .87 miles away &middot; 2390 Lafayette St &middot; (1) 408-445-2330 ; 3 <b>San</b> Jose - Stevens Creek Blvd&nbsp;...", "formattedUrl": "https://www.budget.com/en/locations/us/ca/santa-clara", "htmlFormattedUrl": "https://www.budget.com/en/locations/us/<b>ca</b>/<b>santa</b>-<b>clara</b>", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT7GlbKE-2DOAdjXOYzkPUEScq9mScgzFNCxNLTUoVG4fhPDhQMC17YOKKa", "width": "369", "height": "137"}], "metatags": [{"og:image": "/content/budget/content/dam/budget/na/us/common/offers/budget-car-rental-social-brand-1200x630.jpg", "og:type": "website", "twitter:card": "summary_large_image", "twitter:title": "Santa Clara", "og:site_name": "Budget | Rent a Car", "author": "ABG", "og:title": "Santa Clara", "title": "Car Rental Santa Clara, CA: Book online now and save | Budget Car Rental", "og:description": "Book direct and prepay online to get the best savings across Santa Clara, CA with Budget Car Rental", "twitter:creator": "@Budget", "twitter:image": "/content/budget/content/dam/budget/na/us/common/offers/road-2440x1600.jpg", "viewport": "width=device-width, initial-scale=1.0", "twitter:description": "Book direct and prepay online to get the best savings across Santa Clara, CA with Budget Car Rental", "og:url": "/content/budget/en/locations/us/ca/santa-clara"}], "cse_image": [{"src": "https://cdn.cookielaw.org/logos/3049dc52-d1d0-4f29-98a6-716dc298f06f/8fd30002-7d4c-4e6d-b5ee-7c58ffd04b13/fec8baf6-cd2d-4191-8647-0af0733bd2c5/MicrosoftTeams-image_(15).png"}], "listitem": [{"item": "Locations", "name": "Locations", "position": "1"}, {"item": "Canada & USA", "name": "Canada & USA", "position": "2"}, {"item": "United States", "name": "United States", "position": "3"}, {"item": "California", "name": "California", "position": "4"}, {"item": "Santa Clara", "name": "Santa Clara", "position": "5"}]}}, {"kind": "customsearch#result", "title": "Cheap Car Rentals in Santa Clara, California from just $18 | momondo", "htmlTitle": "Cheap <b>Car Rentals</b> in <b>Santa Clara</b>, <b>California</b> from just $18 | momondo", "link": "https://www.momondo.com/car-rental/Santa-Clara-33354", "displayLink": "www.momondo.com", "snippet": "Some of the car rental companies at the airport include Budget, Alamo, Dollar, Thrifty, AVIS, Enterprise, Payless and Fox. What documentation do I need to rent\u00a0...", "htmlSnippet": "Some of the <b>car rental companies</b> at the airport include Budget, Alamo, Dollar, Thrifty, AVIS, Enterprise, Payless and Fox. What documentation do I need to rent&nbsp;...", "formattedUrl": "https://www.momondo.com/car-rental/Santa-Clara-33354", "htmlFormattedUrl": "https://www.momondo.com/<b>car</b>-<b>rental</b>/<b>Santa</b>-<b>Clara</b>-33354", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ1zXfi4oN6qmGk0r_tRDami8rLXO3Z-LdizxwXeYu8_Maz2dKxQZA2vTs", "width": "310", "height": "163"}], "metatags": [{"r9-rendered": "20240118.220420.+00:00", "seo-cache": "true", "og:image": "/rimg/dimg/3b/25/b007a439-city-33354-16ded4be86c.jpg?width=1200&height=630&xhint=2528&yhint=2289&crop=true", "og:image:width": "1200", "twitter:card": "summary_large_image", "og:site_name": "momondo", "seop": "33354", "og:description": "Find car rentals in Santa Clara, California with momondo, searching Enterprise Rent-A-Car, Ace, Hertz and more to find prices from as low as $18 per day!", "twitter:creator": "@momondo", "kayak_page": "car,static-city-cars,unknown", "twitter:site": "@momondo", "r9-built": "20240118.114719", "kayak_content_type": "33354,bespoke,main_article", "og:type": "website", "twitter:title": "Cheap Car Rentals in Santa Clara, California from just $18 | momondo", "r9-build-number": "39", "og:title": "Cheap Car Rentals in Santa Clara, California from just $18 | momondo", "og:image:height": "630", "r9-version": "R700d", "fb:pages": "148785901841216", "tags": "b_main_article", "twitter:image:src": "/rimg/dimg/3b/25/b007a439-city-33354-16ded4be86c.jpg?width=440&height=220&xhint=2528&yhint=2289&crop=true", "cfcms-destination-code": "33354", "viewport": "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1", "twitter:description": "Find car rentals in Santa Clara, California with momondo, searching Enterprise Rent-A-Car, Ace, Hertz and more to find prices from as low as $18 per day!", "og:url": "https://www.momondo.com/car-rental/Santa-Clara-33354", "format-detection": "telephone=no"}], "cse_image": [{"src": "https://www.momondo.com/rimg/dimg/3b/25/b007a439-city-33354-16ded4be86c.jpg?width=1200&height=630&xhint=2528&yhint=2289&crop=true"}]}}, {"kind": "customsearch#result", "title": "Car Rental in Santa Clara, CA | Avis Rent a Car", "htmlTitle": "<b>Car Rental</b> in <b>Santa Clara</b>, <b>CA</b> | Avis Rent a Car", "link": "https://www.avis.com/en/locations/us/ca/santa-clara", "displayLink": "www.avis.com", "snippet": "Santa Clara Car Rental & Nearby Locations ; 1 Santa Clara - Lafayette St .87 miles away \u00b7 2390 Lafayette St \u00b7 (1) 408-246-7900 ; 2 Closed to Public - Uber Drivers\u00a0...", "htmlSnippet": "<b>Santa Clara Car Rental</b> &amp; Nearby Locations ; 1 <b>Santa Clara</b> - Lafayette St .87 miles away &middot; 2390 Lafayette St &middot; (1) 408-246-7900 ; 2 Closed to Public - Uber Drivers&nbsp;...", "formattedUrl": "https://www.avis.com/en/locations/us/ca/santa-clara", "htmlFormattedUrl": "https://www.avis.com/en/locations/us/<b>ca</b>/<b>santa</b>-<b>clara</b>", "pagemap": {"metatags": [{"og:image": "/content/avis/content/dam/avis/na/us/common/offers/avis-car-rental-social-brand-1200x630.jpg", "og:type": "website", "twitter:card": "summary_large_image", "twitter:title": "Santa Clara", "og:site_name": "Avis | Rent a Car", "author": "ABG", "og:title": "Santa Clara", "title": "Car Rental in Santa Clara, CA | Avis Rent a Car", "og:description": "A car rental in Santa Clara, CA, offers quick transportation to nearby parks and sights. Book a sedan, SUV, or other vehicles with Avis to cut down on costs.", "twitter:creator": "@Avis", "twitter:image": "/content/avis/content/dam/avis/na/us/common/offers/road-2440x1600.jpg", "viewport": "width=device-width, initial-scale=1.0", "twitter:description": "A car rental in Santa Clara, CA, offers quick transportation to nearby parks and sights. Book a sedan, SUV, or other vehicles with Avis to cut down on costs.", "og:url": "/content/avis/en/locations/us/ca/santa-clara"}], "cse_image": [{"src": "/content/avis/content/dam/avis/na/us/common/offers/avis-car-rental-social-brand-1200x630.jpg"}], "listitem": [{"item": "Locations", "name": "Locations", "position": "1"}, {"item": "Canada & USA", "name": "Canada & USA", "position": "2"}, {"item": "USA", "name": "USA", "position": "3"}, {"item": "California", "name": "California", "position": "4"}, {"item": "Santa Clara", "name": "Santa Clara", "position": "5"}]}}, {"kind": "customsearch#result", "title": "Cheap Car Rental in Santa Clara, CA - carrentals.com", "htmlTitle": "Cheap <b>Car Rental</b> in <b>Santa Clara</b>, <b>CA</b> - carrentals.com", "link": "https://www.carrentals.com/Santa-Clara-Car-Rentals-g-cty.d6172.Car-Rental-Deals", "displayLink": "www.carrentals.com", "snippet": "Santa Clara Car Rental. carrentals.com offers you great short and long term car rental deals from car rental companies if you Book Now!", "htmlSnippet": "<b>Santa Clara Car Rental</b>. carrentals.com offers you great short and long term <b>car rental deals</b> from <b>car rental companies</b> if you Book Now!", "formattedUrl": "https://www.carrentals.com/Santa-Clara-Car-Rentals-g-cty.d6172.Car-Rental...", "htmlFormattedUrl": "https://www.<b>carrental</b>s.com/<b>Santa</b>-<b>Clara</b>-<b>Car</b>-<b>Rental</b>s-g-cty.d6172.<b>Car</b>-<b>Rental</b>...", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQaPP1kigbiAakB6_gLGyQcKv-44lX7Oz7dTAgO88DBca8eSGl3pp0qI1E", "width": "285", "height": "177"}], "metatags": [{"data-fm-seo": "60689550", "og:image": "https://a.travel-assets.com/flex/flexmanager/images/2019/08/19/CR_Hero.jpg?impolicy=fcrop&w=360&h=224&q=medium", "flex:template-version": "52", "og:type": "website", "theme-color": "#000000", "flex:template-fm-id": "24921", "og:site_name": "carrentals.com", "og:title": "Cheap Car Rental in Santa Clara, CA - carrentals.com", "og:image:type": "image/jpeg", "ewe:page": "FLEX", "og:description": "Santa Clara Car Rental. carrentals.com offers you great short and long term car rental deals from  car rental companies if you Book Now!", "essclientid": "flex.car.Car-Rental-Guide", "viewport": "width=device-width, initial-scale=1.0", "flex:page-type": "Car-Rental-Guide", "apple-mobile-web-app-capable": "yes", "og:locale": "en_US", "mobile-web-app-capable": "yes", "flex:template-id": "70801-en_US-CarRentals-City-Blossom", "og:url": "https://www.carrentals.com/Santa-Clara-Car-Rentals-g-cty.d6172.Car-Rental-Deals"}], "cse_image": [{"src": "https://a.travel-assets.com/flex/flexmanager/images/2019/08/19/CR_Hero.jpg?impolicy=fcrop&w=360&h=224&q=medium"}]}}, {"kind": "customsearch#result", "title": "Car Rentals in Santa Clara, CA - Cheap Rates Near Me | Uber", "htmlTitle": "<b>Car Rentals</b> in <b>Santa Clara</b>, <b>CA</b> - Cheap Rates Near Me | Uber", "link": "https://www.uber.com/us/en/r/cities/car-rentals/santa-clara-ca-us/", "displayLink": "www.uber.com", "snippet": "Book car rentals in Santa Clara when you want with Uber Rent. Browse sedans, vans, and SUVs at affordable rates from Avis, Budget, Hertz, and more.", "htmlSnippet": "Book <b>car rentals</b> in <b>Santa Clara</b> when you want with Uber Rent. Browse sedans, vans, and SUVs at affordable rates from Avis, Budget, Hertz, and more.", "cacheId": "y7mf_cbLsDsJ", "formattedUrl": "https://www.uber.com/us/en/r/cities/car-rentals/santa-clara-ca-us/", "htmlFormattedUrl": "https://www.uber.com/us/en/r/cities/<b>car</b>-<b>rental</b>s/<b>santa</b>-<b>clara</b>-<b>ca</b>-us/", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlZbOSQ9sKkYoKFt5m5imTrlr8jww34FX9fzvYonV4R1ErgY9mC3pJEQ", "width": "310", "height": "163"}], "metatags": [{"twitter:app:id:googleplay": "com.ubercab", "og:image": "https://d3i4yxtzktqr9n.cloudfront.net/uber-sites/fb5b3f0afc38af28.jpg", "twitter:card": "app", "og:type": "website", "og:site_name": "Uber", "msvalidate.01": "813904D1791F14A7C08B0F95D62B936C", "og:title": "Car Rentals in Santa Clara, CA - Cheap Rates Near Me | Uber", "twitter:app:id:ipad": "368677368", "twitter:app:id:iphone": "368677368", "og:description": "Book car rentals when you want with Uber Rent. Browse sedans, vans, and SUVs at affordable rates from Avis, Budget, Hertz, and more.", "referrer": "strict-origin-when-cross-origin", "fb:app_id": "277064115737714", "twitter:site": "@Uber", "viewport": "width=device-width, initial-scale=1", "og:url": "https://www.uber.com/us/en/r/cities/car-rentals/santa-clara-ca-us/"}], "cse_image": [{"src": "https://d3i4yxtzktqr9n.cloudfront.net/uber-sites/fb5b3f0afc38af28.jpg"}]}}, {"kind": "customsearch#result", "title": "Car Rentals in Santa Clara from C$ 42/day - Search for Rental Cars ...", "htmlTitle": "<b>Car Rentals</b> in <b>Santa Clara</b> from C$ 42/day - Search for Rental Cars ...", "link": "https://www.ca.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp", "displayLink": "www.ca.kayak.com", "snippet": "From here, pick up the car you rented through KAYAK from Santa Clara car rentals, including Alamo, Avis, Hertz, and National. These companies have a wide range\u00a0...", "htmlSnippet": "From here, pick up the car you rented through KAYAK from <b>Santa Clara car rentals</b>, including Alamo, Avis, Hertz, and National. These <b>companies</b> have a wide range&nbsp;...", "formattedUrl": "https://www.ca.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp", "htmlFormattedUrl": "https://www.<b>ca</b>.kayak.com/Cheap-<b>Santa</b>-<b>Clara</b>-<b>Car</b>-<b>Rental</b>s.33354.<b>car</b>s.ksp", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1K9X1Vriib8rUppxrzsqyDfoh3wAn3Oc5kJ_sOq_59tMLSR4dm3nmmPs", "width": "310", "height": "163"}], "metatags": [{"r9-rendered": "20240112.024204.+00:00", "seo-cache": "true", "og:image": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=1200&height=630&xhint=2302&yhint=2670&crop=true", "og:image:width": "1200", "twitter:card": "summary_large_image", "og:site_name": "KAYAK", "seop": "33354", "og:description": "Looking for car rentals in Santa Clara? Search prices from Ace, Fox Autorent, Priceline, Reach Rental, TravelCar and VIPCars Recommendation. Latest prices: Economy C$\u00a069/day. Economy C$\u00a069/day. Compact C$\u00a069/day. Compact C$\u00a072/day. Intermediate C$\u00a066/day. Intermediate C$\u00a066/day. Search and find Santa Clara rental car deals on KAYAK now.", "twitter:creator": "@KAYAK", "kayak_page": "car,static-city-cars,unknown", "twitter:site": "@KAYAK", "r9-built": "20240111.063410", "og:type": "website", "twitter:title": "Car Rentals in Santa Clara from C$\u00a042/day - Search for Rental Cars on KAYAK", "r9-build-number": "56", "msvalidate.01": "F474AA342B64B17CDE53F5C5D4C07C7A", "og:title": "Car Rentals in Santa Clara from C$\u00a042/day - Search for Rental Cars on KAYAK", "og:image:height": "630", "r9-version": "R699d", "kayak_seo_splitxp": "seo-kk-city-cars-user-tips=enabled,seo-mcfly-search-redesign=control-group,seo-kayak-cars-shared-search-form=control-group,seo-domestic-international-destinations-dates=control-group,seo-kayak-city-car-header-with-cover-image-redesign=enabled", "fb:pages": "90811893045", "tags": "b_faq,b_tips", "twitter:image:src": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=440&height=220&xhint=2302&yhint=2670&crop=true", "insight-app-sec-validation": "af188ca0-1818-47ab-bc00-80a6b93a47d0", "viewport": "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1", "twitter:description": "Looking for car rentals in Santa Clara? Search prices from Ace, Fox Autorent, Priceline, Reach Rental, TravelCar and VIPCars Recommendation. Latest prices: Economy C$\u00a069/day. Economy C$\u00a069/day. Compact C$\u00a069/day. Compact C$\u00a072/day. Intermediate C$\u00a066/day. Intermediate C$\u00a066/day. Search and find Santa Clara rental car deals on KAYAK now.", "og:url": "https://www.ca.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp", "format-detection": "telephone=no"}], "cse_image": [{"src": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=1200&height=630&xhint=2302&yhint=2670&crop=true"}]}}, {"kind": "customsearch#result", "title": "Car rentals Santa Clara, CA | Turo", "htmlTitle": "<b>Car rentals Santa Clara, CA</b> | Turo", "link": "https://turo.com/us/en/car-rental/united-states/santa-clara-ca", "displayLink": "turo.com", "snippet": "Skip the car rental counter in Santa Clara, CA \u2014 book and drive cars from trusted, local hosts on Turo, the world's largest car sharing marketplace.", "htmlSnippet": "Skip the <b>car rental</b> counter in <b>Santa Clara</b>, <b>CA</b> \u2014 book and drive cars from trusted, local hosts on Turo, the world&#39;s largest car sharing marketplace.", "cacheId": "eDvfBJSrQRQJ", "formattedUrl": "https://turo.com/us/en/car-rental/united-states/santa-clara-ca", "htmlFormattedUrl": "https://turo.com/us/en/<b>car</b>-<b>rental</b>/united-states/<b>santa</b>-<b>clara</b>-<b>ca</b>", "pagemap": {"cse_thumbnail": [{"src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfa0EwNKQ5_2JPye_25x_3RPLQtwkF5OgzN5kQuEGV_RSVbs3VmssdUc4", "width": "298", "height": "169"}], "metatags": [{"next-head-count": "14", "viewport": "width=device-width, initial-scale=1"}], "cse_image": [{"src": "https://resources.turo.com/f/81934/738x420/8958083579/turosho-157_large-1.png"}]}}]}
+{
+    "kind": "customsearch#search",
+    "url": {
+        "type": "application/json",
+        "template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"
+    },
+    "queries": {
+        "request": [
+            {
+                "title": "Google Custom Search - Car rental services in Santa Clara, CA",
+                "totalResults": "8320000",
+                "searchTerms": "Car rental services in Santa Clara, CA",
+                "count": 10,
+                "startIndex": 1,
+                "language": "lang_en",
+                "inputEncoding": "utf8",
+                "outputEncoding": "utf8",
+                "safe": "off",
+                "cx": "b0749578b46ab4778",
+                "gl": "US"
+            }
+        ],
+        "nextPage": [
+            {
+                "title": "Google Custom Search - Car rental services in Santa Clara, CA",
+                "totalResults": "8320000",
+                "searchTerms": "Car rental services in Santa Clara, CA",
+                "count": 10,
+                "startIndex": 11,
+                "language": "lang_en",
+                "inputEncoding": "utf8",
+                "outputEncoding": "utf8",
+                "safe": "off",
+                "cx": "b0749578b46ab4778",
+                "gl": "US"
+            }
+        ]
+    },
+    "context": {
+        "title": "Margati Search"
+    },
+    "searchInformation": {
+        "searchTime": 0.368918,
+        "formattedSearchTime": "0.37",
+        "totalResults": "8320000",
+        "formattedTotalResults": "8,320,000"
+    },
+    "items": [
+        {
+            "kind": "customsearch#result",
+            "title": "Santa Clara Steven's Creek Blvd. Car Rental | Enterprise Rent-A-Car",
+            "htmlTitle": "<b>Santa Clara</b> Steven&#39;s Creek Blvd. <b>Car Rental</b> | Enterprise Rent-A-Car",
+            "link": "https://www.enterprise.com/en/car-rental-locations/us/ca/santa-clara-stevens-creek-blvd-2314.html",
+            "displayLink": "www.enterprise.com",
+            "snippet": "Rental Policies \u00b7 Additional Driver \u00b7 After Hours Service \u00b7 Age Requirements \u00b7 Corporate Account Verification \u00b7 Cross Border Policy \u00b7 Damage Waiver \u00b7 Disclosure.",
+            "htmlSnippet": "<b>Rental</b> Policies &middot; Additional Driver &middot; After Hours <b>Service</b> &middot; Age Requirements &middot; Corporate Account Verification &middot; Cross Border Policy &middot; Damage Waiver &middot; Disclosure.",
+            "cacheId": "tar_0mzZLXEJ",
+            "formattedUrl": "https://www.enterprise.com/.../car-rental.../ca/santa-clara-stevens-creek-blvd...",
+            "htmlFormattedUrl": "https://www.enterprise.com/.../<b>car</b>-<b>rental</b>.../<b>ca</b>/<b>santa</b>-<b>clara</b>-stevens-creek-blvd...",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRmxKiRcUlVfMPMycxm-FLFdRTZpX4nzB8PIFuXE5_EMKZegnWiZIYRcy9a",
+                        "width": "300",
+                        "height": "168"
+                    }
+                ],
+                "imageobject": [
+                    {
+                        "contenturl": "https://www.enterprise.com/en/car-rental-locations/us/ca/santa-clara-stevens-creek-blvd-2314.coreimg.png/structure/_jcr_content/root/container/container/container/container_293677111/image/1683899587659/1920x1080-white-solid-color-background.png"
+                    },
+                    {
+                        "contenturl": "https://www.enterprise.com/content/experience-fragments/ecom/en/footer/master/_jcr_content/root/footer/footer/container/container/image.coreimg.png/1692607172448/logo-enterprise.png"
+                    },
+                    {
+                        "contenturl": "https://www.enterprise.com/content/experience-fragments/ecom/en/footer/master/_jcr_content/root/footer/footer/container/container_column_4/container_731319996/image.coreimg.svg/1668193948335/ios-app-store-enus.svg"
+                    },
+                    {
+                        "contenturl": "https://www.enterprise.com/content/experience-fragments/ecom/en/footer/master/_jcr_content/root/footer/footer/container/container_column_4/container_731319996/image_918534690.coreimg.png/1668193958642/google-play-store-enus.png"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "template": "branch-page",
+                        "og:image": "/content/dam/enterprise-social-share-icon.png",
+                        "apple-itunes-app": "app-id=1020641417",
+                        "og:type": "website",
+                        "viewport": "width=device-width, initial-scale=1, minimum-scale=1",
+                        "msvalidate.01": "B16DAE08DD118EF0B1A7D8A91199A837",
+                        "og:sitename": "Enterprise Rent-A-Car",
+                        "og:title": "Car Rental Santa Clara Steven's Creek Blvd. | Enterprise Rent-A-Car",
+                        "og:url": "https://www.enterprise.com/en/car-rental-locations/us/ca/santa-clara-stevens-creek-blvd-2314.html",
+                        "og:description": "Plan ahead and lock in great rates when you book your rental car at Santa Clara Steven's Creek Blvd. with Enterprise."
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://www.enterprise.com/en/car-rental-locations/us/ca/santa-clara-stevens-creek-blvd-2314.coreimg.png/structure/_jcr_content/root/container/container/container/container_293677111/image/1683899587659/1920x1080-white-solid-color-background.png"
+                    }
+                ],
+                "listitem": [
+                    {
+                        "item": "Home",
+                        "name": "Home",
+                        "position": "1"
+                    },
+                    {
+                        "item": "Car Rental Locations",
+                        "name": "Car Rental Locations",
+                        "position": "2"
+                    },
+                    {
+                        "item": "United States",
+                        "name": "United States",
+                        "position": "3"
+                    },
+                    {
+                        "item": "California",
+                        "name": "California",
+                        "position": "4"
+                    },
+                    {
+                        "name": "Santa Clara Steven's Creek Blvd.",
+                        "position": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Car Rentals in Santa Clara from $19/day - Search for Rental Cars on ...",
+            "htmlTitle": "<b>Car Rentals</b> in <b>Santa Clara</b> from $19/day - Search for Rental Cars on ...",
+            "link": "https://www.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp",
+            "displayLink": "www.kayak.com",
+            "snippet": "From here, pick up the car you rented through KAYAK from Santa Clara car rentals, including Alamo, Avis, Hertz, and National. These companies have a wide range\u00a0...",
+            "htmlSnippet": "From here, pick up the car you rented through KAYAK from <b>Santa Clara car rentals</b>, including Alamo, Avis, Hertz, and National. These <b>companies</b> have a wide range&nbsp;...",
+            "formattedUrl": "https://www.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp",
+            "htmlFormattedUrl": "https://www.kayak.com/Cheap-<b>Santa</b>-<b>Clara</b>-<b>Car</b>-<b>Rental</b>s.33354.<b>car</b>s.ksp",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1K9X1Vriib8rUppxrzsqyDfoh3wAn3Oc5kJ_sOq_59tMLSR4dm3nmmPs",
+                        "width": "310",
+                        "height": "163"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "r9-rendered": "20240116.191821.+00:00",
+                        "seo-cache": "true",
+                        "og:image": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=1200&height=630&xhint=2302&yhint=2670&crop=true",
+                        "og:image:width": "1200",
+                        "twitter:card": "summary_large_image",
+                        "og:site_name": "KAYAK",
+                        "seop": "33354",
+                        "og:description": "Looking for car rentals in Santa Clara? Search prices from Ace, Fox Autorent, Priceline, Reach Rental, TravelCar and VIPCars Recommendation. Latest prices: Economy $19/day. Compact $20/day. Compact $26/day. Intermediate $20/day. Intermediate $28/day. Full-size $22/day. Search and find Santa Clara rental car deals on KAYAK now.",
+                        "twitter:creator": "@KAYAK",
+                        "kayak_page": "car,static-city-cars,unknown",
+                        "twitter:site": "@KAYAK",
+                        "r9-built": "20240116.080227",
+                        "og:type": "website",
+                        "twitter:title": "Car Rentals in Santa Clara from $19/day - Search for Rental Cars on KAYAK",
+                        "r9-build-number": "130",
+                        "msvalidate.01": "F474AA342B64B17CDE53F5C5D4C07C7A",
+                        "og:title": "Car Rentals in Santa Clara from $19/day - Search for Rental Cars on KAYAK",
+                        "og:image:height": "630",
+                        "r9-version": "R700b",
+                        "kayak_seo_splitxp": "seo-kk-city-cars-user-tips=enabled,seo-kayak-city-cars-page-manufacturer-and-model-in-deals-xp=control-group,seo-mcfly-search-redesign=control-group,seo-kayak-cars-shared-search-form=control-group,seo-domestic-international-destinations-dates=control-group,seo-kayak-city-car-header-with-cover-image-redesign=enabled",
+                        "fb:pages": "90811893045",
+                        "tags": "b_faq,b_tips",
+                        "twitter:image:src": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=440&height=220&xhint=2302&yhint=2670&crop=true",
+                        "insight-app-sec-validation": "af188ca0-1818-47ab-bc00-80a6b93a47d0",
+                        "viewport": "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1",
+                        "twitter:description": "Looking for car rentals in Santa Clara? Search prices from Ace, Fox Autorent, Priceline, Reach Rental, TravelCar and VIPCars Recommendation. Latest prices: Economy $19/day. Compact $20/day. Compact $26/day. Intermediate $20/day. Intermediate $28/day. Full-size $22/day. Search and find Santa Clara rental car deals on KAYAK now.",
+                        "og:url": "https://www.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp",
+                        "format-detection": "telephone=no"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=1200&height=630&xhint=2302&yhint=2670&crop=true"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Car Rental Santa Clara, CA - Expedia",
+            "htmlTitle": "<b>Car Rental Santa Clara</b>, <b>CA</b> - Expedia",
+            "link": "https://www.expedia.com/Car-Rentals-In-Santa-Clara.d6172.Car-Rental-Guide",
+            "displayLink": "www.expedia.com",
+            "snippet": "Finding the cheapest car rentals in Santa Clara. Using our Search Wizard. If the deals that are available on our page do not suit your needs, then enter Santa\u00a0...",
+            "htmlSnippet": "Finding the cheapest <b>car rentals</b> in <b>Santa Clara</b>. Using our Search Wizard. If the <b>deals</b> that are available on our page do not suit your needs, then enter <b>Santa</b>&nbsp;...",
+            "formattedUrl": "https://www.expedia.com/Car-Rentals-In-Santa-Clara.d6172.Car-Rental-Gui...",
+            "htmlFormattedUrl": "https://www.expedia.com/<b>Car</b>-<b>Rental</b>s-In-<b>Santa</b>-<b>Clara</b>.d6172.<b>Car</b>-<b>Rental</b>-Gui...",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmzVf9886WuX9f4UUiI0iQMAu8X1borC7dinQrH86xnkf45k24sA9Iuf6M",
+                        "width": "285",
+                        "height": "177"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "og:image": "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/25000/25470-San-Jose.jpg?impolicy=fcrop&w=360&h=224&q=medium",
+                        "flex:template-version": "140",
+                        "og:type": "website",
+                        "theme-color": "#000000",
+                        "flex:template-fm-id": "21809",
+                        "og:site_name": "Expedia.com",
+                        "og:title": "Car Rental Santa Clara, CA - Expedia",
+                        "og:image:type": "image/jpeg",
+                        "ewe:page": "FLEX",
+                        "og:description": "Book now and get FREE cancellation on your selected Cheap Santa Clara car rental + pay at pick up! Expedia partners with + suppliers to get you the lowest prices & great deals on short and long term car rental.",
+                        "essclientid": "flex.car.Car-Rental-Guide",
+                        "viewport": "width=device-width, initial-scale=1.0",
+                        "flex:page-type": "Car-Rental-Guide",
+                        "apple-mobile-web-app-capable": "yes",
+                        "og:locale": "en_US",
+                        "mobile-web-app-capable": "yes",
+                        "flex:template-id": "1-en_US-EXP-CRG-Blossom",
+                        "og:url": "https://www.expedia.com/Car-Rentals-In-Santa-Clara.d6172.Car-Rental-Guide"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/25000/25470-San-Jose.jpg?impolicy=fcrop&w=360&h=224&q=medium"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Car Rental Santa Clara, CA: Book online now and save | Budget Car ...",
+            "htmlTitle": "<b>Car Rental Santa Clara</b>, <b>CA</b>: Book online now and save | Budget Car ...",
+            "link": "https://www.budget.com/en/locations/us/ca/santa-clara",
+            "displayLink": "www.budget.com",
+            "snippet": "Santa Clara Car Rental & Nearby Locations ; 1 Santa Clara - Lafayette St .87 miles away \u00b7 2390 Lafayette St \u00b7 (1) 408-445-2330 ; 3 San Jose - Stevens Creek Blvd\u00a0...",
+            "htmlSnippet": "<b>Santa Clara Car Rental</b> &amp; Nearby Locations ; 1 <b>Santa Clara</b> - Lafayette St .87 miles away &middot; 2390 Lafayette St &middot; (1) 408-445-2330 ; 3 <b>San</b> Jose - Stevens Creek Blvd&nbsp;...",
+            "formattedUrl": "https://www.budget.com/en/locations/us/ca/santa-clara",
+            "htmlFormattedUrl": "https://www.budget.com/en/locations/us/<b>ca</b>/<b>santa</b>-<b>clara</b>",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT7GlbKE-2DOAdjXOYzkPUEScq9mScgzFNCxNLTUoVG4fhPDhQMC17YOKKa",
+                        "width": "369",
+                        "height": "137"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "og:image": "/content/budget/content/dam/budget/na/us/common/offers/budget-car-rental-social-brand-1200x630.jpg",
+                        "og:type": "website",
+                        "twitter:card": "summary_large_image",
+                        "twitter:title": "Santa Clara",
+                        "og:site_name": "Budget | Rent a Car",
+                        "author": "ABG",
+                        "og:title": "Santa Clara",
+                        "title": "Car Rental Santa Clara, CA: Book online now and save | Budget Car Rental",
+                        "og:description": "Book direct and prepay online to get the best savings across Santa Clara, CA with Budget Car Rental",
+                        "twitter:creator": "@Budget",
+                        "twitter:image": "/content/budget/content/dam/budget/na/us/common/offers/road-2440x1600.jpg",
+                        "viewport": "width=device-width, initial-scale=1.0",
+                        "twitter:description": "Book direct and prepay online to get the best savings across Santa Clara, CA with Budget Car Rental",
+                        "og:url": "/content/budget/en/locations/us/ca/santa-clara"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://cdn.cookielaw.org/logos/3049dc52-d1d0-4f29-98a6-716dc298f06f/8fd30002-7d4c-4e6d-b5ee-7c58ffd04b13/fec8baf6-cd2d-4191-8647-0af0733bd2c5/MicrosoftTeams-image_(15).png"
+                    }
+                ],
+                "listitem": [
+                    {
+                        "item": "Locations",
+                        "name": "Locations",
+                        "position": "1"
+                    },
+                    {
+                        "item": "Canada & USA",
+                        "name": "Canada & USA",
+                        "position": "2"
+                    },
+                    {
+                        "item": "United States",
+                        "name": "United States",
+                        "position": "3"
+                    },
+                    {
+                        "item": "California",
+                        "name": "California",
+                        "position": "4"
+                    },
+                    {
+                        "item": "Santa Clara",
+                        "name": "Santa Clara",
+                        "position": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Cheap Car Rentals in Santa Clara, California from just $18 | momondo",
+            "htmlTitle": "Cheap <b>Car Rentals</b> in <b>Santa Clara</b>, <b>California</b> from just $18 | momondo",
+            "link": "https://www.momondo.com/car-rental/Santa-Clara-33354",
+            "displayLink": "www.momondo.com",
+            "snippet": "Some of the car rental companies at the airport include Budget, Alamo, Dollar, Thrifty, AVIS, Enterprise, Payless and Fox. What documentation do I need to rent\u00a0...",
+            "htmlSnippet": "Some of the <b>car rental companies</b> at the airport include Budget, Alamo, Dollar, Thrifty, AVIS, Enterprise, Payless and Fox. What documentation do I need to rent&nbsp;...",
+            "formattedUrl": "https://www.momondo.com/car-rental/Santa-Clara-33354",
+            "htmlFormattedUrl": "https://www.momondo.com/<b>car</b>-<b>rental</b>/<b>Santa</b>-<b>Clara</b>-33354",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ1zXfi4oN6qmGk0r_tRDami8rLXO3Z-LdizxwXeYu8_Maz2dKxQZA2vTs",
+                        "width": "310",
+                        "height": "163"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "r9-rendered": "20240118.220420.+00:00",
+                        "seo-cache": "true",
+                        "og:image": "/rimg/dimg/3b/25/b007a439-city-33354-16ded4be86c.jpg?width=1200&height=630&xhint=2528&yhint=2289&crop=true",
+                        "og:image:width": "1200",
+                        "twitter:card": "summary_large_image",
+                        "og:site_name": "momondo",
+                        "seop": "33354",
+                        "og:description": "Find car rentals in Santa Clara, California with momondo, searching Enterprise Rent-A-Car, Ace, Hertz and more to find prices from as low as $18 per day!",
+                        "twitter:creator": "@momondo",
+                        "kayak_page": "car,static-city-cars,unknown",
+                        "twitter:site": "@momondo",
+                        "r9-built": "20240118.114719",
+                        "kayak_content_type": "33354,bespoke,main_article",
+                        "og:type": "website",
+                        "twitter:title": "Cheap Car Rentals in Santa Clara, California from just $18 | momondo",
+                        "r9-build-number": "39",
+                        "og:title": "Cheap Car Rentals in Santa Clara, California from just $18 | momondo",
+                        "og:image:height": "630",
+                        "r9-version": "R700d",
+                        "fb:pages": "148785901841216",
+                        "tags": "b_main_article",
+                        "twitter:image:src": "/rimg/dimg/3b/25/b007a439-city-33354-16ded4be86c.jpg?width=440&height=220&xhint=2528&yhint=2289&crop=true",
+                        "cfcms-destination-code": "33354",
+                        "viewport": "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1",
+                        "twitter:description": "Find car rentals in Santa Clara, California with momondo, searching Enterprise Rent-A-Car, Ace, Hertz and more to find prices from as low as $18 per day!",
+                        "og:url": "https://www.momondo.com/car-rental/Santa-Clara-33354",
+                        "format-detection": "telephone=no"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://www.momondo.com/rimg/dimg/3b/25/b007a439-city-33354-16ded4be86c.jpg?width=1200&height=630&xhint=2528&yhint=2289&crop=true"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Car Rental in Santa Clara, CA | Avis Rent a Car",
+            "htmlTitle": "<b>Car Rental</b> in <b>Santa Clara</b>, <b>CA</b> | Avis Rent a Car",
+            "link": "https://www.avis.com/en/locations/us/ca/santa-clara",
+            "displayLink": "www.avis.com",
+            "snippet": "Santa Clara Car Rental & Nearby Locations ; 1 Santa Clara - Lafayette St .87 miles away \u00b7 2390 Lafayette St \u00b7 (1) 408-246-7900 ; 2 Closed to Public - Uber Drivers\u00a0...",
+            "htmlSnippet": "<b>Santa Clara Car Rental</b> &amp; Nearby Locations ; 1 <b>Santa Clara</b> - Lafayette St .87 miles away &middot; 2390 Lafayette St &middot; (1) 408-246-7900 ; 2 Closed to Public - Uber Drivers&nbsp;...",
+            "formattedUrl": "https://www.avis.com/en/locations/us/ca/santa-clara",
+            "htmlFormattedUrl": "https://www.avis.com/en/locations/us/<b>ca</b>/<b>santa</b>-<b>clara</b>",
+            "pagemap": {
+                "metatags": [
+                    {
+                        "og:image": "/content/avis/content/dam/avis/na/us/common/offers/avis-car-rental-social-brand-1200x630.jpg",
+                        "og:type": "website",
+                        "twitter:card": "summary_large_image",
+                        "twitter:title": "Santa Clara",
+                        "og:site_name": "Avis | Rent a Car",
+                        "author": "ABG",
+                        "og:title": "Santa Clara",
+                        "title": "Car Rental in Santa Clara, CA | Avis Rent a Car",
+                        "og:description": "A car rental in Santa Clara, CA, offers quick transportation to nearby parks and sights. Book a sedan, SUV, or other vehicles with Avis to cut down on costs.",
+                        "twitter:creator": "@Avis",
+                        "twitter:image": "/content/avis/content/dam/avis/na/us/common/offers/road-2440x1600.jpg",
+                        "viewport": "width=device-width, initial-scale=1.0",
+                        "twitter:description": "A car rental in Santa Clara, CA, offers quick transportation to nearby parks and sights. Book a sedan, SUV, or other vehicles with Avis to cut down on costs.",
+                        "og:url": "/content/avis/en/locations/us/ca/santa-clara"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "/content/avis/content/dam/avis/na/us/common/offers/avis-car-rental-social-brand-1200x630.jpg"
+                    }
+                ],
+                "listitem": [
+                    {
+                        "item": "Locations",
+                        "name": "Locations",
+                        "position": "1"
+                    },
+                    {
+                        "item": "Canada & USA",
+                        "name": "Canada & USA",
+                        "position": "2"
+                    },
+                    {
+                        "item": "USA",
+                        "name": "USA",
+                        "position": "3"
+                    },
+                    {
+                        "item": "California",
+                        "name": "California",
+                        "position": "4"
+                    },
+                    {
+                        "item": "Santa Clara",
+                        "name": "Santa Clara",
+                        "position": "5"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Cheap Car Rental in Santa Clara, CA - carrentals.com",
+            "htmlTitle": "Cheap <b>Car Rental</b> in <b>Santa Clara</b>, <b>CA</b> - carrentals.com",
+            "link": "https://www.carrentals.com/Santa-Clara-Car-Rentals-g-cty.d6172.Car-Rental-Deals",
+            "displayLink": "www.carrentals.com",
+            "snippet": "Santa Clara Car Rental. carrentals.com offers you great short and long term car rental deals from car rental companies if you Book Now!",
+            "htmlSnippet": "<b>Santa Clara Car Rental</b>. carrentals.com offers you great short and long term <b>car rental deals</b> from <b>car rental companies</b> if you Book Now!",
+            "formattedUrl": "https://www.carrentals.com/Santa-Clara-Car-Rentals-g-cty.d6172.Car-Rental...",
+            "htmlFormattedUrl": "https://www.<b>carrental</b>s.com/<b>Santa</b>-<b>Clara</b>-<b>Car</b>-<b>Rental</b>s-g-cty.d6172.<b>Car</b>-<b>Rental</b>...",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQaPP1kigbiAakB6_gLGyQcKv-44lX7Oz7dTAgO88DBca8eSGl3pp0qI1E",
+                        "width": "285",
+                        "height": "177"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "data-fm-seo": "60689550",
+                        "og:image": "https://a.travel-assets.com/flex/flexmanager/images/2019/08/19/CR_Hero.jpg?impolicy=fcrop&w=360&h=224&q=medium",
+                        "flex:template-version": "52",
+                        "og:type": "website",
+                        "theme-color": "#000000",
+                        "flex:template-fm-id": "24921",
+                        "og:site_name": "carrentals.com",
+                        "og:title": "Cheap Car Rental in Santa Clara, CA - carrentals.com",
+                        "og:image:type": "image/jpeg",
+                        "ewe:page": "FLEX",
+                        "og:description": "Santa Clara Car Rental. carrentals.com offers you great short and long term car rental deals from  car rental companies if you Book Now!",
+                        "essclientid": "flex.car.Car-Rental-Guide",
+                        "viewport": "width=device-width, initial-scale=1.0",
+                        "flex:page-type": "Car-Rental-Guide",
+                        "apple-mobile-web-app-capable": "yes",
+                        "og:locale": "en_US",
+                        "mobile-web-app-capable": "yes",
+                        "flex:template-id": "70801-en_US-CarRentals-City-Blossom",
+                        "og:url": "https://www.carrentals.com/Santa-Clara-Car-Rentals-g-cty.d6172.Car-Rental-Deals"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://a.travel-assets.com/flex/flexmanager/images/2019/08/19/CR_Hero.jpg?impolicy=fcrop&w=360&h=224&q=medium"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Car Rentals in Santa Clara, CA - Cheap Rates Near Me | Uber",
+            "htmlTitle": "<b>Car Rentals</b> in <b>Santa Clara</b>, <b>CA</b> - Cheap Rates Near Me | Uber",
+            "link": "https://www.uber.com/us/en/r/cities/car-rentals/santa-clara-ca-us/",
+            "displayLink": "www.uber.com",
+            "snippet": "Book car rentals in Santa Clara when you want with Uber Rent. Browse sedans, vans, and SUVs at affordable rates from Avis, Budget, Hertz, and more.",
+            "htmlSnippet": "Book <b>car rentals</b> in <b>Santa Clara</b> when you want with Uber Rent. Browse sedans, vans, and SUVs at affordable rates from Avis, Budget, Hertz, and more.",
+            "cacheId": "y7mf_cbLsDsJ",
+            "formattedUrl": "https://www.uber.com/us/en/r/cities/car-rentals/santa-clara-ca-us/",
+            "htmlFormattedUrl": "https://www.uber.com/us/en/r/cities/<b>car</b>-<b>rental</b>s/<b>santa</b>-<b>clara</b>-<b>ca</b>-us/",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlZbOSQ9sKkYoKFt5m5imTrlr8jww34FX9fzvYonV4R1ErgY9mC3pJEQ",
+                        "width": "310",
+                        "height": "163"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "twitter:app:id:googleplay": "com.ubercab",
+                        "og:image": "https://d3i4yxtzktqr9n.cloudfront.net/uber-sites/fb5b3f0afc38af28.jpg",
+                        "twitter:card": "app",
+                        "og:type": "website",
+                        "og:site_name": "Uber",
+                        "msvalidate.01": "813904D1791F14A7C08B0F95D62B936C",
+                        "og:title": "Car Rentals in Santa Clara, CA - Cheap Rates Near Me | Uber",
+                        "twitter:app:id:ipad": "368677368",
+                        "twitter:app:id:iphone": "368677368",
+                        "og:description": "Book car rentals when you want with Uber Rent. Browse sedans, vans, and SUVs at affordable rates from Avis, Budget, Hertz, and more.",
+                        "referrer": "strict-origin-when-cross-origin",
+                        "fb:app_id": "277064115737714",
+                        "twitter:site": "@Uber",
+                        "viewport": "width=device-width, initial-scale=1",
+                        "og:url": "https://www.uber.com/us/en/r/cities/car-rentals/santa-clara-ca-us/"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://d3i4yxtzktqr9n.cloudfront.net/uber-sites/fb5b3f0afc38af28.jpg"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Car Rentals in Santa Clara from C$ 42/day - Search for Rental Cars ...",
+            "htmlTitle": "<b>Car Rentals</b> in <b>Santa Clara</b> from C$ 42/day - Search for Rental Cars ...",
+            "link": "https://www.ca.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp",
+            "displayLink": "www.ca.kayak.com",
+            "snippet": "From here, pick up the car you rented through KAYAK from Santa Clara car rentals, including Alamo, Avis, Hertz, and National. These companies have a wide range\u00a0...",
+            "htmlSnippet": "From here, pick up the car you rented through KAYAK from <b>Santa Clara car rentals</b>, including Alamo, Avis, Hertz, and National. These <b>companies</b> have a wide range&nbsp;...",
+            "formattedUrl": "https://www.ca.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp",
+            "htmlFormattedUrl": "https://www.<b>ca</b>.kayak.com/Cheap-<b>Santa</b>-<b>Clara</b>-<b>Car</b>-<b>Rental</b>s.33354.<b>car</b>s.ksp",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1K9X1Vriib8rUppxrzsqyDfoh3wAn3Oc5kJ_sOq_59tMLSR4dm3nmmPs",
+                        "width": "310",
+                        "height": "163"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "r9-rendered": "20240112.024204.+00:00",
+                        "seo-cache": "true",
+                        "og:image": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=1200&height=630&xhint=2302&yhint=2670&crop=true",
+                        "og:image:width": "1200",
+                        "twitter:card": "summary_large_image",
+                        "og:site_name": "KAYAK",
+                        "seop": "33354",
+                        "og:description": "Looking for car rentals in Santa Clara? Search prices from Ace, Fox Autorent, Priceline, Reach Rental, TravelCar and VIPCars Recommendation. Latest prices: Economy C$\u00a069/day. Economy C$\u00a069/day. Compact C$\u00a069/day. Compact C$\u00a072/day. Intermediate C$\u00a066/day. Intermediate C$\u00a066/day. Search and find Santa Clara rental car deals on KAYAK now.",
+                        "twitter:creator": "@KAYAK",
+                        "kayak_page": "car,static-city-cars,unknown",
+                        "twitter:site": "@KAYAK",
+                        "r9-built": "20240111.063410",
+                        "og:type": "website",
+                        "twitter:title": "Car Rentals in Santa Clara from C$\u00a042/day - Search for Rental Cars on KAYAK",
+                        "r9-build-number": "56",
+                        "msvalidate.01": "F474AA342B64B17CDE53F5C5D4C07C7A",
+                        "og:title": "Car Rentals in Santa Clara from C$\u00a042/day - Search for Rental Cars on KAYAK",
+                        "og:image:height": "630",
+                        "r9-version": "R699d",
+                        "kayak_seo_splitxp": "seo-kk-city-cars-user-tips=enabled,seo-mcfly-search-redesign=control-group,seo-kayak-cars-shared-search-form=control-group,seo-domestic-international-destinations-dates=control-group,seo-kayak-city-car-header-with-cover-image-redesign=enabled",
+                        "fb:pages": "90811893045",
+                        "tags": "b_faq,b_tips",
+                        "twitter:image:src": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=440&height=220&xhint=2302&yhint=2670&crop=true",
+                        "insight-app-sec-validation": "af188ca0-1818-47ab-bc00-80a6b93a47d0",
+                        "viewport": "width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1",
+                        "twitter:description": "Looking for car rentals in Santa Clara? Search prices from Ace, Fox Autorent, Priceline, Reach Rental, TravelCar and VIPCars Recommendation. Latest prices: Economy C$\u00a069/day. Economy C$\u00a069/day. Compact C$\u00a069/day. Compact C$\u00a072/day. Intermediate C$\u00a066/day. Intermediate C$\u00a066/day. Search and find Santa Clara rental car deals on KAYAK now.",
+                        "og:url": "https://www.ca.kayak.com/Cheap-Santa-Clara-Car-Rentals.33354.cars.ksp",
+                        "format-detection": "telephone=no"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://content.r9cdn.net/rimg/dimg/a5/cf/f1cc5bbd-city-33354-16852562fa1.jpg?width=1200&height=630&xhint=2302&yhint=2670&crop=true"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "customsearch#result",
+            "title": "Car rentals Santa Clara, CA | Turo",
+            "htmlTitle": "<b>Car rentals Santa Clara, CA</b> | Turo",
+            "link": "https://turo.com/us/en/car-rental/united-states/santa-clara-ca",
+            "displayLink": "turo.com",
+            "snippet": "Skip the car rental counter in Santa Clara, CA \u2014 book and drive cars from trusted, local hosts on Turo, the world's largest car sharing marketplace.",
+            "htmlSnippet": "Skip the <b>car rental</b> counter in <b>Santa Clara</b>, <b>CA</b> \u2014 book and drive cars from trusted, local hosts on Turo, the world&#39;s largest car sharing marketplace.",
+            "cacheId": "eDvfBJSrQRQJ",
+            "formattedUrl": "https://turo.com/us/en/car-rental/united-states/santa-clara-ca",
+            "htmlFormattedUrl": "https://turo.com/us/en/<b>car</b>-<b>rental</b>/united-states/<b>santa</b>-<b>clara</b>-<b>ca</b>",
+            "pagemap": {
+                "cse_thumbnail": [
+                    {
+                        "src": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQfa0EwNKQ5_2JPye_25x_3RPLQtwkF5OgzN5kQuEGV_RSVbs3VmssdUc4",
+                        "width": "298",
+                        "height": "169"
+                    }
+                ],
+                "metatags": [
+                    {
+                        "next-head-count": "14",
+                        "viewport": "width=device-width, initial-scale=1"
+                    }
+                ],
+                "cse_image": [
+                    {
+                        "src": "https://resources.turo.com/f/81934/738x420/8958083579/turosho-157_large-1.png"
+                    }
+                ]
+            }
+        }
+    ]
+}

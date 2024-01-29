@@ -54,7 +54,11 @@ def search_query_extrapolate(request_context: RequestContext):
         search_query = sanitized_prompt["search_query"]
         goal_solution = sanitized_prompt["solution"]
         keyword = sanitized_prompt["keyword"]
-        search_space = list(sanitized_prompt["search"])
+        search_space = sanitized_prompt["search"]
+
+        if isinstance(search_space, str):
+            search_space = [search_space]
+
     except Exception as e:
         log.error(f"Prompt sanitization failed, Error:{e}")
         raise Exception("Prompt sanitization failed")
@@ -106,13 +110,17 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data = process_data_docs(extracted_content, 900)
+    context_data = process_data_docs(extracted_content, 700)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
+    data = []
     if len(context_data) == 0:
         log.error("No relevant data extracted")
-        return []
+        return data
         # raise Exception("No relevant data extracted!")
+    else:
+        data = [content for content in context_data if len(content.get("content", "")) >= 600]
+
     return context_data
 
 
@@ -154,7 +162,7 @@ async def stream_contacts_retrieval(
         request_context.prompt,
         request_context.solution,
         OPENAI_ENV,
-        context_chunk_size=2,
+        context_chunk_size=3,
         max_thread=8,
         timeout=11,
     ):
@@ -203,7 +211,7 @@ async def static_contacts_retrieval(
         request_context.prompt,
         request_context.solution,
         OPENAI_ENV,
-        context_chunk_size=2,
+        context_chunk_size=3,
         max_thread=10,
         timeout=10,
     )
@@ -218,7 +226,7 @@ async def response_formatter(
     location: str,
     results,
     solution: str,
-    search_space,
+    search_space: List[str],
     search_query: str,
     status="running",
     has_more: bool = True,

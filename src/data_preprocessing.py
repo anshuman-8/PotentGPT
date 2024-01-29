@@ -2,15 +2,71 @@ import json
 import re
 import time
 import logging as log
-from typing import List, Dict
+from bs4 import BeautifulSoup, NavigableString, Tag
+from typing import Dict, Any, Iterator, List, Sequence, cast
 from langchain.docstore.document import Document
-from langchain_community.document_transformers import beautiful_soup_transformer
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-
 from src.utils import create_documents, document_regex_sub, document2map
 
-LOG_FILES = True
 
+LOG_FILES = False 
+
+def transform_documents(
+        documents: Sequence[Document],
+        unwanted_tags: List[str] = ["script", "style"],
+        tags_to_extract: List[str] = ["p", "li", "div", "a"],
+        remove_lines: bool = True,
+    ) -> Sequence[Document]:
+        for doc in documents:
+            cleaned_content = doc.page_content
+
+            cleaned_content = remove_unwanted_tags(cleaned_content, unwanted_tags)
+            cleaned_content = extract_tags(cleaned_content, tags_to_extract)
+
+            if remove_lines:
+                cleaned_content = remove_unnecessary_lines(cleaned_content)
+
+            doc.page_content = cleaned_content
+
+        return documents
+
+def remove_unwanted_tags(html_content: str, unwanted_tags: List[str]) -> str:
+    soup = BeautifulSoup(html_content, "html.parser")
+    for tag in unwanted_tags:
+        for element in soup.find_all(tag):
+            element.decompose()
+    return str(soup)
+
+def extract_tags(html_content: str, tags: List[str]) -> str:
+    soup = BeautifulSoup(html_content, "html.parser")
+    text_parts: List[str] = []
+    for element in soup.find_all():
+        if element.name in tags:
+            text_parts += get_navigable_strings(element)
+            element.decompose()
+
+    return " ".join(text_parts)
+
+def remove_unnecessary_lines(content: str) -> str:
+    lines = content.split("\n")
+    stripped_lines = [line.strip() for line in lines]
+    non_empty_lines = [line for line in stripped_lines if line]
+    cleaned_content = " ".join(non_empty_lines)
+    return cleaned_content
+
+def get_navigable_strings(element: Any) -> Iterator[str]:
+    for child in cast(Tag, element).children:
+        if isinstance(child, Tag):
+            yield from get_navigable_strings(child)
+        elif isinstance(child, NavigableString):
+            if (element.name == "a") and (href := element.get("href")):
+                if href.startswith(("mailto:", "tel:")):
+                    yield f"{child.strip()} [Contact:({href})]"
+                else:
+                    yield child.strip()
+            else:
+                yield child.strip()
+            
 def preprocess_text(docs: Document) -> Dict:
     """
     Extract text from HTML and preprocess it using BeautifulSoup
@@ -18,8 +74,7 @@ def preprocess_text(docs: Document) -> Dict:
     t_flag1 = time.time()
 
     # Beautiful Soup Transformer
-    bs_transformer = beautiful_soup_transformer.BeautifulSoupTransformer()
-    docs_transformed = bs_transformer.transform_documents(
+    docs_transformed = transform_documents(
         docs,
         tags_to_extract=["p", "li", "div", "a", "span", "table", "tr", "article"],
         unwanted_tags=["script", "style", "noscript", "svg", "img", "input", "pre", "template"],
@@ -66,7 +121,6 @@ def contains_contacts(text: str) -> bool:
     """
     # Regular expression patterns for emails and phone numbers
     email_pattern = r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
-    # phone_pattern = r"\b(?:\+\d{1,2}\s?)?(?:\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}\b"
     phone_pattern = r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b|\b\d{10}\b"
 
     contains_email = bool(re.search(email_pattern, text))
