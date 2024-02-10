@@ -110,7 +110,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data = process_data_docs(extracted_content, 700)
+    context_data = process_data_docs(extracted_content, 610)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     data = []
@@ -162,7 +162,7 @@ async def stream_contacts_retrieval(
         request_context.prompt,
         request_context.solution,
         OPENAI_ENV,
-        context_chunk_size=3,
+        context_chunk_size=4,
         max_thread=8,
         timeout=11,
     ):
@@ -211,8 +211,8 @@ async def static_contacts_retrieval(
         request_context.prompt,
         request_context.solution,
         OPENAI_ENV,
-        context_chunk_size=3,
-        max_thread=10,
+        context_chunk_size=4,
+        max_thread=11,
         timeout=10,
     )
     results = results + web_result

@@ -1,31 +1,27 @@
 {
-  "id": "870c7dc9-8b8f-4f6d-ad56-c4ef776c13c3",
-  "prompt": "I need a car for rent in Orkland",
-  "location": "Orkland, CA",
-  "time": 12,
-  "count": 2,
+  "id": "string",
+  "status": "string",
+  "has_more": false,
+  "location": "string",
+  "prompt": "string",
+  "count": 0,
   "results": [
-    {
-      "name": "One Toyota | New Toyota & Used Car Dealer in Oakland, CA",
-      "info": "Lot of data",
-      "source": "https://www.onetoyota.com/",
-      "provider": ["Google", "Bing"],
-      "contacts": {
-        "email": "",
-        "phone": "888-964-0576",
-        "address": "8181 Oakport St. Oakland, CA 94621"
+      {
+          "name": "string",
+          "source": "string",
+          "info": "string",
+          "provider": ["string"],
+          "contacts": {
+              "email": "string",
+              "phone": "string",
+              "address": "string"
+          }
       }
-    },
-    {
-      "name": "Volkswagen of Oakland: Volkswagen Dealer in Oakland, CA",
-      "info": "Lot of data",
-      "source": "https://vwofoakland.com/",
-      "provider":["Google"],
-      "contacts": {
-        "email": "volksvage.oak@gmail.com",
-        "phone": "510-281-8909",
-        "address": "2740 Broadway Oakland, CA 94612"
-      }
-    }
-  ]
+  ],
+  "meta": {
+      "solution": "string",
+      "search_space": ["string"],
+      "search_query": ["string"],
+      "time": 0
+  }
 }

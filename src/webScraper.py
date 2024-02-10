@@ -7,7 +7,7 @@ from playwright.async_api import async_playwright
 from langchain.docstore.document import Document
 from src.utils import document2map
 
-LOG_FILES = False # Logs the data (keep it False)
+LOG_FILES = True # Logs the data (keep it False)
 
 class AsyncChromiumLoader:
     def __init__(self, web_links: List[str]):

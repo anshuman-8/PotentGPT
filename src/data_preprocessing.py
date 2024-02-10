@@ -9,7 +9,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from src.utils import create_documents, document_regex_sub, document2map
 
 
-LOG_FILES = False 
+LOG_FILES = False
 
 def transform_documents(
         documents: Sequence[Document],
@@ -153,7 +153,7 @@ def process_data_docs(html_docs: Document, chunk_size: int = 400):
     """
     docs = preprocess_text(docs=html_docs)
 
-    data = docs_recursive_split(docs=docs, chunk_size=chunk_size)
+    data = docs_recursive_split(docs=docs, chunk_size=chunk_size, overlap=15)
 
     data = relevant_data(extracted_content=data)
 

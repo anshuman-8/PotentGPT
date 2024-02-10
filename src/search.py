@@ -512,14 +512,15 @@ class Search:
             for result in search_results:
                 if total > max_results:
                     break
-                if not result == None or isinstance(result, (Exception, str, dict)) or len(result) > i:
+                if not (result == None or isinstance(result, (Exception, str, dict)) ) and len(result) > i:
                     if result[i]["link"] not in [r["link"] for r in common_results]:
-                        log.info(f"Adding search result '{result[i]["title"]}'; from query :  '{result[i]["query"]}'")
+                        log.info(f"Adding search result '{result[i]['title']}'; from query :  '{result[i]['query']}'")
                         common_results.append(result[i])
                         total+=1
             i += 1
 
         common_results = list(common_results[:max_results])
+        log.info(f"Common search results ready!")
         return common_results
 
 
