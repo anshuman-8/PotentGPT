@@ -95,6 +95,9 @@ def preprocess_text(docs: Document) -> Dict:
 
 
 def docs_recursive_split(docs: Document, chunk_size: int = 400, overlap:int=50) -> List[Document]:
+    """
+    Split the documents into chunks using RecursiveCharacterTextSplitter
+    """
     t_flag1 = time.time()
     splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
         chunk_size=chunk_size, chunk_overlap=overlap

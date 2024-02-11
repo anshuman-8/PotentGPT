@@ -46,9 +46,31 @@ class Search:
         """
         This function takes the bing and google search results and returns a combined dictionary of all search links.
         """
+
+        def process_single_result(result, source):
+            search_index = []
+            for site in result:
+                if site == None or isinstance(site, (Exception, str)):
+                    continue
+                if isinstance(site, dict):
+                    search_index.append({
+                        "index": [site["index"]],
+                        "title": site["title"],
+                        "link": site["link"],
+                        "displayLink": site["displayLink"],
+                        "query": site["query"],
+                        "source": [source],
+                    })
+            log.info(f"Single web {source} search results: {search_index}")
+            return search_index
+        
         if not bing_search:
+            log.warning(f"No Bing search results")
+            google_search = process_single_result(google_search, "Google")
             return google_search
         elif not google_search:
+            log.warning(f"No Google search results")
+            bing_search = process_single_result(bing_search, "Bing")
             return bing_search
 
         search_index = {}
@@ -508,14 +530,14 @@ class Search:
         total=0
         i = 0
         
-        while total <= max_results:
+        while total <= max_results and i < 40:
             for result in search_results:
                 if total > max_results:
                     break
                 if not (result == None or isinstance(result, (Exception, str, dict)) ) and len(result) > i:
                     if result[i]["link"] not in [r["link"] for r in common_results]:
                         log.info(f"Adding search result '{result[i]['title']}'; from query :  '{result[i]['query']}'")
-                        common_results.append(result[i])
+                        common_results.append(result[i]) 
                         total+=1
             i += 1
 
