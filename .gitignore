@@ -161,3 +161,4 @@ cython_debug/
 
 /response-logs/*
 /feedbacks/*.json
+/data-collection/*

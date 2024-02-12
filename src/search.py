@@ -7,7 +7,7 @@ import asyncio
 from typing import Dict, List
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
@@ -61,7 +61,7 @@ class Search:
                         "query": site["query"],
                         "source": [source],
                     })
-            log.info(f"Single web {source} search results: {search_index}")
+            log.debug(f"Single web {source} search results: {search_index}")
             return search_index
         
         if not bing_search:
@@ -239,6 +239,9 @@ class Search:
             return None
 
         api_endpoint = f"https://www.googleapis.com/customsearch/v1?key={google_api_key}&cx={google_search_engine_id}"
+
+        if site_limit > 10:
+            site_limit = 10
 
         params = {"q": search_query, "gl": country, "lr": "lang_en", "num": site_limit}
 
@@ -497,9 +500,9 @@ class Search:
         t_flag1 = time.time()
         tasks = [
             self.search_google(
-                query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code
+                query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code, site_limit=20
             ),
-            self.search_bing(query, BING_API_KEY, self.country_code),
+            self.search_bing(query, BING_API_KEY, self.country_code, site_limit=20),
         ]
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -536,7 +539,7 @@ class Search:
                     break
                 if not (result == None or isinstance(result, (Exception, str, dict)) ) and len(result) > i:
                     if result[i]["link"] not in [r["link"] for r in common_results]:
-                        log.info(f"Adding search result '{result[i]['title']}'; from query :  '{result[i]['query']}'")
+                        log.debug(f"Adding search result '{result[i]['title']}'; from query :  '{result[i]['query']}'")
                         common_results.append(result[i]) 
                         total+=1
             i += 1

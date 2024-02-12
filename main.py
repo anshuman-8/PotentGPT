@@ -99,6 +99,21 @@ async def static_response(request_context: RequestContext, data: List[dict]):
         f.write(str(response))
     return response
 
+def collect_data(id, goal, solution, context, search_space, search_query, results): 
+    response = results.decode("utf-8")
+    data = {
+        "id": id,
+        "goal": goal,
+        "solution": solution,
+        "context": context,
+        "search_space": search_space,
+        "search_query": search_query,
+        "results": json.loads(response)["results"]
+    }
+    log.info(f"\nData collected for {id} in data-collection!\n")
+    with open(f"data-collection/{id}.json", "w") as f:
+        json.dump(data, f)
+
 
 @app.get("/q/")
 async def probe(
@@ -184,7 +199,7 @@ async def staticProbe(
         )
         request_context.update_search_param(query, solution, keyword, search_space)
 
-        web_context = await extract_web_context(request_context=request_context)
+        web_context = await extract_web_context(request_context=request_context, deep_scrape=True)
     except Exception as e:
         raise HTTPException(
             status_code=500,
@@ -193,6 +208,8 @@ async def staticProbe(
     
     response = await static_response(request_context, web_context)
 
+    collect_data(str(ID), prompt, solution, web_context, search_space, query, response)
+    
     return Response(content=response)
 
 

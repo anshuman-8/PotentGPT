@@ -143,7 +143,7 @@ async def retrieval_multithreading(
     context_chunk_size: int = 5,
     max_thread: int = 5,
     timeout: int = 10,
-) -> json:
+):
     """
     Creates multiple LLM calls
     """
@@ -272,5 +272,5 @@ async def static_retrieval_multithreading(
         return combined_results
 
     except Exception as e:
-        log.error(f"Error in async open ai: {e}")
+        log.error(f"Error in async openai: {e}")
         return b"[]"

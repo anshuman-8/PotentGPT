@@ -81,11 +81,15 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         yelp_search=False,
     )
 
+    max_web_results = 25
+    if "gmaps" in request_context.search_space:
+        max_web_results = 20
+
     # get the search results
-    web_results = await search_client.search_web(max_results=25)
+    web_results = await search_client.search_web(max_results=max_web_results)
 
     # process the search links
-    refined_search_results = process_search_results(web_results[:25])
+    refined_search_results = process_search_results(web_results[:max_web_results])
     log.info(f"\nRefined Search Results: {refined_search_results}\n")
 
     if deep_scrape and "gmaps" in request_context.search_space:
@@ -99,7 +103,6 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
             refined_search_results = gmaps_links + refined_search_results
         else:
             log.warning("Google Business data not used")
-    log.warning(f"Refined Search Results: {refined_search_results}")
 
     # scrape the websites
     extracted_content = await scrape_with_playwright(refined_search_results)
