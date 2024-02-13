@@ -16,7 +16,7 @@ BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
 ## --- Alert ---
-LOG_FILES = False  # Set to True to log the results to files
+LOG_FILES = True  # Set to True to log the results to files
 
 
 class Search:
@@ -94,11 +94,6 @@ class Search:
                     }
 
         final_result = list(search_index.values())
-
-        # write to file
-        if LOG_FILES:
-            with open("src/log_data/search_index.json", "w") as f:
-                json.dump(final_result, f, indent=4)
 
         return final_result
 
@@ -533,7 +528,7 @@ class Search:
         total=0
         i = 0
         
-        while total <= max_results and i < 40:
+        while total <= max_results and i < 60:
             for result in search_results:
                 if total > max_results:
                     break
@@ -546,6 +541,10 @@ class Search:
 
         common_results = list(common_results[:max_results])
         log.info(f"Common search results ready!")
+
+        if LOG_FILES:
+            with open("src/log_data/common_search_results.json", "w") as f:
+                json.dump(common_results, f, indent=4)
         return common_results
 
 

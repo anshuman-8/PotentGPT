@@ -79,7 +79,7 @@ async def stream_response(request_context: RequestContext, data: List[dict]):
 
 
 async def static_response(request_context: RequestContext, data: List[dict]):
-    results = await static_contacts_retrieval(request_context, data)
+    results = await static_contacts_retrieval(request_context, data, full_search=False)
     end_time = time.time()
     response = await response_formatter(
         request_context.id,

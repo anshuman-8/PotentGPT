@@ -9,7 +9,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from src.utils import create_documents, document_regex_sub, document2map
 
 
-LOG_FILES = False
+LOG_FILES = True
 
 def transform_documents(
         documents: Sequence[Document],
@@ -76,7 +76,7 @@ def preprocess_text(docs: Document) -> Dict:
     # Beautiful Soup Transformer
     docs_transformed = transform_documents(
         docs,
-        tags_to_extract=["p", "li", "div", "a", "span", "table", "tr", "article"],
+        tags_to_extract=["p", "li", "div", "a", "span", "tr", "article"],
         unwanted_tags=["script", "style", "noscript", "svg", "img", "input", "pre", "template"],
     )
     # remove long white space
@@ -118,7 +118,7 @@ def docs_recursive_split(docs: Document, chunk_size: int = 400, overlap:int=50) 
     return splits
 
 
-def contains_contacts(text: str) -> bool:
+def contains_contacts(text: str, email_only:bool=False) -> bool:
     """
     Check if the text contains email or phone number
     """
@@ -127,7 +127,7 @@ def contains_contacts(text: str) -> bool:
     phone_pattern = r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b|\b\d{10}\b"
 
     contains_email = bool(re.search(email_pattern, text))
-    contains_phone = bool(re.search(phone_pattern, text))
+    contains_phone = bool(re.search(phone_pattern, text)) if not email_only else False
 
     return contains_email or contains_phone
 
@@ -138,7 +138,7 @@ def relevant_data(extracted_content):
     """
     t_flag1 = time.time()
     log.debug(f"before extraction: {len(extracted_content)}")
-    data = [chunk for chunk in extracted_content if contains_contacts(chunk["content"])]
+    data = [chunk for chunk in extracted_content if contains_contacts(chunk["content"], email_only=True)]
     log.debug(f"after extraction: {len(data)}")
     t_flag2 = time.time()
     log.info(f"Extraction time: {t_flag2 - t_flag1}")

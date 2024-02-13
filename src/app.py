@@ -32,6 +32,8 @@ def process_search_results(results: List[str]) -> List[str]:
         "makemytrip",
         "linkedin",
         "justdial",
+        "indeed",
+        "reddit",
         "yelp",
     ]
     processed_results = []
@@ -81,9 +83,9 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         yelp_search=False,
     )
 
-    max_web_results = 25
+    max_web_results = 30
     if "gmaps" in request_context.search_space:
-        max_web_results = 20
+        max_web_results = 25
 
     # get the search results
     web_results = await search_client.search_web(max_results=max_web_results)
@@ -98,7 +100,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
             gmaps_links = search_client.process_google_business_links(
                 response_gmaps
             )
-            gmaps_links = gmaps_links[:10]
+            gmaps_links = gmaps_links[:15]
             log.info(f"\nGoogle Business Details: {gmaps_links}\n")
             refined_search_results = gmaps_links + refined_search_results
         else:
@@ -128,7 +130,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
 
 
 async def stream_contacts_retrieval(
-    request_context: RequestContext, data, context_chunk_size: int = 5
+    request_context: RequestContext, data, context_chunk_size: int = 5, full_search: bool = True
 ):
     """
     Extract the contacts from the search results using LLM
@@ -140,7 +142,7 @@ async def stream_contacts_retrieval(
         country_code=request_context.country_code,
         timeout=23,
     )
-    if "gmaps" in request_context.search_space:
+    if full_search and "gmaps" in request_context.search_space:
         response_gmaps = await search_client.search_google_business()
         if response_gmaps is not None:
             details_gmaps = search_client.process_google_business_results(
@@ -151,7 +153,7 @@ async def stream_contacts_retrieval(
         else:
             log.warning("Google Business data not used")
 
-    if "yelp" in request_context.search_space:
+    if full_search and "yelp" in request_context.search_space:
         response_yelp = await search_client.search_yelp()
         if response_yelp is not None:
             details_yelp = search_client.process_yelp_data(response_yelp)
@@ -173,7 +175,7 @@ async def stream_contacts_retrieval(
 
 
 async def static_contacts_retrieval(
-    request_context: RequestContext, data, context_chunk_size: int = 5
+    request_context: RequestContext, data, context_chunk_size: int = 5, full_search: bool = True
 ) -> List[dict]:
     """
     Extract the contacts from the search results using LLM
@@ -187,7 +189,7 @@ async def static_contacts_retrieval(
         country_code=request_context.country_code,
         timeout=23,
     )
-    if "gmaps" in request_context.search_space:
+    if full_search and "gmaps" in request_context.search_space:
         response_gmaps = await search_client.search_google_business()
         if response_gmaps is not None:
             details_gmaps = search_client.process_google_business_results(
@@ -198,7 +200,7 @@ async def static_contacts_retrieval(
         else:
             log.warning("Google Business data not used")
 
-    if "yelp" in request_context.search_space:
+    if full_search and "yelp" in request_context.search_space:
         response_yelp = await search_client.search_yelp()
         if response_yelp is not None:
             details_yelp = search_client.process_yelp_data(response_yelp)
@@ -215,7 +217,7 @@ async def static_contacts_retrieval(
         request_context.solution,
         OPENAI_ENV,
         context_chunk_size=4,
-        max_thread=11,
+        max_thread=12,
         timeout=10,
     )
     results = results + web_result

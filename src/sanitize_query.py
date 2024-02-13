@@ -44,7 +44,7 @@ def sanitize_search_query(prompt: str,open_api_key:str, location: str = None) ->
     prompt = f"{prompt.strip()}"
     client = OpenAI(api_key=open_api_key)
     system_prompt = """Comprehend the goal, suggest the optimal solution, and provide small web search queries to assist in achieving it. The solution should be based on finding the best individual person or an expert, to contact for helping or completing the user goal. 
-For location-based goals, prioritize location in the first query, then generalize in subsequent queries(if needed), based on finding the best expert/person/vendor for the user's goal. List the queries as strings. Give multiple search queries only if its needed and can not be done in a single search, try to keep number of queries minimum.
+For location-based goals, prioritize location in the first search query, and subsequently refine or broaden the search as necessary to identify the most suitable expert, person, or vendor for the user's goal. Limit the number of queries, providing additional ones only for broadening the search.
 The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases .`yelp` and `gmaps` both are used for local businesses, including personal, small, and medium-sized enterprises, based on location. keyword is the search keyword, which is used to search for the solution, without location detail.
 """
 
@@ -76,7 +76,7 @@ The output should be in JSON format, also saying where to search in a list, an e
                 },
                 {
                     "role": "system",
-                    "content": '{"solution": "Find all UC Davis molecular biology research professors and internship portals for emailing.", "search_query":["UC Davis professors in molecular biology contacts","UC Davis research internship","UC Davis molecular biology research labs"], "keyword": "UC Davis Professors", "search":["web"]}',
+                    "content": '{"solution": "Find all UC Davis molecular biology research professors, department and internship openings for emailing.", "search_query":["UC Davis faculty in molecular biology","UC Davis molecular biology research labs","UC Davis research internship"], "keyword": "UC Davis Professors", "search":["web"]}',
                 },
 
                 {"role": "user", "content": f"Location: {location};\nGoal: {prompt}"},

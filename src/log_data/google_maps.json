@@ -1,0 +1,112 @@
+[
+    {
+        "nationalPhoneNumber": "(408) 241-3010",
+        "internationalPhoneNumber": "+1 408-241-3010",
+        "formattedAddress": "2930 El Camino Real, Santa Clara, CA 95051, USA",
+        "websiteUri": "https://www.choicehotels.com/california/santa-clara/quality-inn-hotels/ca285?mc=llgoxxpx",
+        "displayName": {
+            "text": "Quality Inn & Suites Silicon Valley",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2930 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 241-0200",
+        "internationalPhoneNumber": "+1 408-241-0200",
+        "formattedAddress": "3208 El Camino Real, Santa Clara, CA 95051, USA",
+        "websiteUri": "https://www.motel6.com/en/home/motels.ca.santa-clara.9609.html?lid=Local_Milestone_263&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=listing&utm_campaign=visit%20website",
+        "displayName": {
+            "text": "Motel 6 Santa Clara, CA",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3208 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 244-2840",
+        "internationalPhoneNumber": "+1 408-244-2840",
+        "formattedAddress": "859 El Camino Real, Santa Clara, CA 95050, USA",
+        "websiteUri": "https://www.bestwestern.com/en_US/book/hotel-rooms.52023.html?iata=90000026&ssob=BLSSH0004G&cid=BLSSH0004G:google:gmb:52023",
+        "displayName": {
+            "text": "SureStay Plus By Best Western Santa Clara Silicon Valley",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "859 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 241-0771",
+        "internationalPhoneNumber": "+1 408-241-0771",
+        "formattedAddress": "3580 El Camino Real, Santa Clara, CA 95051, USA",
+        "websiteUri": "https://hotelerealsantaclara.com/",
+        "displayName": {
+            "text": "Hotel E Real",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3580 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 262-0401",
+        "internationalPhoneNumber": "+1 408-262-0401",
+        "formattedAddress": "2131 Gold St, Alviso, CA 95002, USA",
+        "websiteUri": "https://www.extendedstayamerica.com/hotels/ca/san-jose/santa-clara?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+        "displayName": {
+            "text": "Extended Stay America - San Jose - Santa Clara",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2131 Gold St, Alviso"
+    },
+    {
+        "nationalPhoneNumber": "(408) 241-9305",
+        "internationalPhoneNumber": "+1 408-241-9305",
+        "formattedAddress": "481 El Camino Real, Santa Clara, CA 95050, USA",
+        "websiteUri": "https://www.sonesta.com/us/california/santa-clara/sonesta-simply-suites-silicon-valley-santa-clara?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+        "displayName": {
+            "text": "Sonesta Simply Suites Silicon Valley Santa Clara",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "481 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 883-3487",
+        "internationalPhoneNumber": "+1 408-883-3487",
+        "formattedAddress": "270 S Abbott Ave, Milpitas, CA 95035, USA",
+        "websiteUri": "https://www.wyndhamhotels.com/days-inn/milpitas-california/days-inn-by-wyndham-san-jose-airport/overview?CID=LC:iqv0j1dklijly45:15578",
+        "displayName": {
+            "text": "Days Inn by Wyndham San Jose Airport",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "270 S Abbott Ave, Milpitas"
+    },
+    {
+        "nationalPhoneNumber": "(408) 241-2841",
+        "internationalPhoneNumber": "+1 408-241-2841",
+        "formattedAddress": "2515 El Camino Real, Santa Clara, CA 95051, USA",
+        "websiteUri": "http://www.granadainn.com/",
+        "displayName": {
+            "text": "Granada Inn - Silicon Valley",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2515 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 744-1100",
+        "internationalPhoneNumber": "+1 408-744-1100",
+        "formattedAddress": "1280 Persian Dr, Sunnyvale, CA 94089, USA",
+        "websiteUri": "https://www.choicehotels.com/california/sunnyvale/quality-inn-hotels/ca050?mc=llgoxxpx",
+        "displayName": {
+            "text": "Quality Inn Santa Clara Convention Center",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "1280 Persian Dr, Sunnyvale"
+    },
+    {
+        "nationalPhoneNumber": "(408) 734-9900",
+        "internationalPhoneNumber": "+1 408-734-9900",
+        "formattedAddress": "504 Ross Dr, Sunnyvale, CA 94089, USA",
+        "websiteUri": "https://www.wyndhamhotels.com/days-inn/sunnyvale-california/days-inn-and-suites-sunnyvale/overview?CID=LC:iqv0j1dklijly45:45766",
+        "displayName": {
+            "text": "Days Inn & Suites by Wyndham Sunnyvale",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "504 Ross Dr, Sunnyvale"
+    }
+]
