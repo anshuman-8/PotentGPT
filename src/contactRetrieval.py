@@ -5,6 +5,8 @@ import logging as log
 from openai import AsyncOpenAI, OpenAI
 from typing import Iterator, List
 
+from src.utils import inflating_retrieval_results
+
 LOG_FILES = True
 
 SYS_PROMPT = """Extract vendors/peoples and their contact details from internet scraped context, aiming to assist the user's goal in finding the right service providers or vendors with contacts. Response should be according to the solution given and accurate to the context.
@@ -12,6 +14,12 @@ The response should strictly adhere to the JSON format: {"results": [{"contacts"
 Use an empty string "" if any data is absent or is not available. Strictly avoid providing incorrect contact details. Give phone numbers(in E.164 Format) and emails in usable and correct format (no helper words). If contact information is unavailable or not enough, just omit or skip the vendor or person. Give only one email and one phone number for each vendor/person.
 Do not give dummy or example data. Strictly ensure extracted Vendor and contact are relevant to solution and capable of solving the goal. Make sure the phone number is in E.164 format, based on location. Give empty list [], if not Vendor details are given in the context.
 \nExample response (Only as an example format, data not to be used) : \n{"results": [{"contacts": {"email": "oakland@onetoyota.com","phone": "+15102818909", "address": "8181 Oakport St. Oakland, CA 94621"}, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "info":"One Toyota of Oakland offers a diverse selection of both new and pre-owned vehicles, prioritising customer satisfaction with attentive service. They provide competitive pricing, efficient car care, and personalised financing solutions, ensuring a seamless automotive experience.", "source": "https://www.onetoyota.com/","provider": ["Google","Bing"]}]}\n"""
+
+SYS_PROMPT2 = """Extract vendors/peoples and their contact details from internet scraped context, aiming to assist the user's goal in finding the right service providers or vendors with contacts. Response should be according to the solution given and accurate to the context.
+The response should strictly adhere to the JSON format: {"results": [{"contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number","address": "(string)Address of the vendor"},"id":(string)correct id of the json data given in Context,"name": "(string)Name of the vendor helping the goal","info": "(string)Describe the service provider and their service in 20-30 words(Optional)"}, {...}]}.
+Use an empty string "" if any data is absent or is not available. Strictly avoid providing incorrect contact details. Give phone numbers(in E.164 Format) and emails in usable and correct format (no helper words). If contact information is unavailable or not enough, just omit or skip the vendor or person. Give only one email and one phone number for each vendor/person.
+Do not give dummy or example data. Strictly ensure extracted Vendor and contact are relevant to solution and capable of solving the goal. Make sure the phone number is in E.164 format, based on location. Give empty list [], if not Vendor details are given in the context. Always give correct id of the json content used for contact retrival.
+\nExample response (Only as an example format, data not to be used) : \n{"results": [{"contacts": {"email": "oakland@onetoyota.com","phone": "+15102818909", "address": "8181 Oakport St. Oakland, CA 94621"},"id":2, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "info":"One Toyota of Oakland offers a diverse selection of both new and pre-owned vehicles, prioritising customer satisfaction with attentive service. They provide competitive pricing, efficient car care, and personalised financing solutions, ensuring a seamless automotive experience."}]}\n"""
 
 ## ------------------------ Async ------------------------ ##
 def gpt_cost_calculator(
@@ -97,6 +105,7 @@ async def extract_thread_contacts(
     t_flag1 = time.time()
     log.info(f"Contact Retrival Thread {id} started")
 
+
     try:
         response = await openai_client.chat.completions.create(
             model="gpt-3.5-turbo-1106",
@@ -104,7 +113,7 @@ async def extract_thread_contacts(
             messages=[
                 {
                     "role": "system",
-                    "content": SYS_PROMPT,
+                    "content": SYS_PROMPT2,
                 },
                 {
                     "role": "user",
@@ -238,9 +247,17 @@ async def static_retrieval_multithreading(
     """
     Creates multiple LLM calls
     """
+    # Deflate the data for LLM data retrieval
+    context_data = [
+        { "id": d["metadata"]["id"],"title":d["metadata"]["title"], 
+          "content": d["content"]
+        }
+          for d in data
+          ]
+
     # Divide the data into chunks of size chunk_size
     data_chunks = [
-        data[i : i + context_chunk_size]
+        context_data[i : i + context_chunk_size]
         for i in range(0, len(data), context_chunk_size)
     ]
     data_chunks = data_chunks[:max_thread]
@@ -269,7 +286,15 @@ async def static_retrieval_multithreading(
 
         log.info(f"OpenAI task completed")
         log.info(f"Contacts extracted by OpenAI: {combined_results}")
-        return combined_results
+        
+        # inflate the results
+        inflated_results = inflating_retrieval_results(combined_results, data)
+
+        # write the results to a file
+        with open("src/log_data/contacts.json", "w") as f:
+            json.dump(inflated_results, f)
+
+        return inflated_results
 
     except Exception as e:
         log.error(f"Error in async openai: {e}")

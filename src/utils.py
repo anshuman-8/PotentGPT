@@ -1,6 +1,7 @@
 from langchain.docstore.document import Document
 import logging as log
 import json
+import random
 from typing import List, Optional
 import copy
 import re
@@ -45,6 +46,59 @@ def document2map(documents: List[Document]) -> List[dict]:
     return [
         {"metadata": doc.metadata, "content": doc.page_content} for doc in documents
     ]
+
+def rank_weblinks(web_links: List[dict]) -> List[dict]:
+    """
+    Ranks the web links by adding rank field and making the list unique
+    """
+    # make the list unique
+    unique_web_links = []
+    for web_link in web_links:
+        if web_link not in unique_web_links:
+            unique_web_links.append(web_link)
+
+    # add rank field
+    for i, web_link in enumerate(unique_web_links):
+        web_link["rank"] = i + 1
+        web_link["id"] = i 
+
+    return unique_web_links
+
+def inflating_retrieval_results(results: List[dict], base_informationList: List[dict]) -> List[dict]:
+    """
+    Inflating the retrieval results with the base information
+    """
+    inflated_results = []
+    for result in results:
+        id = result.get("id")
+        if id is None:
+            continue
+        base_information = [info for info in base_informationList if info.get("metadata", {}).get("id") == id]
+        if base_information[0] is None or base_information == []:
+            continue
+        base_information = base_information[0]
+        base_information.pop("content", None)
+        base_information["metadata"].pop("title", None)
+        base_information["metadata"].pop("id", None)
+        result = {**result, **base_information}
+        inflated_results.append(result)
+
+    return inflated_results
+
+def sort_results(results: List[dict]) -> List[dict]:
+    """
+    Sort the results based on the rank
+    """
+    sorted_list = sorted(results, key=lambda x: x['rank'])
+
+    results = []
+    # Reassign the ranks as 1, 2, 3, ...
+    for index, item in enumerate(sorted_list, start=1):
+        updated_item = dict(item)
+        updated_item['rank'] = index
+        results.append(updated_item)
+
+    return results
 
 
 def process_api_json(response):
@@ -175,10 +229,16 @@ def process_results(results):
                     )
 
             processed_result = {
+                "id": result.get("id", random.randint(30, 60)),
+                "rank": result.get("metadata",{}).get("rank"),
                 "name": result.get("name", ""),
-                "source": result.get("source", ""),
+                "source": result.get("metadata",{}).get("link", ""),
                 "info": result.get("info",""),
-                "provider": result.get("provider", []),
+                "provider": result.get("metadata",{}).get("source", []),
+                "latitude": result.get("metadata",{}).get("latitude", None),
+                "longitude": result.get("metadata",{}).get("longitude", None),
+                "rating": result.get("metadata",{}).get("rating", ""),
+                "rating_count": result.get("metadata",{}).get("rating_count", ""),
                 "contacts": {
                     "email": email.string if email else "",
                     "phone": phone.string if phone else "",
@@ -194,6 +254,9 @@ def process_results(results):
 
             # Append the processed result to the list
             processed_results.append(processed_result)
+        
+        # sorting
+        processed_results = sort_results(processed_results)
 
     except Exception as e:
         log.error(f"Error processing API results : {e}")

@@ -1,7 +1,6 @@
 Prompt                                                                                              ,Vendor Questions
                                                                                                     ,
 I want to do an MS in computer science in 2024. Course preferably ending in one year                ,"What is the duration of the MS in computer science program?,
-                                                                                                     Can you provide information on the curriculum and courses offered?,
                                                                                                      Are there any specific prerequisites or admission requirements for the program?,
                                                                                                      What is the average class size for the MS in computer science program?,
                                                                                                      Can you share any information on the job placement or internship opportunities available for graduates of this program?"
@@ -20,7 +19,7 @@ Photographer for an after wedding party                                         
                                                                                                      Are you comfortable teaching intermediate-level students?,
                                                                                                      Do you have any specific availability in the next couple of months?,
                                                                                                      Can you provide references from previous students or parents?"
-asdwdewdqed                                                                                         ,"Bad Prompt:I'm sorry, but I didn't understand your response. Could you please rephrase or provide more information?"
+asdwdewdqed                                                                                         ,"invalid"
 Needed Co-founder for my start-up who can manage finance                                            ,"What is your experience in managing finance for start-ups?,
                                                                                                      Have you worked in a similar industry or start-up before?,
                                                                                                      What is your approach to financial planning and budgeting?,
@@ -31,7 +30,7 @@ I want to book a ride to the airport at 6PM today                               
                                                                                                      Are you available at 6PM today for the airport ride?,
                                                                                                      Do you have any additional charges for luggage or waiting time?,
                                                                                                      Can you provide references from previous customers who have used your airport transportation services?"
-                                                                                                    ,Bad Prompt:Could you please provide a input?
+                                                                                                    ,invalid
 Looking for resources to stay updated on the latest trends and breakthroughs in AI.                 ,"What resources or platforms do you recommend for staying updated on the latest trends and breakthroughs in AI?,
                                                                                                      Do you have any specific AI-related certifications or qualifications?,
                                                                                                      How do you ensure that you are up-to-date with the latest advancements in AI?,
@@ -137,7 +136,7 @@ hiring a professional house painter for an upcoming home renovation project.    
                                                                                                      What type of paint and materials do you typically use?,
                                                                                                      Do you have any certifications or training in painting techniques?,
                                                                                                      Are you able to work within a specific timeline and complete the project on schedule?"
-Looking for a trustwsearch_web_bingorthy and experienced babysitter for occasional childcare.       ,"How many years of experience do you have as a babysitter?,
+Looking for a trustworthy and experienced babysitter for occasional childcare.       ,"How many years of experience do you have as a babysitter?,
                                                                                                      Do you have any certifications or training related to childcare?,
                                                                                                      Are you comfortable with occasional childcare and flexible work hours?,
                                                                                                      Can you provide references from previous families you have worked with?,

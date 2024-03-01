@@ -54,10 +54,10 @@ class Search:
                     continue
                 if isinstance(site, dict):
                     search_index.append({
-                        "index": [site["index"]],
+                        # "index": [site["index"]],
                         "title": site["title"],
                         "link": site["link"],
-                        "displayLink": site["displayLink"],
+                        # "displayLink": site["displayLink"],
                         "query": site["query"],
                         "source": [source],
                     })
@@ -80,15 +80,15 @@ class Search:
                 search_link = result["link"]
 
                 if search_link in search_index:
-                    search_index[search_link]["index"].append(result["index"])
+                    # search_index[search_link]["index"].append(result["index"])
                     if source not in search_index[search_link]["source"]:
                         search_index[search_link]["source"].append(source)
                 else:
                     search_index[search_link] = {
-                        "index": [result["index"]],
+                        # "index": [result["index"]],
                         "title": result["title"],
                         "link": result["link"],
-                        "displayLink": result["displayLink"],
+                        # "displayLink": result["displayLink"],
                         "query": result["query"],
                         "source": [source],
                     }
@@ -122,7 +122,6 @@ class Search:
         - "index": The index of the result.
         - "title": The title of the web page.
         - "link": The URL of the web page.
-        - "displayLink": The display URL of the web page.
 
         If the search is unsuccessful or encounters an error, None is returned.
         """
@@ -173,7 +172,7 @@ class Search:
                     "index": index,
                     "title": result["name"],
                     "link": result["url"],
-                    "displayLink": result["displayUrl"],
+                    # "displayLink": result["displayUrl"],
                     "query": search_query
                 }
                 for index, result in enumerate(data["webPages"]["value"])
@@ -211,7 +210,6 @@ class Search:
         - "index": The index of the result.
         - "title": The title of the web page.
         - "link": The URL of the web page.
-        - "displayLink": The display URL of the web page.
         - "query": Search Query
 
         If the search is unsuccessful or encounters an error, None is returned.
@@ -259,7 +257,7 @@ class Search:
                     "index": index,
                     "title": result["title"],
                     "link": result["link"],
-                    "displayLink": result["displayLink"],
+                    # "displayLink": result["displayLink"],
                     "query": search_query,
                 }
                 for index, result in enumerate(data["items"])
@@ -421,7 +419,7 @@ class Search:
         headers = {
             "Content-Type": "application/json",
             "X-Goog-Api-Key": GOOGLE_MAPS_KEY,
-            "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.shortFormattedAddress,places.nationalPhoneNumber",
+            "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.shortFormattedAddress,places.nationalPhoneNumber,places.rating,places.userRatingCount,places.location",
         }
         data = {"textQuery": str(self.queries[0])}
 
@@ -460,6 +458,10 @@ class Search:
                 processed_result = {
                     "title": result["displayName"].get("text", ""),
                     "link": result.get("websiteUri", ""),
+                    "latitude": result["location"]["latitude"],
+                    "longitude": result["location"]["longitude"],
+                    "rating": str(result.get("rating", "-")),
+                    "rating_count": str(result.get("userRatingCount", "-")),
                     "source": ["Google Maps"],
                 }
                 processed_results.append(processed_result)
@@ -495,9 +497,9 @@ class Search:
         t_flag1 = time.time()
         tasks = [
             self.search_google(
-                query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code, site_limit=20
+                query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code, site_limit=25
             ),
-            self.search_bing(query, BING_API_KEY, self.country_code, site_limit=20),
+            self.search_bing(query, BING_API_KEY, self.country_code, site_limit=25),
         ]
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -539,6 +541,18 @@ class Search:
                         total+=1
             i += 1
 
+            # j = 0
+            # while len(common_results) < max_results:
+                
+            #     for i in range(len(search_results)):
+            #         if len(common_results) >= max_results:
+            #             break
+            #         if search_results[i] is not None and len(search_results[i]) > 0 and len(search_results[i]) > j:
+            #             if search_results[i][j]["link"] not in [r["link"] for r in common_results]:
+            #                 common_results.append(search_results[i][j])
+            #     j += 1
+
+
         common_results = list(common_results[:max_results])
         log.info(f"Common search results ready!")
 
@@ -548,7 +562,7 @@ class Search:
         return common_results
 
 
-    async def search_web(self, max_results: int = 15):
+    async def search_web(self, max_results: int = 20):
         """
         Parallely search multiple queries on the web
         """

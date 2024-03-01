@@ -93,6 +93,7 @@ async def static_response(request_context: RequestContext, data: List[dict]):
         status="completed",
         has_more=False,
     )
+
     log.info(f"\nStatic Response: {response}")
     date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
     with open(f"response-logs/{date}.json", "w") as f:
@@ -100,7 +101,6 @@ async def static_response(request_context: RequestContext, data: List[dict]):
     return response
 
 def collect_data(id, goal, solution, context, search_space, search_query, results): 
-    response = results.decode("utf-8")
     data = {
         "id": id,
         "goal": goal,
@@ -108,7 +108,7 @@ def collect_data(id, goal, solution, context, search_space, search_query, result
         "context": context,
         "search_space": search_space,
         "search_query": search_query,
-        "results": json.loads(response)["results"]
+        "results": json.loads(results)
     }
     log.info(f"\nData collected for {id} in data-collection!\n")
     with open(f"data-collection/{id}.json", "w") as f:
@@ -208,7 +208,7 @@ async def staticProbe(
     
     response = await static_response(request_context, web_context)
 
-    collect_data(str(ID), prompt, solution, web_context, search_space, query, response)
+    # collect_data(str(ID), prompt, solution, web_context, search_space, query, response)
     
     return Response(content=response)
 

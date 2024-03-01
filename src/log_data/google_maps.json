@@ -1,112 +1,273 @@
 [
     {
-        "nationalPhoneNumber": "(408) 241-3010",
-        "internationalPhoneNumber": "+1 408-241-3010",
-        "formattedAddress": "2930 El Camino Real, Santa Clara, CA 95051, USA",
-        "websiteUri": "https://www.choicehotels.com/california/santa-clara/quality-inn-hotels/ca285?mc=llgoxxpx",
+        "nationalPhoneNumber": "(408) 692-4782",
+        "internationalPhoneNumber": "+1 408-692-4782",
+        "formattedAddress": "Event Planning, Corporate and Wedding Caterer Division, 1725 De La Cruz Blvd #1, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3593379,
+            "longitude": -121.9395133
+        },
+        "rating": 4.8,
+        "websiteUri": "https://handheldcatering.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb-listing",
+        "userRatingCount": 26,
         "displayName": {
-            "text": "Quality Inn & Suites Silicon Valley",
+            "text": "Handheld Catering and Events",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "2930 El Camino Real, Santa Clara"
+        "shortFormattedAddress": "Event Planning, Corporate and Wedding Caterer Division, 1725 De La Cruz Blvd #1, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 241-0200",
-        "internationalPhoneNumber": "+1 408-241-0200",
-        "formattedAddress": "3208 El Camino Real, Santa Clara, CA 95051, USA",
-        "websiteUri": "https://www.motel6.com/en/home/motels.ca.santa-clara.9609.html?lid=Local_Milestone_263&travelAgentNumber=TA001305&corporatePlusNumber=CP792N5W&utm_source=google%20my%20business&utm_medium=listing&utm_campaign=visit%20website",
+        "nationalPhoneNumber": "(408) 480-3825",
+        "internationalPhoneNumber": "+1 408-480-3825",
+        "formattedAddress": "1285 Homestead Rd, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.348011899999996,
+            "longitude": -121.94744440000001
+        },
+        "rating": 4.1,
+        "websiteUri": "http://www.jalsasf.com/",
+        "userRatingCount": 64,
         "displayName": {
-            "text": "Motel 6 Santa Clara, CA",
+            "text": "Jalsa Catering & Events",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "3208 El Camino Real, Santa Clara"
+        "shortFormattedAddress": "1285 Homestead Rd, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 244-2840",
-        "internationalPhoneNumber": "+1 408-244-2840",
-        "formattedAddress": "859 El Camino Real, Santa Clara, CA 95050, USA",
-        "websiteUri": "https://www.bestwestern.com/en_US/book/hotel-rooms.52023.html?iata=90000026&ssob=BLSSH0004G&cid=BLSSH0004G:google:gmb:52023",
+        "nationalPhoneNumber": "(408) 432-1182",
+        "internationalPhoneNumber": "+1 408-432-1182",
+        "formattedAddress": "1996 Lafayette St, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3601737,
+            "longitude": -121.94853309999999
+        },
+        "rating": 4.7,
+        "websiteUri": "http://www.greenfishcatering.com/",
+        "userRatingCount": 15,
         "displayName": {
-            "text": "SureStay Plus By Best Western Santa Clara Silicon Valley",
+            "text": "Greenfish Catering",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "859 El Camino Real, Santa Clara"
+        "shortFormattedAddress": "1996 Lafayette St, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 241-0771",
-        "internationalPhoneNumber": "+1 408-241-0771",
-        "formattedAddress": "3580 El Camino Real, Santa Clara, CA 95051, USA",
-        "websiteUri": "https://hotelerealsantaclara.com/",
+        "nationalPhoneNumber": "(408) 855-8611",
+        "internationalPhoneNumber": "+1 408-855-8611",
+        "formattedAddress": "3270 Keller St, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.3802875,
+            "longitude": -121.9482369
+        },
+        "rating": 4.8,
+        "websiteUri": "http://www.cateringalloccasions.com/contact-us.html",
+        "userRatingCount": 8,
         "displayName": {
-            "text": "Hotel E Real",
+            "text": "Catering For All Occasions",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "3580 El Camino Real, Santa Clara"
+        "shortFormattedAddress": "3270 Keller St, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 262-0401",
-        "internationalPhoneNumber": "+1 408-262-0401",
-        "formattedAddress": "2131 Gold St, Alviso, CA 95002, USA",
-        "websiteUri": "https://www.extendedstayamerica.com/hotels/ca/san-jose/santa-clara?channel=gmb-listing&utm_source=google&utm_medium=organic&utm_campaign=gmb_listing",
+        "nationalPhoneNumber": "(408) 263-4366",
+        "internationalPhoneNumber": "+1 408-263-4366",
+        "formattedAddress": "5202 N First St, San Jose, CA 95002, USA",
+        "location": {
+            "latitude": 37.4259378,
+            "longitude": -121.97364949999998
+        },
+        "rating": 4.6,
+        "websiteUri": "https://tonycaterstoyou.com/",
+        "userRatingCount": 20,
         "displayName": {
-            "text": "Extended Stay America - San Jose - Santa Clara",
+            "text": "Tony Caters",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "2131 Gold St, Alviso"
+        "shortFormattedAddress": "5202 N First St, San Jose"
     },
     {
-        "nationalPhoneNumber": "(408) 241-9305",
-        "internationalPhoneNumber": "+1 408-241-9305",
-        "formattedAddress": "481 El Camino Real, Santa Clara, CA 95050, USA",
-        "websiteUri": "https://www.sonesta.com/us/california/santa-clara/sonesta-simply-suites-silicon-valley-santa-clara?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+        "nationalPhoneNumber": "(408) 202-2412",
+        "internationalPhoneNumber": "+1 408-202-2412",
+        "formattedAddress": "3443 El Camino Real, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.352624399999996,
+            "longitude": -121.9905054
+        },
+        "rating": 4.8,
+        "userRatingCount": 9,
         "displayName": {
-            "text": "Sonesta Simply Suites Silicon Valley Santa Clara",
+            "text": "Oriental Side Dish Catering",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "481 El Camino Real, Santa Clara"
+        "shortFormattedAddress": "3443 El Camino Real, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 883-3487",
-        "internationalPhoneNumber": "+1 408-883-3487",
-        "formattedAddress": "270 S Abbott Ave, Milpitas, CA 95035, USA",
-        "websiteUri": "https://www.wyndhamhotels.com/days-inn/milpitas-california/days-inn-by-wyndham-san-jose-airport/overview?CID=LC:iqv0j1dklijly45:15578",
+        "nationalPhoneNumber": "(408) 210-5946",
+        "internationalPhoneNumber": "+1 408-210-5946",
+        "formattedAddress": "3233-D, 3233 De La Cruz Blvd, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.3827388,
+            "longitude": -121.94101870000001
+        },
+        "rating": 4.8,
+        "websiteUri": "http://bloomcateringusa.com/",
+        "userRatingCount": 4,
         "displayName": {
-            "text": "Days Inn by Wyndham San Jose Airport",
+            "text": "BLOOM Catering USA",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "270 S Abbott Ave, Milpitas"
+        "shortFormattedAddress": "3233-D, 3233 De La Cruz Blvd, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 241-2841",
-        "internationalPhoneNumber": "+1 408-241-2841",
-        "formattedAddress": "2515 El Camino Real, Santa Clara, CA 95051, USA",
-        "websiteUri": "http://www.granadainn.com/",
+        "nationalPhoneNumber": "(408) 732-1400",
+        "internationalPhoneNumber": "+1 408-732-1400",
+        "formattedAddress": "1288 Reamwood Ave, Sunnyvale, CA 94089, USA",
+        "location": {
+            "latitude": 37.4087124,
+            "longitude": -121.98725499999998
+        },
+        "rating": 4.1,
+        "websiteUri": "http://www.cosmocaters.com/",
+        "userRatingCount": 50,
         "displayName": {
-            "text": "Granada Inn - Silicon Valley",
+            "text": "Cosmopolitan Catering",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "2515 El Camino Real, Santa Clara"
+        "shortFormattedAddress": "1288 Reamwood Ave, Sunnyvale"
     },
     {
-        "nationalPhoneNumber": "(408) 744-1100",
-        "internationalPhoneNumber": "+1 408-744-1100",
-        "formattedAddress": "1280 Persian Dr, Sunnyvale, CA 94089, USA",
-        "websiteUri": "https://www.choicehotels.com/california/sunnyvale/quality-inn-hotels/ca050?mc=llgoxxpx",
+        "nationalPhoneNumber": "(408) 441-8719",
+        "internationalPhoneNumber": "+1 408-441-8719",
+        "formattedAddress": "403 B Reynolds Cir, San Jose, CA 95112, USA",
+        "location": {
+            "latitude": 37.371333199999995,
+            "longitude": -121.9097348
+        },
+        "rating": 4.4,
+        "websiteUri": "https://www.caterman.net/",
+        "userRatingCount": 29,
         "displayName": {
-            "text": "Quality Inn Santa Clara Convention Center",
+            "text": "Caterman Catering Corporate And Wedding Caterer | Bay Area Professional Catering",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "1280 Persian Dr, Sunnyvale"
+        "shortFormattedAddress": "403 B Reynolds Cir, San Jose"
     },
     {
-        "nationalPhoneNumber": "(408) 734-9900",
-        "internationalPhoneNumber": "+1 408-734-9900",
-        "formattedAddress": "504 Ross Dr, Sunnyvale, CA 94089, USA",
-        "websiteUri": "https://www.wyndhamhotels.com/days-inn/sunnyvale-california/days-inn-and-suites-sunnyvale/overview?CID=LC:iqv0j1dklijly45:45766",
+        "nationalPhoneNumber": "(800) 828-2689",
+        "internationalPhoneNumber": "+1 800-828-2689",
+        "formattedAddress": "2170 Martin Ave, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3655902,
+            "longitude": -121.9630223
+        },
+        "rating": 3.7,
+        "websiteUri": "https://www.nourishinc.com/",
+        "userRatingCount": 12,
         "displayName": {
-            "text": "Days Inn & Suites by Wyndham Sunnyvale",
+            "text": "Nourish Inc.",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "504 Ross Dr, Sunnyvale"
+        "shortFormattedAddress": "2170 Martin Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 685-2058",
+        "internationalPhoneNumber": "+1 408-685-2058",
+        "formattedAddress": "550 E Remington Dr, Sunnyvale, CA 94087, USA",
+        "location": {
+            "latitude": 37.357708099999996,
+            "longitude": -122.02631360000001
+        },
+        "rating": 5,
+        "websiteUri": "http://hautecuisinecatering.net/",
+        "userRatingCount": 60,
+        "displayName": {
+            "text": "Haute Cuisine Catering",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "Senior Center, 550 E Remington Dr, Sunnyvale"
+    },
+    {
+        "nationalPhoneNumber": "(408) 567-9144",
+        "internationalPhoneNumber": "+1 408-567-9144",
+        "formattedAddress": "1505 Space Park Dr, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.3764667,
+            "longitude": -121.9564944
+        },
+        "rating": 4.4,
+        "websiteUri": "http://www.athenagrill.com/",
+        "userRatingCount": 1820,
+        "displayName": {
+            "text": "Athena Grill & Catering",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "1505 Space Park Dr, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 410-6058",
+        "internationalPhoneNumber": "+1 408-410-6058",
+        "formattedAddress": "656 Los Padres Blvd, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3387071,
+            "longitude": -121.9626416
+        },
+        "rating": 5,
+        "websiteUri": "http://jaydubzbbq.com/",
+        "userRatingCount": 6,
+        "displayName": {
+            "text": "Jay Dubz BBQ",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "656 Los Padres Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 554-4444",
+        "internationalPhoneNumber": "+1 408-554-4444",
+        "formattedAddress": "500 El Camino Real, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3485505,
+            "longitude": -121.94199
+        },
+        "rating": 4.7,
+        "websiteUri": "https://www.scu.edu/auxiliary-services/adobe-lodge/",
+        "userRatingCount": 21,
+        "displayName": {
+            "text": "Adobe Lodge",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "500 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 573-7226",
+        "internationalPhoneNumber": "+1 408-573-7226",
+        "formattedAddress": "1518 N 4th St, San Jose, CA 95112, USA",
+        "location": {
+            "latitude": 37.3657397,
+            "longitude": -121.90792979999999
+        },
+        "rating": 4.4,
+        "websiteUri": "https://www.goldenharvestcatering.com/",
+        "userRatingCount": 14,
+        "displayName": {
+            "text": "Golden Harvest Catering",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "1518 N 4th St, San Jose"
+    },
+    {
+        "nationalPhoneNumber": "(877) 793-5463",
+        "internationalPhoneNumber": "+1 877-793-5463",
+        "formattedAddress": "650 Nuttman St Ste 114, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.382160899999995,
+            "longitude": -121.9455943
+        },
+        "rating": 5,
+        "websiteUri": "http://atwistofli.me/",
+        "userRatingCount": 30,
+        "displayName": {
+            "text": "A Twist of Lime",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "650 Nuttman St Ste 114, Santa Clara"
     }
 ]

@@ -13,7 +13,7 @@ from src.contactRetrieval import (
 )
 from src.search import Search
 from src.model import RequestContext
-from src.utils import process_results
+from src.utils import process_results, rank_weblinks, sort_results
 
 load_dotenv()
 
@@ -73,6 +73,18 @@ def search_query_extrapolate(request_context: RequestContext):
 async def extract_web_context(request_context: RequestContext, deep_scrape: bool = False):
     """
     Extract the web context from the search results
+
+    ### Response
+    List[dict] - 
+    {
+        "id": str,
+        "rank": int,
+        "title": str,
+        "link": str,
+        "content": str,
+        "source": str,
+        "meta": dict
+    }
     """
     search_client = Search(
         queries=request_context.search_query,
@@ -83,28 +95,31 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         yelp_search=False,
     )
 
-    max_web_results = 30
+    max_web_results = 40
     if "gmaps" in request_context.search_space:
-        max_web_results = 25
+        max_web_results = 35
 
     # get the search results
     web_results = await search_client.search_web(max_results=max_web_results)
 
     # process the search links
-    refined_search_results = process_search_results(web_results[:max_web_results])
-    log.info(f"\nRefined Search Results: {refined_search_results}\n")
+    search_results = process_search_results(web_results[:max_web_results])
+    log.info(f"\nRefined Search Results: {search_results}\n")
 
-    if deep_scrape and "gmaps" in request_context.search_space:
+    if deep_scrape and ("gmaps" in request_context.search_space or "yelp" in request_context.search_space):
         response_gmaps = await search_client.search_google_business()
         if response_gmaps is not None:
             gmaps_links = search_client.process_google_business_links(
                 response_gmaps
             )
-            gmaps_links = gmaps_links[:15]
+            gmaps_links = gmaps_links[:25]
             log.info(f"\nGoogle Business Details: {gmaps_links}\n")
-            refined_search_results = gmaps_links + refined_search_results
+            search_results = gmaps_links + search_results
         else:
             log.warning("Google Business data not used")
+
+    # ranking and filtering
+    refined_search_results = rank_weblinks(search_results)
 
     # scrape the websites
     extracted_content = await scrape_with_playwright(refined_search_results)
@@ -182,33 +197,33 @@ async def static_contacts_retrieval(
     """
     results = []
 
-    search_client = Search(
-        queries=request_context.search_query,
-        location=request_context.location,
-        keyword=request_context.keyword,
-        country_code=request_context.country_code,
-        timeout=23,
-    )
-    if full_search and "gmaps" in request_context.search_space:
-        response_gmaps = await search_client.search_google_business()
-        if response_gmaps is not None:
-            details_gmaps = search_client.process_google_business_results(
-                response_gmaps
-            )
-            log.info(f"\nGoogle Business Details: {details_gmaps}\n")
-            results = results + details_gmaps
-        else:
-            log.warning("Google Business data not used")
+    # search_client = Search(
+    #     queries=request_context.search_query,
+    #     location=request_context.location,
+    #     keyword=request_context.keyword,
+    #     country_code=request_context.country_code,
+    #     timeout=23,
+    # )
+    # if full_search and "gmaps" in request_context.search_space:
+    #     response_gmaps = await search_client.search_google_business()
+    #     if response_gmaps is not None:
+    #         details_gmaps = search_client.process_google_business_results(
+    #             response_gmaps
+    #         )
+    #         log.info(f"\nGoogle Business Details: {details_gmaps}\n")
+    #         results = results + details_gmaps
+    #     else:
+    #         log.warning("Google Business data not used")
 
-    if full_search and "yelp" in request_context.search_space:
-        response_yelp = await search_client.search_yelp()
-        if response_yelp is not None:
-            details_yelp = search_client.process_yelp_data(response_yelp)
-            log.info(f"\nYelp Data: {details_yelp}\n")
-            # return details_yelp
-            results = results + details_yelp
-        else:
-            log.warning("Yelp data not used")
+    # if full_search and "yelp" in request_context.search_space:
+    #     response_yelp = await search_client.search_yelp()
+    #     if response_yelp is not None:
+    #         details_yelp = search_client.process_yelp_data(response_yelp)
+    #         log.info(f"\nYelp Data: {details_yelp}\n")
+    #         # return details_yelp
+    #         results = results + details_yelp
+    #     else:
+    #         log.warning("Yelp data not used")
 
     # OpenAI response
     web_result = await static_retrieval_multithreading(
@@ -220,6 +235,7 @@ async def static_contacts_retrieval(
         max_thread=12,
         timeout=10,
     )
+    print(f"web_result: {web_result}")
     results = results + web_result
     return results
 
@@ -257,7 +273,7 @@ async def response_formatter(
         "meta": meta,
     }
 
-    # response = process_api_json(response)
-    json_response = json.dumps(response).strip().encode("utf-8", errors="replace")
+    # convert to json
+    json_response = json.dumps(response)
 
     return json_response

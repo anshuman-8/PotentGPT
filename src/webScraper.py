@@ -32,7 +32,6 @@ class AsyncChromiumLoader:
         Scrape the url and return the document, it also ignores assets
         """
         web_content = ""
-        metadata = {"website": web_link['link'],"source": web_link['source'], "title": web_link['title']}
         url = web_link['link']
         log.info(f"Scraping {url}...")
         t_start = time.time()
@@ -59,7 +58,7 @@ class AsyncChromiumLoader:
             log.error(f"Error scraping {url}: {e}")
         finally:
             await page.close()
-        result_doc = Document(page_content=web_content, metadata=metadata)
+        result_doc = Document(page_content=web_content, metadata=web_link)
         return result_doc
 
     async def load_data(self) -> List[Document]:
@@ -69,7 +68,7 @@ class AsyncChromiumLoader:
         data = await self.scrape_browser(self.web_links)
         return data
     
-async def scrape_with_playwright(results: List[str]) -> List[dict]:
+async def scrape_with_playwright(results) -> List[dict]:
     """
     Scrape the websites using playwright and chunk the text tokens
     """

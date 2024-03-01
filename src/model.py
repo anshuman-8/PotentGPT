@@ -39,6 +39,8 @@ class Feedback(BaseModel):
     rating:int
     data: List[dict]
 
+
+
 class RequestContext():
     def __init__(self, id:str, prompt:str, location:str, country_code:str, search_space:list=["web"]):
         self.id = id
