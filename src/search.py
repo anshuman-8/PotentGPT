@@ -5,6 +5,7 @@ import requests
 import logging as log
 import asyncio
 from typing import Dict, List
+from itertools import zip_longest
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
@@ -16,7 +17,7 @@ BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
 ## --- Alert ---
-LOG_FILES = True  # Set to True to log the results to files
+LOG_FILES = False  # Set to True to log the results to files
 
 
 class Search:
@@ -54,10 +55,8 @@ class Search:
                     continue
                 if isinstance(site, dict):
                     search_index.append({
-                        # "index": [site["index"]],
                         "title": site["title"],
                         "link": site["link"],
-                        # "displayLink": site["displayLink"],
                         "query": site["query"],
                         "source": [source],
                     })
@@ -75,21 +74,19 @@ class Search:
 
         search_index = {}
 
-        for results, source in zip([google_search, bing_search], ["google", "bing"]):
-            for result in results:
-                search_link = result["link"]
+        for results in zip(google_search, bing_search):
+            for i in range(2):
+                source = "Google" if i == 0 else "Bing"
+                search_link = results[i]["link"]
 
                 if search_link in search_index:
-                    # search_index[search_link]["index"].append(result["index"])
                     if source not in search_index[search_link]["source"]:
                         search_index[search_link]["source"].append(source)
                 else:
                     search_index[search_link] = {
-                        # "index": [result["index"]],
-                        "title": result["title"],
-                        "link": result["link"],
-                        # "displayLink": result["displayLink"],
-                        "query": result["query"],
+                        "title": results[i]["title"],
+                        "link": results[i]["link"],
+                        "query": results[i]["query"],
                         "source": [source],
                     }
 
@@ -257,7 +254,6 @@ class Search:
                     "index": index,
                     "title": result["title"],
                     "link": result["link"],
-                    # "displayLink": result["displayLink"],
                     "query": search_query,
                 }
                 for index, result in enumerate(data["items"])
@@ -529,28 +525,18 @@ class Search:
         common_results = []
         total=0
         i = 0
-        
-        while total <= max_results and i < 60:
-            for result in search_results:
-                if total > max_results:
-                    break
-                if not (result == None or isinstance(result, (Exception, str, dict)) ) and len(result) > i:
-                    if result[i]["link"] not in [r["link"] for r in common_results]:
-                        log.debug(f"Adding search result '{result[i]['title']}'; from query :  '{result[i]['query']}'")
-                        common_results.append(result[i]) 
-                        total+=1
-            i += 1
 
-            # j = 0
-            # while len(common_results) < max_results:
-                
-            #     for i in range(len(search_results)):
-            #         if len(common_results) >= max_results:
-            #             break
-            #         if search_results[i] is not None and len(search_results[i]) > 0 and len(search_results[i]) > j:
-            #             if search_results[i][j]["link"] not in [r["link"] for r in common_results]:
-            #                 common_results.append(search_results[i][j])
-            #     j += 1
+        for results in zip_longest(*search_results):
+            for result in results:
+                if result == None or isinstance(result, (Exception, str)):
+                    continue
+                if result["link"] not in [r["link"] for r in common_results]:
+                    common_results.append(result)
+                    total+=1
+                if total >= max_results:
+                    break
+            if total >= max_results:
+                break
 
 
         common_results = list(common_results[:max_results])

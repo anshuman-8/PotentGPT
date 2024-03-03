@@ -235,9 +235,7 @@ async def static_contacts_retrieval(
         max_thread=12,
         timeout=10,
     )
-    print(f"web_result: {web_result}")
-    results = results + web_result
-    return results
+    return web_result
 
 
 async def response_formatter(

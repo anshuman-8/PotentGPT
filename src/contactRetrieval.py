@@ -7,7 +7,7 @@ from typing import Iterator, List
 
 from src.utils import inflating_retrieval_results
 
-LOG_FILES = True
+LOG_FILES = False
 
 SYS_PROMPT = """Extract vendors/peoples and their contact details from internet scraped context, aiming to assist the user's goal in finding the right service providers or vendors with contacts. Response should be according to the solution given and accurate to the context.
 The response should strictly adhere to the JSON format: {"results": [{"contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number","address": "(string)Address of the vendor"},"name": "(string)Name of the vendor helping the goal","info": "(string)Describe the service provider and their service in 20-30 words(Optional)","source": "(string)Source website link of the information from metadata website","provider": (List[Strings])["Source from 'Google', 'Bing' or both" or also 'Google Maps']}, {...}]}.

@@ -43,7 +43,7 @@ def sanitize_search_query(prompt: str,open_api_key:str, location: str = None) ->
 
     prompt = f"{prompt.strip()}"
     client = OpenAI(api_key=open_api_key)
-    system_prompt = """Comprehend the goal, suggest the optimal solution, and provide small web search queries to assist in achieving it. The solution should be based on finding the best individual person or an expert, to contact for helping or completing the user goal. 
+    system_prompt = """Comprehend the goal, suggest the optimal solution, and provide small web search queries to assist in achieving it. The solution should be based on finding the email of best individual person or an expert, to contact for helping or completing the user goal. 
 For location-based goals, prioritize location in the first search query, and subsequently refine or broaden the search as necessary to identify the most suitable expert, person, or vendor for the user's goal. Limit the number of queries, providing additional ones only for broadening the search.
 The output should be in JSON format, also saying where to search in a list, an enum (web, yelp, gmaps), where web is used for all cases .`yelp` and `gmaps` both are used for local businesses, including personal, small, and medium-sized enterprises, use both whenever location is given. keyword is the search keyword, which is used to search for the solution, without location detail.
 """
@@ -60,7 +60,7 @@ The output should be in JSON format, also saying where to search in a list, an e
                 },
                 {
                     "role": "system",
-                    "content": '{"solution":"Search for all event chefs in Kochi Kerala, to email and call them", "search_query":["Event Chefs in Kochi, Kerala"], "keyword":"Event Chefs", "search":["web", "yelp"]}',
+                    "content": '{"solution":"Search for all event chefs in Kochi Kerala, to email and call them", "search_query":["Event Chefs in Kochi email, Kerala"], "keyword":"Event Chefs", "search":["web", "yelp"]}',
                 },
                 {
                     "role": "user",
@@ -68,7 +68,7 @@ The output should be in JSON format, also saying where to search in a list, an e
                 },
                 {
                     "role": "system",
-                    "content": '{"solution":"Search for all Car rental service in Oakland, CA, Who can give SUV and find their contacts", "search_query":["SUVs car rental in Oakland, CA"], "keyword":"Car Rental", "search":["web", "gmaps"]}',
+                    "content": '{"solution":"Search for all Car rental service in Oakland, CA, Who can give SUV and find their contacts", "search_query":["SUVs car rental in Oakland, CA emails"], "keyword":"Car Rental", "search":["web", "gmaps"]}',
                 },
                 {
                     "role": "user",
@@ -76,7 +76,7 @@ The output should be in JSON format, also saying where to search in a list, an e
                 },
                 {
                     "role": "system",
-                    "content": '{"solution": "Find all UC Davis molecular biology research professors, department and internship openings for emailing.", "search_query":["UC Davis faculty in molecular biology","UC Davis molecular biology research labs","UC Davis research internship"], "keyword": "UC Davis Professors", "search":["web"]}',
+                    "content": '{"solution": "Find all UC Davis molecular biology research professors, department and internship openings for emailing.", "search_query":["UC Davis faculty in molecular biology emails","UC Davis molecular biology research labs email","UC Davis research internship"], "keyword": "UC Davis Professors", "search":["web"]}',
                 },
 
                 {"role": "user", "content": f"Location: {location};\nGoal: {prompt}"},
