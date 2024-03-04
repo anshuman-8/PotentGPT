@@ -69,18 +69,21 @@ def inflating_retrieval_results(results: List[dict], base_informationList: List[
     Inflating the retrieval results with the base information
     """
     inflated_results = []
+    base_info_dict = {info.get("metadata", {}).get("id"): info for info in base_informationList}
+
     for result in results:
         id = result.get("id")
         if id is None:
             continue
-        base_information = [info for info in base_informationList if info.get("metadata", {}).get("id") == id]
-        if base_information[0] is None or base_information == []:
+
+        base_info = base_info_dict.get(id)
+        if base_info is None:
             continue
-        base_information = base_information[0]
-        base_information.pop("content", None)
-        base_information["metadata"].pop("title", None)
-        base_information["metadata"].pop("id", None)
-        result = {**result, **base_information}
+
+        base_info.pop("content", None)
+        base_info["metadata"].pop("title", None)
+        base_info["metadata"].pop("id", None)
+        result = {**result, **base_info}
         inflated_results.append(result)
 
     return inflated_results
@@ -195,65 +198,66 @@ def process_results(results):
 
     try:
         for result in results:
-            if isinstance(result, str):
+            if isinstance(result, (str)):
                     try:
                         result = json.loads(result)
                     except json.JSONDecodeError:
                         result = {}
+            
+            if isinstance(result, dict):
+                contacts = result.get("contacts", {})
+                email = ""
+                phone = ""
+                if contacts.get("email"):
+                    if isinstance(contacts["email"], list):
+                        email = re.search(
+                            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
+                            contacts["email"][0],
+                        )
+                    else:
+                        email = re.search(
+                            r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
+                            contacts["email"],
+                        )
 
-            contacts = result.get("contacts", {})
-            email = ""
-            phone = ""
-            if contacts.get("email"):
-                if isinstance(contacts["email"], list):
-                    email = re.search(
-                        r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
-                        contacts["email"][0],
-                    )
-                else:
-                    email = re.search(
-                        r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
-                        contacts["email"],
-                    )
+                if contacts.get("phone"):
+                    if isinstance(contacts["phone"], list):
+                        phone = re.search(
+                            r'\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b',
+                            contacts["phone"][0],
+                        )
+                    else:
+                        phone = re.search(
+                            r'\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b',
+                            contacts["phone"],
+                        )
 
-            if contacts.get("phone"):
-                if isinstance(contacts["phone"], list):
-                    phone = re.search(
-                        r'\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b',
-                        contacts["phone"][0],
-                    )
-                else:
-                    phone = re.search(
-                        r'\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b',
-                        contacts["phone"],
-                    )
+                processed_result = {
+                    "id": result.get("id", random.randint(30, 60)),
+                    "rank": result.get("metadata",{}).get("rank"),
+                    "name": result.get("name", ""),
+                    "source": result.get("metadata",{}).get("link", ""),
+                    "info": result.get("info",""),
+                    "provider": result.get("metadata",{}).get("source", []),
+                    "latitude": result.get("metadata",{}).get("latitude", None),
+                    "longitude": result.get("metadata",{}).get("longitude", None),
+                    "rating": result.get("metadata",{}).get("rating", ""),
+                    "rating_count": result.get("metadata",{}).get("rating_count", ""),
+                    "contacts": {
+                        "email": email.string if email else "",
+                        "phone": phone.string if phone else "",
+                        "address": contacts.get("address", ""),
+                    },
+                }
+                if (
+                    processed_result["contacts"]["email"].strip() == ""
+                    and processed_result["contacts"]["phone"].strip() == ""
+                    and processed_result["contacts"]["address"].strip() == ""
+                ):
+                    continue
 
-            processed_result = {
-                "id": result.get("id", random.randint(30, 60)),
-                "rank": result.get("metadata",{}).get("rank"),
-                "name": result.get("name", ""),
-                "source": result.get("metadata",{}).get("link", ""),
-                "info": result.get("info",""),
-                "provider": result.get("metadata",{}).get("source", []),
-                "latitude": result.get("metadata",{}).get("latitude", None),
-                "longitude": result.get("metadata",{}).get("longitude", None),
-                "rating": result.get("metadata",{}).get("rating", ""),
-                "rating_count": result.get("metadata",{}).get("rating_count", ""),
-                "contacts": {
-                    "email": email.string if email else "",
-                    "phone": phone.string if phone else "",
-                    "address": contacts.get("address", ""),
-                },
-            }
-            if (
-                processed_result["contacts"]["email"].strip() == ""
-                and processed_result["contacts"]["phone"].strip() == ""
-                and processed_result["contacts"]["address"].strip() == ""
-            ):
-                continue
-
-            # Append the processed result to the list
-            processed_results.append(processed_result)
+                # Append the processed result to the list
+                processed_results.append(processed_result)
         
         # sorting
         processed_results = sort_results(processed_results)

@@ -74,8 +74,10 @@ class Search:
 
         search_index = {}
 
-        for results in zip(google_search, bing_search):
+        for results in zip_longest(google_search, bing_search):
             for i in range(2):
+                if results[i] == None or isinstance(results[i], (Exception, str)):
+                    continue
                 source = "Google" if i == 0 else "Bing"
                 search_link = results[i]["link"]
 
@@ -169,7 +171,6 @@ class Search:
                     "index": index,
                     "title": result["name"],
                     "link": result["url"],
-                    # "displayLink": result["displayUrl"],
                     "query": search_query
                 }
                 for index, result in enumerate(data["webPages"]["value"])

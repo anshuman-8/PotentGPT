@@ -1,8 +1,8 @@
 # Search Probe
-### Probe 1.0
+### Probe 1.5
 
 ### Features
-- Search capabilities by accessing data from Google, Bing, Yelp, Google local business.
+- Search capabilities by accessing data from Google, Bing, Google local business.
 - Returns contact details in a well structured output.
 - Helps you find the right person to help you with your goals.
 
