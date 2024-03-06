@@ -13,7 +13,8 @@ from src.app import (
     stream_contacts_retrieval,
     static_contacts_retrieval,
 )
-from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback
+from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback, CpAPIResponse
+from src.copilot.question_generation import generate_question
 import tracemalloc
 
 tracemalloc.start()
@@ -211,6 +212,38 @@ async def staticProbe(
     # collect_data(str(ID), prompt, solution, web_context, search_space, query, response)
     
     return Response(content=response)
+
+
+@app.get("/copilot/")
+async def copilot(
+    request: Request,
+    prompt: str | None, 
+    location: str | None,
+) -> CpAPIResponse | ErrorResponseModel:
+    ID = uuid.uuid4()
+    timestamp = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+    
+    log.basicConfig(
+        filename=f"logs/cp-{ID}.log",
+        filemode="w",
+        format="%(name)s - %(levelname)s - %(message)s",
+        level=log.INFO,
+    )
+
+    if prompt is None or not prompt.strip():
+        log.error(f"No prompt provided")
+        raise HTTPException(status_code=400, detail="prompt needed!")
+    
+    try:
+        response = generate_question(prompt, location)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={ "status": "Internal Error", "message": str(e)},
+        )
+
+
+    return JSONResponse(content=response)
 
 
 @app.post("/feedback/")

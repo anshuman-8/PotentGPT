@@ -25,6 +25,10 @@ class ApiResponse(BaseModel):
     run_time: int
     results: List[ServiceProvider]
 
+class CpAPIResponse(BaseModel):
+    questions: List[dict]
+    goal_type: str
+
 
 class ErrorResponseModel(BaseModel):
     id: str
