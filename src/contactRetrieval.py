@@ -272,12 +272,15 @@ async def static_retrieval_multithreading(
         combined_results = []
         
         for result in results:
+            if not result:
+                log.warn(f"Unexpected result format: {result}")
+                continue
             if result != [] and isinstance(result["results"], list):
                 combined_results.extend(result["results"])
             elif isinstance(result, dict) and result != {}:
                 combined_results.append(result["results"])
             else:
-                log.warning(f"Unexpected result format: {result}")
+                log.warn(f"Unexpected result format: {result}")
 
         log.info(f"OpenAI task completed")
         log.info(f"Contacts extracted by OpenAI: {combined_results}")
@@ -290,4 +293,4 @@ async def static_retrieval_multithreading(
 
     except Exception as e:
         log.error(f"Error in async openai retrival: {e}")
-        return b"[]"
+        return []

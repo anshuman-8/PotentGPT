@@ -242,9 +242,15 @@ async def copilot(
             detail={ "status": "Internal Error", "message": str(e)},
         )
 
-
     return JSONResponse(content=response)
 
+
+@app.get("/copilot/merge/")
+def cpMerge(
+    request: Request,
+    prompt: str | None, 
+) -> CpAPIResponse | ErrorResponseModel:
+    pass
 
 @app.post("/feedback/")
 async def feedback(request: Request, feedback: Feedback) -> JSONResponse:

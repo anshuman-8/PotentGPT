@@ -130,19 +130,36 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data = process_data_docs(extracted_content, 610)
+    context_data, site_contact_links = process_data_docs(extracted_content, 610)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
+    secondary_context_data = await secondary_search(site_contact_links)
+    log.warn(f"\n\ncontext: len{len(context_data)}, data :{context_data} \n")
+    log.warn(f"\n\secondary_context_data: len{len(secondary_context_data)}, data :{secondary_context_data} \n")
+    context_data.extend(secondary_context_data)
+    log.warn(f"\n\ncontext: len{len(context_data)}, data :{context_data} \n")
     data = []
     if len(context_data) == 0:
         log.error("No relevant data extracted")
         return data
-        # raise Exception("No relevant data extracted!")
     else:
-        data = [content for content in context_data if len(content.get("content", "")) >= 600]
+        data = [content for content in context_data if len(content.get("content", "")) >= 350]
 
     return context_data
 
+async def secondary_search(web_links:List[str]):
+    extracted_content = await scrape_with_playwright(web_links)
+    log.info(f"\nSecondary Scraped Content: {len(extracted_content)}\n")
+
+    if len(extracted_content) == 0:
+        log.error("No content extracted")
+        raise Exception("No web content extracted!")
+
+    # Preprocess the extracted content
+    context_data, site_contact_links = process_data_docs(extracted_content, 500)
+    log.info(f"\nSecondary Context Data len: {len(context_data)}\n")
+    
+    return context_data
 
 async def stream_contacts_retrieval(
     request_context: RequestContext, data, context_chunk_size: int = 5, full_search: bool = True

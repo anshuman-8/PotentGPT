@@ -2,8 +2,9 @@ import json
 import re
 import time
 import logging as log
+from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup, NavigableString, Tag
-from typing import Dict, Any, Iterator, List, Sequence, cast
+from typing import Dict, Any, Iterator, List, Sequence, cast, Tuple
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from src.utils import create_documents, document_regex_sub, document2map
@@ -17,18 +18,43 @@ def transform_documents(
         tags_to_extract: List[str] = ["p", "li", "div", "a"],
         remove_lines: bool = True,
     ) -> Sequence[Document]:
+        site_contact_links = []
         for doc in documents:
             cleaned_content = doc.page_content
 
             cleaned_content = remove_unwanted_tags(cleaned_content, unwanted_tags)
-            cleaned_content = extract_tags(cleaned_content, tags_to_extract)
+            cleaned_content, contact_href = extract_tags(cleaned_content, tags_to_extract)
 
+            site_contact_link = combine_contactlink(doc.metadata,contact_href) 
+            
+            if site_contact_link:
+                site_contact_links.append(site_contact_link)
+            
             if remove_lines:
                 cleaned_content = remove_unnecessary_lines(cleaned_content)
 
             doc.page_content = cleaned_content
 
-        return documents
+        return documents, site_contact_links
+
+def combine_contactlink(base_link:dict, contact_link:List[str]) -> dict | None:
+    if len(contact_link) < 1:
+        return None
+    single_contact_link = contact_link[0]
+    try:
+        combined_link_dict = base_link.copy()
+        combined_link_dict["base_link"] = base_link["link"]
+        if single_contact_link.startswith("href"):
+            combined_link_dict["link"] = single_contact_link
+            return combined_link_dict
+        else:
+            base_domain = f"{urlparse(base_link["link"]).scheme}://{urlparse(base_link["link"]).hostname}"
+            combined_link = urljoin(base_domain, single_contact_link)
+            combined_link_dict["link"] = combined_link
+            return combined_link_dict
+    except Exception as e:
+        log.warn(f"Error combining link: {e}")
+        return None
 
 def remove_unwanted_tags(html_content: str, unwanted_tags: List[str]) -> str:
     soup = BeautifulSoup(html_content, "html.parser")
@@ -40,12 +66,15 @@ def remove_unwanted_tags(html_content: str, unwanted_tags: List[str]) -> str:
 def extract_tags(html_content: str, tags: List[str]) -> str:
     soup = BeautifulSoup(html_content, "html.parser")
     text_parts: List[str] = []
+    contact_hrefs: List[str] = []
     for element in soup.find_all():
         if element.name in tags:
-            text_parts += get_navigable_strings(element)
+            navigable_text, contact_href = get_navigable_strings(element)
+            text_parts += navigable_text
+            contact_hrefs += contact_href
             element.decompose()
 
-    return " ".join(text_parts)
+    return " ".join(text_parts), contact_hrefs
 
 def remove_unnecessary_lines(content: str) -> str:
     lines = content.split("\n")
@@ -54,18 +83,28 @@ def remove_unnecessary_lines(content: str) -> str:
     cleaned_content = " ".join(non_empty_lines)
     return cleaned_content
 
-def get_navigable_strings(element: Any) -> Iterator[str]:
+def get_navigable_strings(element: Any) -> Tuple[List[str], List[str]]:
+    text_parts = []
+    contact_hrefs = []
+
     for child in cast(Tag, element).children:
         if isinstance(child, Tag):
-            yield from get_navigable_strings(child)
+            child_text, child_contact_hrefs = get_navigable_strings(child)
+            text_parts.extend(child_text)
+            contact_hrefs.extend(child_contact_hrefs)
         elif isinstance(child, NavigableString):
             if (element.name == "a") and (href := element.get("href")):
                 if href.startswith(("mailto:", "tel:")):
-                    yield f"{child.strip()} [Contact:({href})]"
+                    text_parts.append(f"{child.strip()} [Contact:({href})]")
+                elif "contact" in href.lower():
+                    contact_hrefs.append(href)
                 else:
-                    yield child.strip()
+                    text_parts.append(child.strip())
+
             else:
-                yield child.strip()
+                text_parts.append(child.strip())
+
+    return text_parts, contact_hrefs
             
 def preprocess_text(docs: Document) -> Dict:
     """
@@ -74,7 +113,7 @@ def preprocess_text(docs: Document) -> Dict:
     t_flag1 = time.time()
 
     # Beautiful Soup Transformer
-    docs_transformed = transform_documents(
+    docs_transformed, site_contact_links = transform_documents(
         docs,
         tags_to_extract=["p", "li", "div", "a", "span", "tr", "article"],
         unwanted_tags=["script", "style", "noscript", "svg", "img", "input", "pre", "template"],
@@ -91,7 +130,7 @@ def preprocess_text(docs: Document) -> Dict:
         with open("src/log_data/docs_beautify.json", "w") as f:
             json.dump(document2map(docs_transformed), f)
 
-    return docs_transformed
+    return docs_transformed, site_contact_links
 
 
 def docs_recursive_split(docs: Document, chunk_size: int = 400, overlap:int=50) -> List[Document]:
@@ -150,14 +189,31 @@ def relevant_data(extracted_content):
     return data
 
 
+def process_secondary_links(base_data, site_contact_links):
+    """
+    """
+    base_links = [chunk["metadata"]["link"] for chunk in base_data]
+
+    new_site_contact_link = {}
+    for link in site_contact_links:
+        if (link["base_link"] not in base_links) and (link["link"] not in new_site_contact_link.keys()):
+            new_site_contact_link[link["link"]] = link
+
+    new_site_contact_link = list(new_site_contact_link.values())
+    return new_site_contact_link
+
+
 def process_data_docs(html_docs: Document, chunk_size: int = 400):
     """
-    Process the data by extracting text from HTML, splitting it into chunks and extracting relevant data
+    Process the data by extracting text from HTML, splitting it into chunks and extracting relevant data.
+    Also gives list of secondary search links
     """
-    docs = preprocess_text(docs=html_docs)
+    docs, site_contact_links = preprocess_text(docs=html_docs)
 
     data = docs_recursive_split(docs=docs, chunk_size=chunk_size, overlap=15)
 
     data = relevant_data(extracted_content=data)
 
-    return data
+    sec_site_contact_links = process_secondary_links(data, site_contact_links)
+
+    return data, sec_site_contact_links
