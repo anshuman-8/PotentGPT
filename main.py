@@ -13,8 +13,9 @@ from src.app import (
     stream_contacts_retrieval,
     static_contacts_retrieval,
 )
-from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback, CpAPIResponse
+from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback, CpAPIResponse, CpMergeRequest
 from src.copilot.question_generation import generate_question
+from src.copilot.query_merge import merge_goal
 import tracemalloc
 
 tracemalloc.start()
@@ -245,12 +246,19 @@ async def copilot(
     return JSONResponse(content=response)
 
 
-@app.get("/copilot/merge/")
+@app.post("/copilot/merge/")
 def cpMerge(
-    request: Request,
-    prompt: str | None, 
+    request: CpMergeRequest 
 ) -> CpAPIResponse | ErrorResponseModel:
-    pass
+    
+    try:
+        response = merge_goal(request.choices, request.goal)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={ "status": "Internal Error", "message": str(e)},
+        )
+    return JSONResponse(response)
 
 @app.post("/feedback/")
 async def feedback(request: Request, feedback: Feedback) -> JSONResponse:

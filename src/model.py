@@ -29,6 +29,9 @@ class CpAPIResponse(BaseModel):
     questions: List[dict]
     goal_type: str
 
+class CpMergeRequest(BaseModel):
+    goal: str
+    choices: dict
 
 class ErrorResponseModel(BaseModel):
     id: str

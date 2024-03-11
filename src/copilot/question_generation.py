@@ -10,7 +10,7 @@ load_dotenv()
 MY_ENV_VAR = os.getenv('OPENAI_API_KEY')
 
 
-System_Prompt_question_gen = "Below is the user's goal or task, based on clear understanding give the following in JSON:\n- List of top(max 5) very important questions for the user with options to improve the goal statement and make the goal less vague. Questions to be asked to remove vagueness and improvement for more clarity for others. Its type can be \"choice\",  \"input\" or \"date\", if input then give options as empty list(but prefer choice over input). Do not ask questions only if it's very well described(respond with empty list for questions). \n- State weather if it is a product, service or invalid goal (in goal_type), invalid when its invalid or inappropriate. Format - {\"questions\":[{\"question\":\"\",\"type\":\"\",\"options\":[\"\",\"\"],},{}],\"goal_type\":\"\"}"
+System_Prompt_question_gen = "Below is the user's goal or task, based on clear understanding give the following in JSON:\n- List of top(max 5) very important questions for the user with options to improve the goal statement and make the goal less vague. Questions to be asked to remove vagueness and improvement for more clarity for others. Its type can be \"choice\",  \"input\" or \"date\", if input then give options as empty list(but prefer choice over input). Do not ask questions only if it's very well described(respond with empty list for questions). Also do not ask Location to the user. \n- State weather if it is a product, service or invalid goal (in goal_type), invalid when its invalid or inappropriate. Format - {\"questions\":[{\"question\":\"\",\"type\":\"\",\"options\":[\"\",\"\"],},{}],\"goal_type\":\"\"}"
 
 question_gen_few_shot = [ {
                     "role": "user",
