@@ -32,6 +32,8 @@ def merge_goal(choices:dict, goal:str):
     
     if not goal:
         raise Exception("No goal provided")
+    
+    choices_str = prepare_choice(choices)
 
     try :
         response = client.chat.completions.create(
@@ -40,7 +42,7 @@ def merge_goal(choices:dict, goal:str):
         messages=[
             {"role": "system", "content": System_Prompt_question_gen},
             *question_gen_few_shot,
-            {"role": "user", "content": f"Goal:{goal}, User Choices:{choices}"},
+            {"role": "user", "content": f"Goal:{goal}, User Choices:{choices_str}"},
         ]
         )
     except Exception as e:
@@ -54,6 +56,16 @@ def merge_goal(choices:dict, goal:str):
     question_list = json_analyzer(response.choices[0].message.content)
 
     return question_list
+
+def prepare_choice(choices:dict):
+    """
+    Prepares the choices for the OpenAI API
+    """
+    choice_str = ""
+
+    for choice in choices["choices"]:
+        choice_str += f"{choice["question"]}: {choice["answer"]}, "
+    return choice_str
 
 
 def json_analyzer(data:str):
