@@ -16,6 +16,7 @@ from src.app import (
 from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback, CpAPIResponse, CpMergeRequest
 from src.copilot.question_generation import generate_question
 from src.copilot.query_merge import merge_goal
+from src.lmBasic.titleGenerator import generate_title
 import tracemalloc
 
 tracemalloc.start()
@@ -214,6 +215,34 @@ async def staticProbe(
     
     return Response(content=response)
 
+@app.get("/title/")
+async def title(
+    request: Request,
+    goal: str | None,
+) -> JSONResponse:
+    ID = uuid.uuid4()
+    timestamp = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+
+    log.basicConfig(
+        filename=f"logs/title-{ID}.log",
+        filemode="w",
+        format="%(name)s - %(levelname)s - %(message)s",
+        level=log.INFO,
+    )
+
+    if goal is None or not goal.strip():
+        log.error(f"No goal provided")
+        raise HTTPException(status_code=400, detail="goal needed!")
+
+    try:
+        response = generate_title(goal)
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail={ "status": "Internal Error", "message": str(e)},
+        )
+
+    return JSONResponse(content=response)
 
 @app.get("/copilot/")
 async def copilot(
