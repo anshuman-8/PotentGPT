@@ -10,7 +10,7 @@ load_dotenv()
 MY_ENV_VAR = os.getenv('OPENAI_API_KEY')
 
 
-System_Prompt_question_gen = "Below is the user's goal or task, based on clear understanding give the following in JSON:\n- List of top(max 5) very important questions for the user with options to improve the goal statement and make the goal less vague. Questions to be asked to remove vagueness and improvement for more clarity for others. Its type can be \"choice\",  \"input\" or \"date\", if input then give options as empty list. Always prefer choice over input, number of choices not more than 5. Do not ask questions only when it's very well described(respond with empty list for questions). Also do not ask Location to the user. \n- State if it is a product, service or invalid goal (in goal_type), invalid when its invalid or inappropriate. Format - {\"questions\":[{\"question\":\"\",\"type\":\"\",\"options\":[\"\",\"\"],},{}],\"goal_type\":\"\"}"
+System_Prompt_question_gen = "Below is the user's goal or task, based on clear understanding give the following in JSON:\n- List of top(max 5) very important questions for the user with options to improve the goal statement and make the goal less vague. Questions to be asked to remove vagueness and improvement for more clarity for others. Its type can be \"choice\" and \"input\", if input then give options as empty list. Always prefer choice over input, number of choices not more than 5. Do not ask questions, only when it's very well described goal(respond with empty list for questions). Do not ask Location and exact date to the user. \n- State if it is a product, service or invalid goal (in goal_type), invalid when its invalid or inappropriate. Format - {\"questions\":[{\"question\":\"\",\"type\":\"\",\"options\":[\"\",\"\"],},{}],\"goal_type\":\"\"}"
 
 question_gen_few_shot = [ {
                     "role": "user",
@@ -55,13 +55,8 @@ def generate_question(query:str, location:str|None):
         raise Exception("Error OpenAI API call")
 
     end_time = time.time()
-    # print(response)
 
-    # print(f'Total Tokens:{response.usage.total_tokens}, Prompt Token {response.usage.prompt_tokens}, Completion Token {response.usage.completion_tokens}')
     log.info(f'Time Taken: {end_time - start_time} Sec\n')
-
-    # response = json.loads(response.choices[0].message.content)
-    # print(json.dumps(response, indent=4))
 
     question_list = json_analyzer(response.choices[0].message.content)
 
