@@ -197,11 +197,12 @@ async def staticProbe(
     log.info(f"Total Time: {timestamp}")
 
     try:
-        query, solution, keyword, search_space = search_query_extrapolate(
+        target, query = search_query_extrapolate(
             request_context=request_context,
         )
-        request_context.update_search_param(query, solution, keyword, search_space)
-
+        request_context.update_search_param(target, query)
+        log.info(f"Updated request context !")
+        log.debug(request_context.__dict__)
         web_context = await extract_web_context(request_context=request_context, deep_scrape=True)
     except Exception as e:
         raise HTTPException(
@@ -210,8 +211,6 @@ async def staticProbe(
         )
     
     response = await static_response(request_context, web_context)
-
-    # collect_data(str(ID), prompt, solution, web_context, search_space, query, response)
     
     return Response(content=response)
 

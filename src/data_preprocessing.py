@@ -120,9 +120,10 @@ def preprocess_text(docs: Document) -> Dict:
     )
     # remove long white space
     docs_transformed = document_regex_sub(docs_transformed, r"\s+", " ")
-    # remove unicode characters
-    docs_transformed = document_regex_sub(docs_transformed, r"\\u[0-9A-Fa-f]{4}", "")
-
+    # # remove unicode characters
+    # docs_transformed = document_regex_sub(docs_transformed, r"\\u[0-9A-Fa-f]{4}", "")
+    docs_transformed = docs_transformed.encode('utf-8', errors='ignore').decode('utf-8')
+    
     t_flag2 = time.time()
     log.info(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
 

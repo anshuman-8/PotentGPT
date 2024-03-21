@@ -10,11 +10,11 @@ from src.utils import inflating_retrieval_results
 LOG_FILES = False
 
 
-SYS_PROMPT = """Extract vendors/peoples and their contact details from internet scraped context, aiming to assist the user's goal in finding the right service providers or vendors with contacts. Response should be according to the solution given and accurate to the context.
-The response should strictly adhere to the JSON format: {"results": [{"contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number","address": "(string)Address of the vendor"},"id":(int)correct id of the json data given in Context,"name": "(string)Name of the vendor helping the goal","info": "(string)Describe the service provider and their service accurately in 20-30 words(Optional)"}, {...}]}.
+SYS_PROMPT = """Extract vendors/peoples and their contact details from internet scraped context, aiming to assist the user's goal in finding the right service providers or vendors with contacts. Only retrieve the contacts of vendor/person that can server the user's goal, skip all unrelated.
+The response should strictly adhere to the JSON format: {"results": [{"contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number"},"id":(int)correct id of the json data given in Context,"name": "(string)Name of the vendor helping the goal"}, {...}]}.
 Use an empty string "" if any data is absent or is not available. Strictly avoid providing incorrect contact details. Give phone numbers(in E.164 Format) and emails in usable and correct format (no helper words). If contact information is unavailable or not enough, just omit or skip the vendor or person. Give only one email and one phone number for each vendor/person.
-Do not give dummy or example data. Strictly ensure extracted Vendor and contact are relevant to solution and capable of solving the goal. Make sure the phone number is in E.164 format, based on location. Give empty list [], if not vendor details are given in the context. Always give correct id of the json content used for contact retrieval.
-\nExample response (Only as an example format, data not to be used) : \n{"results": [{"contacts": {"email": "oakland@onetoyota.com","phone": "+15102818909", "address": "8181 Oakport St. Oakland, CA 94621"},"id":2, "name": "One Toyota | New Toyota & Used Car Dealer in Oakland", "info":"One Toyota of Oakland offers a diverse selection of both new and pre-owned vehicles, prioritizing customer satisfaction with attentive service. They provide competitive pricing, efficient car care, and personalized financing solutions, ensuring a seamless automotive experience."}]}\n"""
+Do not give dummy or example data. Strictly ensure extracted Vendor and contact are relevant and capable of solving the goal. Make sure the phone number is in E.164 format, based on country. Give empty list [], if not vendor details are given in the context. Always give correct id of the json content used for contact retrieval.
+\nExample response (Only as an example format, data not to be used) : \n{"results": [{"contacts": {"email": "oakland@onetoyota.com","phone": "+15102818909"},"id":2, "name": "One Toyota Oakland"}]}\n"""
 
 ## ------------------------ Async ------------------------ ##
 def gpt_cost_calculator(
@@ -76,7 +76,7 @@ def print_and_write_response(response_json, output_file="output.txt"):
             file.write(f"Contacts:\n")
             file.write(f"\tEmail: {contacts.get('email', '')}\n")
             file.write(f"\tPhone: {contacts.get('phone', '')}\n")
-            file.write(f"\tAddress: {contacts.get('address', '')}\n")
+            # file.write(f"\tAddress: {contacts.get('address', '')}\n")
 
             file.write("\n" + "-" * 40 + "\n\n")
 
@@ -86,7 +86,7 @@ def print_and_write_response(response_json, output_file="output.txt"):
             print(f"Contacts:")
             print(f"\tEmail: {contacts.get('email', '')}")
             print(f"\tPhone: {contacts.get('phone', '')}")
-            print(f"\tAddress: {contacts.get('address', '')}")
+            # print(f"\tAddress: {contacts.get('address', '')}")
             print("\n" + "-" * 40 + "\n")
 
 
@@ -206,7 +206,7 @@ def extract_contacts(
             },
             {
                 "role": "user",
-                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\nSolution: {solution}\nAnswer:All relevant and accurate contact details for above Question in JSON:",
+                "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\nAnswer:All relevant and accurate contact details for above Question in JSON:",
             },
         ],
     )

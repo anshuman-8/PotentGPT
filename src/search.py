@@ -502,8 +502,8 @@ class Search:
         results = await asyncio.gather(*tasks, return_exceptions=True)
         google_results, bing_results = results
 
-        log.info(f"Google search results: {google_results}")
-        log.info(f"Bing search results: {bing_results}")
+        log.debug(f"Google search results: {google_results}")
+        log.debug(f"Bing search results: {bing_results}")
 
         # Merge the search results
         search_results = await self.web_search_ranking(bing_results, google_results)
