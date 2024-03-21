@@ -88,6 +88,42 @@ def inflating_retrieval_results(results: List[dict], base_informationList: List[
 
     return inflated_results
 
+def gpt_cost_calculator(
+    inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
+) -> int:
+    """
+    Calculate the cost of the GPT API call
+
+    Model List:
+    - gpt-4
+    - gpt-3.5-turbo
+    - gpt-4-turbo-1106
+    - gpt-3.5-turbo-finetune
+    """
+    cost = 0
+    # GPT-3.5 Turbo
+    if model == "gpt-3.5-turbo":
+        input_cost = 0.5
+        output_cost = 1.5
+        cost = ((inp_tokens * input_cost) + (out_tokens * output_cost)) / 1000000
+    elif model == "gpt-3.5-turbo-finetune":
+        input_cost = 3.0
+        output_cost = 6.0
+        cost = ((inp_tokens * input_cost) + (out_tokens * output_cost)) / 1000000
+    elif model == "gpt-4-turbo-1106":
+        input_cost = 10.0
+        output_cost = 30.0
+        cost = ((inp_tokens * input_cost) + (out_tokens * output_cost)) / 1000000
+    # GPT-4
+    elif model == "gpt-4":
+        input_cost = 30.00
+        output_cost = 60.00
+        cost = ((inp_tokens * input_cost) + (out_tokens * output_cost)) / 1000000
+    else:
+        log.error("Invalid model")
+
+    return cost
+
 def sort_results(results: List[dict]) -> List[dict]:
     """
     Sort the results based on the rank
@@ -192,7 +228,7 @@ def process_api_json(response):
     return processed_json
 
 def process_results(results):
-    log.info(f"Processing API results : {results}")
+    log.debug(f"Processing API results : {results}")
     # Initialize an empty list to store processed results
     processed_results = []
 

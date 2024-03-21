@@ -4,7 +4,7 @@ import logging as log
 from typing import List
 from dotenv import load_dotenv
 
-from src.sanitize_query import sanitize_search_query
+from src.sanitize_query import generate_search_query
 from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
 from src.contactRetrieval import (
@@ -44,30 +44,27 @@ def process_search_results(results: List[str]) -> List[str]:
 
 
 def search_query_extrapolate(request_context: RequestContext):
+    """
+    Extract the search query from the prompt
+
+    Returns : search query and goal target 
+    """
     log.info(f"Prompt: {request_context.prompt}")
-    goal_solution = ""
-    # sanitize the prompt
+    goal_target = []
     try:
-        sanitized_prompt = sanitize_search_query(
+        goal_query = generate_search_query(
             request_context.prompt,
             location=request_context.location,
             open_api_key=OPENAI_ENV,
         )
-        search_query = sanitized_prompt["search_query"]
-        goal_solution = sanitized_prompt["solution"]
-        keyword = sanitized_prompt["keyword"]
-        search_space = sanitized_prompt["search"]
-
-        if isinstance(search_space, str):
-            search_space = [search_space]
+        search_query = goal_query["queries"]
+        goal_target = goal_query["targets"]
 
     except Exception as e:
         log.error(f"Prompt sanitization failed, Error:{e}")
         raise Exception("Prompt sanitization failed")
 
-    log.info(f"\nSanitized Prompt: {sanitized_prompt}\n")
-
-    return (search_query, goal_solution, keyword, search_space)
+    return (search_query, goal_target)
 
 
 async def extract_web_context(request_context: RequestContext, deep_scrape: bool = False):
@@ -134,10 +131,8 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     secondary_context_data = await secondary_search(site_contact_links)
-    log.warn(f"\n\ncontext: len{len(context_data)}, data :{context_data} \n")
-    log.warn(f"\n\secondary_context_data: len{len(secondary_context_data)}, data :{secondary_context_data} \n")
+    log.warn(f"\n\secondary_context_data: len{len(secondary_context_data)} \n")
     context_data.extend(secondary_context_data)
-    log.warn(f"\n\ncontext: len{len(context_data)}, data :{context_data} \n")
     data = []
     if len(context_data) == 0:
         log.error("No relevant data extracted")
@@ -248,8 +243,8 @@ async def static_contacts_retrieval(
         request_context.prompt,
         request_context.solution,
         OPENAI_ENV,
-        context_chunk_size=4,
-        max_thread=12,
+        context_chunk_size=5,
+        max_thread=10,
         timeout=10,
     )
     return web_result
