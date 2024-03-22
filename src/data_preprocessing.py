@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 from typing import Dict, Any, Iterator, List, Sequence, cast, Tuple
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from src.utils import create_documents, document_regex_sub, document2map
+from src.utils import create_documents, document_lambda, document2map
 
 
 LOG_FILES = False
@@ -119,10 +119,11 @@ def preprocess_text(docs: Document) -> Dict:
         unwanted_tags=["script", "style", "noscript", "svg", "img", "input", "pre", "template"],
     )
     # remove long white space
-    docs_transformed = document_regex_sub(docs_transformed, r"\s+", " ")
-    # # remove unicode characters
-    # docs_transformed = document_regex_sub(docs_transformed, r"\\u[0-9A-Fa-f]{4}", "")
-    docs_transformed = docs_transformed.encode('utf-8', errors='ignore').decode('utf-8')
+    regex_lambda = lambda x: re.sub(r"\s+", " ", x) 
+    docs_transformed = document_lambda(docs_transformed, func=regex_lambda)
+
+    unicode_lambda = lambda x: x.encode('utf-8', errors='ignore').decode('utf-8')
+    docs_transformed = document_lambda(docs_transformed, func=unicode_lambda)
     
     t_flag2 = time.time()
     log.info(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
