@@ -10,7 +10,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from src.utils import create_documents, document_lambda, document2map
 
 
-LOG_FILES = False
+LOG_FILES = True
 
 def transform_documents(
         documents: Sequence[Document],
@@ -210,6 +210,9 @@ def process_data_docs(html_docs: Document, chunk_size: int = 400):
     Process the data by extracting text from HTML, splitting it into chunks and extracting relevant data.
     Also gives list of secondary search links
     """
+    html_docs = list(filter(lambda doc: contains_contacts(doc.page_content, email_only=True), html_docs))
+    log.warn(f"Length after doc regex processing: {len(html_docs)}")
+
     docs, site_contact_links = preprocess_text(docs=html_docs)
 
     data = docs_recursive_split(docs=docs, chunk_size=chunk_size, overlap=15)

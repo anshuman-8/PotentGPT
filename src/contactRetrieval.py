@@ -11,7 +11,7 @@ LOG_FILES = False
 
 
 SYS_PROMPT = """Extract vendors/peoples and their contact details from internet scraped context, aiming to assist the user's goal in finding the right service providers or vendors with contacts from the target list. Only retrieve the contacts of vendor/person that can server the user's goal, skip all unrelated.
-The response should strictly adhere to the JSON format: {"results": [{"target":"(string) who is this vendor from the target list","contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number"},"id":(int)correct id of the json data given in Context,"name": "(string)Name of the vendor helping the goal"}, {...}]}.
+The response should strictly adhere to the JSON format: {"results": [{"target":"(string) which category from the target list","contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number"},"id":(int)correct id of the json data given in Context,"name": "(string)Name of the vendor helping the goal"}, {...}]}.
 Use an empty string "" if any data is absent or is not available. Strictly avoid providing incorrect contact details. Give phone numbers(in E.164 Format) and emails in usable and correct format (no helper words). If contact information is unavailable or not enough, just omit or skip the vendor or person. Give only one email and one phone number for each vendor/person.
 Do not give dummy or example data. Strictly ensure extracted Vendor and contact are relevant and capable of solving the goal. Make sure the phone number is in E.164 format, based on country. Give empty list [], if not vendor details are given in the context. Always give correct id of the json content used for contact retrieval.
 \nExample response (Only as an example format, data not to be used) : \n{"results": [{"target":"Car rentals","contacts": {"email": "oakland@onetoyota.com","phone": "+15102818909"},"id":2, "name": "One Toyota Oakland"}]}\n"""
@@ -160,53 +160,6 @@ async def retrieval_multithreading(
             log.error(f"Error in task: {e}")
 
     log.info(f"OpenAI task completed")
-
-
-## ------------------------ Static ------------------------ ##
-
-
-# def extract_contacts(
-#     data, prompt: str, solution: str, openai_key, timeout: int = 10
-# ) -> str:
-#     """
-#     Extract the contacts from the search results using LLM
-#     """
-#     t_flag1 = time.time()
-#     client = OpenAI(api_key=openai_key)
-
-#     response = client.chat.completions.create(
-#         model="gpt-3.5-turbo-1106",
-#         timeout=timeout,
-#         response_format={"type": "json_object"},
-#         messages=[
-#             {
-#                 "role": "system",
-#                 "content": SYS_PROMPT,
-#             },
-#             {
-#                 "role": "user",
-#                 "content": f"Context: {data}\n\n-----\n\nQuestion: {prompt}\nAnswer:All relevant and accurate contact details for above Question in JSON:",
-#             },
-#         ],
-#     )
-#     t_flag2 = time.time()
-#     log.info(f"OpenAI time: { t_flag2 - t_flag1}")
-
-#     cost = gpt_cost_calculator(
-#         response.usage.prompt_tokens, response.usage.completion_tokens
-#     )
-#     log.debug(
-#         f"Input Tokens used: {response.usage.prompt_tokens}, Output Tokens used: {response.usage.completion_tokens}"
-#     )
-#     log.info(f"Cost for contact retrival: ${cost}")
-
-#     try:
-#         json_response = json.loads(response.choices[0].message.content)
-#     except Exception as e:
-#         log.error(f"Error parsing json: {e}")
-#         json_response = {}
-
-#     return json_response
 
 
 async def static_retrieval_multifetching(
