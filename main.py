@@ -28,7 +28,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.get("/")
 async def read_root():
     response = {
@@ -38,29 +37,6 @@ async def read_root():
         "data": None,
     }
     return response
-
-
-# async def static_response(request_context: RequestContext, data: List[dict]):
-#     results = await static_contacts_retrieval(request_context, data, full_search=False)
-#     end_time = time.time()
-#     response = await response_formatter(
-#         request_context.id,
-#         (end_time - request_context.start_time),
-#         request_context.prompt,
-#         request_context.location,
-#         results,
-#         request_context.solution,
-#         request_context.search_space,
-#         request_context.search_query,
-#         status="completed",
-#         has_more=False,
-#     )
-
-#     log.info(f"\nStatic Response: {response}")
-#     date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
-#     with open(f"response-logs/{date}.json", "w") as f:
-#         f.write(str(response))
-#     return response
 
 def collect_data(id, goal, solution, context, search_space, search_query, results): 
     data = {
@@ -93,7 +69,7 @@ async def staticProbe(
         format="%(name)s - %(levelname)s - %(message)s",
         level=log.INFO,
     )
-    print(f'logs/{ID}.log')
+    print(f'\nlogs/{ID}.log\n')
 
     if prompt is None or not prompt.strip():
         log.error(f"No prompt provided")
