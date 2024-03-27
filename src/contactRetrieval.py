@@ -10,11 +10,11 @@ from src.utils import inflating_retrieval_results, gpt_cost_calculator
 LOG_FILES = False
 
 
-SYS_PROMPT = """Extract vendors/peoples and their contact details from internet scraped context, aiming to assist the user's goal in finding the right service providers or vendors with contacts from the target list. Only retrieve the contacts of vendor/person that can server the user's goal, skip all unrelated.
-The response should strictly adhere to the JSON format: {"results": [{"target":"(string) which category from the target list","contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number"},"id":(int)correct id of the json data given in Context,"name": "(string)Name of the vendor helping the goal"}, {...}]}.
-Use an empty string "" if any data is absent or is not available. Strictly avoid providing incorrect contact details. Give phone numbers(in E.164 Format) and emails in usable and correct format (no helper words). If contact information is unavailable or not enough, just omit or skip the vendor or person. Give only one email and one phone number for each vendor/person.
-Do not give dummy or example data. Strictly ensure extracted Vendor and contact are relevant and capable of solving the goal. Make sure the phone number is in E.164 format, based on country. Give empty list [], if not vendor details are given in the context. Always give correct id of the json content used for contact retrieval.
-\nExample response (Only as an example format, data not to be used) : \n{"results": [{"target":"Car rentals","contacts": {"email": "oakland@onetoyota.com","phone": "+15102818909"},"id":2, "name": "One Toyota Oakland"}]}\n"""
+SYS_PROMPT = """Extract all vendors/peoples and their contact details from internet scraped context, aiming to assist the user's goal in finding the right service providers or vendors with contacts from the target list. Only retrieve the contacts of vendor/person that can server the user's goal (in targets), skip all unrelated.
+The response should strictly adhere to the JSON format: {"results": [{"contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number"},"id":(int)correct id of the json data given in Context,"name": "(string)Name of the vendor helping the goal", "target":"(string) which category from the target list"}, {...}]}.
+Use an empty string if any data is absent or is not available. Strictly avoid providing incorrect contact details. Give phone numbers and emails in usable and correct format (no helper words). If contact information is unavailable or not enough, just omit or skip the vendor or person. Give only one email and one phone number for each vendor/person.
+Do not give dummy or example data. Make sure the phone number is in E.164 format, based on country. Give empty list [], if not vendor details are given in the context. Always give correct id of the json content used for contact retrieval.
+\nExample response (Only as an example format, data not to be used) : \n{"results": [{"contacts": {"email": "oakland@onetoyota.com","phone": "+15102818909"},"id":2, "name": "One Toyota Oakland", "target":"Car rentals"}]}\n"""
 
 ## ------------------------ Async ------------------------ ##
 

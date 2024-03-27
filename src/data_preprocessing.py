@@ -10,7 +10,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from src.utils import create_documents, document_lambda, document2map
 
 
-LOG_FILES = True
+LOG_FILES = False
 
 def transform_documents(
         documents: Sequence[Document],
@@ -98,9 +98,6 @@ def get_navigable_strings(element: Any) -> Tuple[List[str], List[str]]:
                     text_parts.append(f"{child.strip()} [Contact:({href})]")
                 elif "contact" in href.lower():
                     contact_hrefs.append(href)
-                else:
-                    text_parts.append(child.strip())
-
             else:
                 text_parts.append(child.strip())
 
