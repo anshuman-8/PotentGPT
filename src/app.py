@@ -94,9 +94,9 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         yelp_search=False,
     )
 
-    max_web_results = 40
+    max_web_results = 30
     if request_context.gmaps_query is not None or request_context.yelp_query is not None:
-        max_web_results = 35
+        max_web_results = 25
 
     # get the search results
     web_results = await search_client.search_web(max_results=max_web_results)
