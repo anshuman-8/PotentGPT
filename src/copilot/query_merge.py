@@ -10,7 +10,7 @@ load_dotenv()
 MY_ENV_VAR = os.getenv('OPENAI_API_KEY')
 
 
-System_Prompt_question_gen = "Given the user's goal and the questions asked to the user with its answers, merge the questions into the goal to make it less vague. If the goal is already well described, respond with the goal as it is. Respond in JSON, Format - {\"merged_goal\":\"\"}"
+System_Prompt_question_gen = "Given the user's goal and the questions asked to the user with its answers, merge the questions into the goal to make it less vague. If the goal is already well described, respond with the goal as it is.\nAlso assign tags(max 2) to the goals form the list -\"Education\",\"Internship\",\"Equipment\",\"Research\",\"Sales\",\"Entrepreneurship\",\"Logistics\",\"Relocation\",\"Tutoring\",\"Travel\",\"Rental\",\"Food & Beverages\",\"Real Estate\",\"Health & Fitness\",\"Technology\",\"Finance\",\"Medical Services\",\"Skilled Services\",\"Volunteer Work\",\"Personal Growth\",\"Hobbies\",\"Retirement\",\"Style & Fashion\",\"Adventure Sports\",\"Music & Entertainment\",\"Jobs\",\"Higher Studies\",\"Hardware Fix\", \"Equipments\", \"Large Equipments\", \"Car\". Give empty list if none. \nRespond in JSON, Format - {\"merged_goal\":\"\", \"tags\": []}"
 
 question_gen_few_shot = [ {
                     "role": "user",
@@ -18,7 +18,7 @@ question_gen_few_shot = [ {
                 },
                 {
                     "role": "system",
-                    "content": "{\"merged_goal\":\"I want a new Toyota SUV car in Oakland, CA\"}",
+                    "content": "{\"merged_goal\":\"I want a new Toyota SUV car in Oakland, CA\", \"tags\":[\"Car\"]}",
                 }]
 
 def merge_goal(choices:dict, goal:str):

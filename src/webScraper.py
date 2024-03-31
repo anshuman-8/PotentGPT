@@ -50,7 +50,7 @@ class AsyncChromiumLoader:
                 "**/*",
                 route_handler
             )
-            await page.goto(url, timeout=13500)
+            await page.goto(url, timeout=14500)
             web_content = await page.content()
             t_end = time.time()
             log.info(f"Content scraped for {url} in {t_end - t_start} seconds")
