@@ -94,15 +94,15 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         yelp_search=False,
     )
 
-    max_web_results = 30
-    if request_context.gmaps_query is not None or request_context.yelp_query is not None:
-        max_web_results = 25
+    max_web_results = 40
+    if request_context.gmaps_query is not None:
+        max_web_results = 32
 
     # get the search results
     web_results = await search_client.search_web(max_results=max_web_results)
 
     # process the search links
-    search_results = process_search_results(web_results[:max_web_results])
+    search_results = process_search_results(web_results)
     log.info(f"\nRefined Search Results length: {len(search_results)}\n")
 
     if deep_scrape and (request_context.gmaps_query is not None):
@@ -128,7 +128,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data, site_contact_links = process_data_docs(extracted_content, 550)
+    context_data, site_contact_links = process_data_docs(extracted_content, 650)
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     if len(site_contact_links) > 0:
@@ -138,7 +138,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
     else:
         log.warning("No secondary search required\n")
 
-    data = [x for x in context_data if len(x["content"]) > 400]
+    data = [x for x in context_data if len(x["content"]) > 300]
 
     if len(data) == 0:
         log.error("No relevant data extracted")
@@ -156,7 +156,7 @@ async def secondary_search(web_links:List[str]):
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data, site_contact_links = process_data_docs(extracted_content, 450)
+    context_data, site_contact_links = process_data_docs(extracted_content, 550)
     log.info(f"\nSecondary Context Data len: {len(context_data)}\n")
     
     return context_data
@@ -175,7 +175,7 @@ async def static_contacts_retrieval(
         request_context.prompt,
         request_context.targets,
         OPENAI_ENV,
-        context_chunk_size=5,
+        context_chunk_size=4,
         max_thread=10,
         timeout=10,
     )

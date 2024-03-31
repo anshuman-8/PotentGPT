@@ -11,7 +11,7 @@ from src.utils import create_documents, document_lambda, document2map
 
 
 LOG_FILES = False
-
+ 
 def transform_documents(
         documents: Sequence[Document],
         unwanted_tags: List[str] = ["script", "style"],
