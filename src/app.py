@@ -5,11 +5,11 @@ import logging as log
 from typing import List
 from dotenv import load_dotenv
 
+from src.config import Config
 from src.sanitize_query import generate_search_query
 from src.webScraper import scrape_with_playwright
 from src.data_preprocessing import process_data_docs
 from src.contactRetrieval import (
-    retrieval_multithreading,
     static_retrieval_multifetching,
 )
 from src.search import Search
@@ -19,7 +19,7 @@ from src.utils import process_results, rank_weblinks, sort_results
 load_dotenv()
 
 OPENAI_ENV = os.getenv("OPENAI_API_KEY")
-
+config = Config()
 
 def process_search_results(results: List[str]) -> List[str]:
     """
@@ -111,7 +111,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
             gmaps_links = search_client.process_google_business_links(
                 response_gmaps
             )
-            gmaps_links = gmaps_links[:25]
+            gmaps_links = gmaps_links[:20]
             log.debug(f"\nGoogle Business Details: {gmaps_links}\n")
             search_results = gmaps_links + search_results
         else:
@@ -128,7 +128,7 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data, site_contact_links = process_data_docs(extracted_content, 650)
+    context_data, site_contact_links = process_data_docs(extracted_content, config.get_primary_context_size())
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     if len(site_contact_links) > 0:
@@ -156,7 +156,7 @@ async def secondary_search(web_links:List[str]):
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data, site_contact_links = process_data_docs(extracted_content, 550)
+    context_data, site_contact_links = process_data_docs(extracted_content, config.get_secondary_context_size())
     log.info(f"\nSecondary Context Data len: {len(context_data)}\n")
     
     return context_data
@@ -175,8 +175,8 @@ async def static_contacts_retrieval(
         request_context.prompt,
         request_context.targets,
         OPENAI_ENV,
-        context_chunk_size=4,
-        max_thread=10,
+        context_chunk_size=config.get_content_per_llm_call(),
+        max_thread=config.get_max_llm_calls(),
         timeout=10,
     )
 

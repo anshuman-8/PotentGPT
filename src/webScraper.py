@@ -6,9 +6,10 @@ from typing import Iterator, List
 from playwright.async_api import async_playwright
 from langchain.docstore.document import Document
 from src.utils import document2map
+from src.config import Config
 
 LOG_FILES = False # Logs the data (keep it False)
-
+config = Config()
 class AsyncChromiumLoader:
     def __init__(self, web_links: List[str]):
         self.web_links = web_links
@@ -17,7 +18,7 @@ class AsyncChromiumLoader:
         """
         Scrape the urls by creating async tasks for each url
         """
-        log.info("Starting scraping...")
+        log.info(f"Starting scraping for {len(web_links)} sites...")
         results = []
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
@@ -50,7 +51,7 @@ class AsyncChromiumLoader:
                 "**/*",
                 route_handler
             )
-            await page.goto(url, timeout=14500)
+            await page.goto(url, timeout=config.get_web_scraping_timeout())
             web_content = await page.content()
             t_end = time.time()
             log.info(f"Content scraped for {url} in {t_end - t_start} seconds")

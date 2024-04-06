@@ -433,7 +433,7 @@ class Search:
 
         log.debug(f"Google Maps search results: {results}")
         log.info(
-            f"Google Maps search Complete; {len(results)} items, time: {t_flag2 - t_flag1}"
+            f"\nGoogle Maps search Complete; {len(results)} items, time: {t_flag2 - t_flag1} !!\n"
         )
 
         return results
