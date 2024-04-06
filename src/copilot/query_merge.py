@@ -64,6 +64,8 @@ def prepare_choice(choices:dict):
     choice_str = ""
 
     for choice in choices["choices"]:
+        if choice["answer"] == "" or choice["answer"] == None:
+            continue
         choice_str += f"{choice["question"]}: {choice["answer"]}, "
     return choice_str
 

@@ -19,7 +19,7 @@ import tracemalloc
 
 tracemalloc.start()
 
-app = FastAPI(title="Margati Probe", version="0.1.0")
+app = FastAPI(title="Margati Probe", version="0.2.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -140,7 +140,7 @@ async def copilot(
 ) -> CpAPIResponse | ErrorResponseModel:
     ID = uuid.uuid4()
     timestamp = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
-    
+
     log.basicConfig(
         filename=f"logs/cp-{ID}.log",
         filemode="w",
