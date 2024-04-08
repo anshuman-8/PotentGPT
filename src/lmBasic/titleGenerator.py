@@ -9,7 +9,7 @@ load_dotenv()
 
 MY_ENV_VAR = os.getenv('OPENAI_API_KEY')
 
-System_Prompt_title_gen = "Give an appropriate title (just as a summary) for the given goal(not more than 8-9 words). Make it like in third person. Respond with the title in JSON format. Format - {\"title\":\"\"}"
+System_Prompt_title_gen = "Give an appropriate title (just as a summary) for the given goal(not more than 8-9 words). Make it like in third person. Respond with the title in JSON format. Also assign tags to the goal (like- \"Higher Education\", \"Car Rental\" etc). Give tags (max 4 & min 2) in a list. Format- {\"title\":\" \", \"tags\":[\" \",\" \"]}"
 
 
 def generate_title(goal:str):
@@ -51,9 +51,18 @@ def json_analyzer(json_str:str):
     """
     """
     try:
+        response = {}
         json_obj = json.loads(json_str)
+        tags = []
+        if isinstance(json_obj['tags'], list):
+            tags = [ tag.strip() for tag in json_obj["tags"]]
+        elif isinstance(json_obj['tags'], str):
+            tags = json_obj["tags"]
+
+        response = {"title":json_obj["title"], "tags":tags}
+
     except Exception as e:
         log.error(f"Error in JSON parsing: {e}")
         raise Exception("Error in JSON parsing")
     
-    return json_obj
+    return response
