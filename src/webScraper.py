@@ -9,6 +9,7 @@ from src.utils import document2map
 from src.config import Config
 
 LOG_FILES = False # Logs the data (keep it False)
+
 config = Config()
 class AsyncChromiumLoader:
     def __init__(self, web_links: List[str]):
@@ -51,7 +52,7 @@ class AsyncChromiumLoader:
                 "**/*",
                 route_handler
             )
-            await page.goto(url, timeout=config.get_web_scraping_timeout())
+            await page.goto(url, timeout=config.get_web_scraping_timeout(), wait_until="domcontentloaded" )
             web_content = await page.content()
             t_end = time.time()
             log.info(f"Content scraped for {url} in {t_end - t_start} seconds")

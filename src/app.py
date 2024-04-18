@@ -94,9 +94,9 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         yelp_search=False,
     )
 
-    max_web_results = 40
+    max_web_results = 45
     if request_context.gmaps_query is not None:
-        max_web_results = 32
+        max_web_results = 37
 
     # get the search results
     web_results = await search_client.search_web(max_results=max_web_results)
@@ -194,7 +194,7 @@ async def static_contacts_retrieval(
     )
 
     log.info(f"\nStatic Response: {response}")
-    date = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+    date = time.strftime("%m-%d_%H:%M:%S", time.localtime())
     with open(f"response-logs/{date}.json", "w") as f:
         f.write(str(response))
 

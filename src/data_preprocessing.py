@@ -6,6 +6,7 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup, NavigableString, Tag
 from typing import Dict, Any, Iterator, List, Sequence, cast, Tuple
 from langchain.docstore.document import Document
+from langchain.retrievers.document_compressors import LLMChainExtractor
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from src.utils import create_documents, document_lambda, document2map
 
@@ -201,6 +202,8 @@ def process_secondary_links(base_data, site_contact_links):
     new_site_contact_link = list(new_site_contact_link.values())
     return new_site_contact_link
 
+def context_compression(context: Document):
+    pass
 
 def process_data_docs(html_docs: Document, chunk_size: int = 400):
     """

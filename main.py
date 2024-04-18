@@ -62,15 +62,15 @@ async def staticProbe(
     country_code: str | None = "US",
 ) -> ApiResponse | ErrorResponseModel:
     ID = uuid.uuid4()
-    timestamp = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
-
+    timestamp = time.strftime("%m-%d_%H:%M:%S", time.localtime())
+    file_name = f"logs/s-{timestamp}-{ID}.log"
     log.basicConfig(
-        filename=f"logs/{ID}.log",
+        filename=file_name,
         filemode="w",
-        format="%(name)s - %(levelname)s - %(message)s",
+        format="%(levelname)s - %(message)s",
         level=log.INFO,
     )
-    print(f'\nlogs/{ID}.log\n')
+    print(f"\n{file_name}\n")
 
     if prompt is None or not prompt.strip():
         log.error(f"No prompt provided")
@@ -83,7 +83,7 @@ async def staticProbe(
 
     log.info(f"Request: {prompt}, {location}, {country_code}")
     log.info(f"Request from: {request.client.host}")
-    log.info(f"Total Time: {timestamp}")
+    log.info(f"Time: {timestamp}")
 
     try:
         target, query = search_query_extrapolate(
