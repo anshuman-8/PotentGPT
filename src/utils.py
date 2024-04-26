@@ -46,6 +46,13 @@ def document2map(documents: List[Document]) -> List[dict]:
         {"metadata": doc.metadata, "content": doc.page_content} for doc in documents
     ]
 
+def count_tokens(text: str) -> int:
+    # FIXME this is a dummy function have to impliment actual token count
+    """
+    Count the number of tokens in the text
+    """
+    return len(text.split())
+
 def rank_weblinks(web_links: List[dict]) -> List[dict]:
     """
     Ranks the web links by adding rank field and making the list unique

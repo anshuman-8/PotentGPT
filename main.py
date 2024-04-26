@@ -11,10 +11,11 @@ from src.app import (
     extract_web_context,
     static_contacts_retrieval,
 )
-from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback, CpAPIResponse, CpMergeRequest
+from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback, CpAPIResponse, CpMergeRequest, YelpReverseSearchRequest
 from src.copilot.question_generation import generate_question
 from src.copilot.query_merge import merge_goal
 from src.lmBasic.titleGenerator import generate_title
+from src.search import Search
 import tracemalloc
 
 tracemalloc.start()
@@ -102,6 +103,23 @@ async def staticProbe(
     response = await static_contacts_retrieval(request_context, web_context)
     
     return Response(content=response)
+
+@app.post("/static/reverse-yelp/")
+async def reverseSearchYelp(
+    request: YelpReverseSearchRequest,
+) -> JSONResponse:
+    vendor_name = request.vendor.name
+    location = request.location
+
+    if location is None or not location.strip():
+        raise HTTPException(status_code=400, detail="location needed!")
+    
+    search = Search.yelp_reverse_search(vendor_name, location)
+
+    if search is None or search == {}:
+        raise HTTPException(status_code=404, detail="No results found")
+    
+    return JSONResponse(content=search)
 
 @app.get("/title/")
 async def title(

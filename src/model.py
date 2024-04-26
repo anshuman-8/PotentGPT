@@ -5,24 +5,35 @@ from pydantic import BaseModel
 
 class ContactDetails(BaseModel):
     email: str = ""
-    phone: List[str] = []
+    phone: str = ""
     address: str = ""
 
 
 class ServiceProvider(BaseModel):
-    service_provider: str
-    source: str
-    provider: List[str]
+    id : int
+    rank : int
+    name : str
+    target : str
+    source : str
+    info : str
+    provider : str
+    latitude : float | None 
+    longitude : float | None
+    rating : str 
+    rating_count : str
     contacts: ContactDetails
 
+class YelpReverseSearchRequest(BaseModel):
+    vendor: ServiceProvider
+    location : str
+    country_code: str
 
 class ApiResponse(BaseModel):
     id: str
-    status: str
     prompt: str
+    count : int
     location: str
-    country: str
-    run_time: int
+    meta : dict
     results: List[ServiceProvider]
 
 class CpAPIResponse(BaseModel):

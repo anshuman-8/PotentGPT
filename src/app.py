@@ -25,6 +25,7 @@ def process_search_results(results: List[str]) -> List[str]:
     """
     Process the search links to remove the unwanted links
     """
+    # TODO : Hame to move the data to config file
     avoid_links = [
         "instagram",
         "facebook",
@@ -138,7 +139,8 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
     else:
         log.warning("No secondary search required\n")
 
-    data = [x for x in context_data if len(x["content"]) > 300]
+    # FIXME need to count based on number of token not length
+    data = [x for x in context_data if len(x["content"]) > 200]
 
     if len(data) == 0:
         log.error("No relevant data extracted")

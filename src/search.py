@@ -17,7 +17,7 @@ BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
 ## --- Alert ---
-LOG_FILES = False  # Set to True to log the results to files
+LOG_FILES = True  # Set to True to log the results to files
 
 
 class Search:
@@ -376,6 +376,84 @@ class Search:
             with open("src/log_data/yelp_processed.json", "w") as f:
                 json.dump(processed_results, f, indent=4)
         return processed_results
+    
+    def yelp_reverse_search(name:str, location:str, yelp_api_key:str=None):
+        # TODO : need to intigrate with the above yelp search algorithm
+        """
+        Takes vendor's name, location to do a reverse search on yelp
+        """
+
+        yelp_url = "https://api.yelp.com/v3/businesses/search"
+
+        #TODO take key from the toml config
+        if yelp_api_key is None:
+            try:
+                yelp_api_key = os.getenv("YELP_API_KEY")
+            except Exception as e:
+                log.error(f"No Yelp API key found")
+                return None
+        headers = {
+            "Authorization": f"Bearer {yelp_api_key}",
+            "accept": "application/json",
+        }
+
+
+        search_limit = 5
+
+        t_flag1 = time.time()
+        params = {
+            "term": name.replace(" ", "+"),
+            "location": location.replace(" ", "+"),
+            "limit": search_limit,
+            "sort_by": "best_match",
+        }
+
+        try:
+            response = requests.get(yelp_url, headers=headers, params=params)
+            response.raise_for_status()
+
+            data = response.json()
+            t_flag2 = time.time()
+
+            if LOG_FILES:
+                with open("src/log_data/yelp-r.json", "w") as f:
+                    json.dump(data, f)
+
+            data = [
+                {
+                    "title": business["name"],
+                    "link": business["url"],
+                    "phone": business["phone"],
+                    "location": business["location"]["display_address"],
+                    "rating": business["rating"],
+                    "rating_count": business["review_count"],
+                    "yelp_id": business["id"],
+                    "latitude": business["coordinates"]["latitude"],
+                    "longitude": business["coordinates"]["longitude"]
+
+                }
+                for business in data["businesses"]
+            ]
+
+            if len(data)== 0:
+                return {}
+            
+            log.info(
+                f"Yelp search complete; {len(data)} results, time: {t_flag2 - t_flag1}"
+            )
+
+            business_details = {}
+            for business in data:
+                if business['title'].lower().strip() == name.lower().strip():
+                    business_details = business
+                    break
+
+            return business_details
+
+        except Exception as e:
+            log.error(f"Error on Yelp Search request: {e}")
+            return None
+
 
     async def _search_google_business_details(self, place_id):
         """

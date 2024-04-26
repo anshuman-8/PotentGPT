@@ -59,7 +59,10 @@ class AsyncChromiumLoader:
         except Exception as e:
             log.error(f"Error scraping {url}: {e}")
         finally:
-            await page.close()
+            try:
+                await page.close()
+            except Exception as e:
+                log.error(f"Error closing page: {e}")
         result_doc = Document(page_content=web_content, metadata=web_link)
         return result_doc
 
