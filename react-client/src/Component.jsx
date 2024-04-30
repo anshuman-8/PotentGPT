@@ -29,7 +29,9 @@ const Component = () => {
 
     setLoading(true);
     try {
-      const url = `http://127.0.0.1:8000/static/?prompt=${pro}&location=${loc}&country_code=${cou}`;
+      const end_point = `/static/?prompt=${pro}&location=${loc}&country_code=${cou}`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}${end_point}`;
+      console.log("Searching :", url);
       const response = await fetch(url, {
         method: "GET",
       });
@@ -151,7 +153,7 @@ const Component = () => {
       {/* Grid of cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
         {vendors.length > 0 ? (
-          vendors.map((item, index) => <Card key={index} vendor={item} />)
+          vendors.map((item, index) => <Card key={index} vendor={item} location={response.location} />)
         ) : (
           <div>No results</div>
         )}

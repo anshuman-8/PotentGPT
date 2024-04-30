@@ -1,4 +1,5 @@
 import asyncio
+import sys
 import json
 import time
 import logging as log
@@ -27,6 +28,9 @@ class AsyncChromiumLoader:
             results = await asyncio.gather(*scraping_tasks, return_exceptions=True)
             await browser.close()
             log.debug(f"Browser closed")
+            size_in_bytes = sys.getsizeof(results)
+            size_in_mb = size_in_bytes / (1024 * 1024)
+            log.info(f"Scraping done for {len(web_links)} sites, Size : {size_in_mb:.3f} MB")
         return results
 
     async def scrape_url(self, browser, web_link: str) -> Document:
@@ -55,7 +59,10 @@ class AsyncChromiumLoader:
             await page.goto(url, timeout=config.get_web_scraping_timeout(), wait_until="domcontentloaded" )
             web_content = await page.content()
             t_end = time.time()
-            log.info(f"Content scraped for {url} in {t_end - t_start} seconds")
+
+            size_in_bytes = sys.getsizeof(web_content)
+            size_in_kb = size_in_bytes / 1024
+            log.info(f"Content scraped for {url} in {(t_end - t_start):.2f} seconds, Size : {size_in_kb:.3f} KB")
         except Exception as e:
             log.error(f"Error scraping {url}: {e}")
         finally:

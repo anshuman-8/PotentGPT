@@ -13,7 +13,8 @@ export default function Details({ data }) {
       data: data.results,
     };
     try {
-      const url = `http://127.0.0.1:8000/feedback`;
+      const end_point = "/feedback/";
+      const url = `${process.env.REACT_APP_BACKEND_URL}${end_point}`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

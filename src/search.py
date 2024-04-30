@@ -428,6 +428,7 @@ class Search:
                     "rating": business["rating"],
                     "rating_count": business["review_count"],
                     "yelp_id": business["id"],
+                    # "price": business['']
                     "latitude": business["coordinates"]["latitude"],
                     "longitude": business["coordinates"]["longitude"]
 

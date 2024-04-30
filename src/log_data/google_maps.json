@@ -1,168 +1,306 @@
 [
     {
-        "nationalPhoneNumber": "080 4620 5900",
-        "internationalPhoneNumber": "+91 80 4620 5900",
-        "formattedAddress": "Ward No.94, 16/1, Seshadri Rd, Gandhi Nagar, Bengaluru, Karnataka 560009, India",
+        "nationalPhoneNumber": "(408) 692-4782",
+        "internationalPhoneNumber": "+1 408-692-4782",
+        "formattedAddress": "Event Planning, Corporate and Wedding Caterer Division, 1725 De La Cruz Blvd #1, Santa Clara, CA 95050, USA",
         "location": {
-            "latitude": 12.9799654,
-            "longitude": 77.57847850000002
+            "latitude": 37.3593379,
+            "longitude": -121.9395133
         },
-        "rating": 4.5,
-        "websiteUri": "https://www.ihg.com/holidayinn/hotels/us/en/bangalore/blrex/hoteldetail?cm_mmc=GoogleMaps-_-HI-_-IN-_-BLREX",
-        "userRatingCount": 10197,
+        "rating": 4.8,
+        "websiteUri": "https://handheldcatering.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb-listing",
+        "userRatingCount": 26,
         "displayName": {
-            "text": "Holiday Inn Bengaluru Racecourse, an IHG Hotel",
+            "text": "Handheld Catering and Events",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "Ward No.94, Cms Business School, 16/1, Seshadri Rd, Gandhi Nagar, Bengaluru"
+        "shortFormattedAddress": "Event Planning, Corporate and Wedding Caterer Division, 1725 De La Cruz Blvd #1, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "080 4254 8000",
-        "internationalPhoneNumber": "+91 80 4254 8000",
-        "formattedAddress": "Plot No - 30, Raja Ram Mohan Roy Rd, off Richmond Road, Sampangi Rama Nagara, Bengaluru, Karnataka 560027, India",
+        "nationalPhoneNumber": "(408) 480-3825",
+        "internationalPhoneNumber": "+1 408-480-3825",
+        "formattedAddress": "1285 Homestead Rd, Santa Clara, CA 95050, USA",
         "location": {
-            "latitude": 12.967381999999999,
-            "longitude": 77.593907
-        },
-        "rating": 4.7,
-        "websiteUri": "https://all.accor.com/lien_externe.svlt?goto=fiche_hotel&code_hotel=6454&merchantid=seo-maps-IN-6454&sourceid=aw-cen&utm_medium=seo+maps&utm_source=google+Maps&utm_campaign=seo+maps&y_source=1_MTUzNTg2NjgtNzE1LWxvY2F0aW9uLndlYnNpdGU%3D",
-        "userRatingCount": 672,
-        "displayName": {
-            "text": "ibis Bengaluru City Centre",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "Plot No - 30, Raja Ram Mohan Roy Rd, Richmond Road, Sampangi Rama Nagara, Bengaluru"
-    },
-    {
-        "nationalPhoneNumber": "090199 00459",
-        "internationalPhoneNumber": "+91 90199 00459",
-        "formattedAddress": "18, Sy No 90, 6th B Main Road, Outer Ring Rd, near Chellikere, Chellikere, HRBR Layout 2nd Block, Chelekare, Kalyan Nagar, Bengaluru, Karnataka 560043, India",
-        "location": {
-            "latitude": 13.025968899999999,
-            "longitude": 77.64307079999999
-        },
-        "rating": 4.7,
-        "websiteUri": "https://goldenfortunehotel.com/",
-        "userRatingCount": 112,
-        "displayName": {
-            "text": "Golden Fortune Hotel",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "18, Sy No 90, 6th B Main Road, Outer Ring Rd, Chellikere, HRBR Layout 2nd Block, Kalyan Nagar, Bengaluru"
-    },
-    {
-        "nationalPhoneNumber": "088619 70111",
-        "internationalPhoneNumber": "+91 88619 70111",
-        "formattedAddress": "239, Subedar Chatram Rd, near ANAND RAO CIRCLE, Gandhi Nagar, Bengaluru, Karnataka 560009, India",
-        "location": {
-            "latitude": 12.9792443,
-            "longitude": 77.5752196
-        },
-        "rating": 4,
-        "userRatingCount": 276,
-        "displayName": {
-            "text": "SRI HARI PRESENTA",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "239, Subedar Chatram Rd, ANAND RAO CIRCLE, Gandhi Nagar, Bengaluru"
-    },
-    {
-        "formattedAddress": "54B, 55A, Hosur Rd, Electronics City Phase 1, Electronic City, Bengaluru, Karnataka 560100, India",
-        "location": {
-            "latitude": 12.8407737,
-            "longitude": 77.6596686
+            "latitude": 37.348011899999996,
+            "longitude": -121.94744440000001
         },
         "rating": 4.1,
-        "websiteUri": "https://www.lemontreehotels.com/lemon-tree-hotel/bangalore/electronics-city-bangalore.aspx",
-        "userRatingCount": 144,
+        "websiteUri": "http://www.jalsasf.com/",
+        "userRatingCount": 64,
         "displayName": {
-            "text": "Lemon Tree Hotel, Electronics City, Bangalore",
+            "text": "Jalsa Catering & Events",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "54B, Lemon Tree Hotel, Electronics City, Bangalore, 55A, Hosur Rd, Electronics City Phase 1, Electronic City, Bengaluru"
+        "shortFormattedAddress": "1285 Homestead Rd, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "070224 08694",
-        "internationalPhoneNumber": "+91 70224 08694",
-        "formattedAddress": "# 2/1, Anathashram lane, Subedar Chatram Rd, Gandhinagar, Majestic, Bengaluru, Karnataka 560009, India",
+        "nationalPhoneNumber": "(408) 432-1182",
+        "internationalPhoneNumber": "+1 408-432-1182",
+        "formattedAddress": "1996 Lafayette St, Santa Clara, CA 95050, USA",
         "location": {
-            "latitude": 12.9783665,
-            "longitude": 77.5759439
-        },
-        "rating": 4.6,
-        "userRatingCount": 1483,
-        "displayName": {
-            "text": "Hotel Embassy",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "# 2/1, Anathashram lane, Subedar Chatram Rd, Gandhinagar, Majestic, Bengaluru"
-    },
-    {
-        "nationalPhoneNumber": "099889 91193",
-        "internationalPhoneNumber": "+91 99889 91193",
-        "formattedAddress": "No.75/5, 20th A Main Rd, 1st R Block, Rajajinagar, Bengaluru, Karnataka 560010, India",
-        "location": {
-            "latitude": 13.010838999999999,
-            "longitude": 77.5505651
+            "latitude": 37.3601737,
+            "longitude": -121.94853309999999
         },
         "rating": 4.7,
-        "websiteUri": "https://kingstonhotelblr.com/",
-        "userRatingCount": 469,
+        "websiteUri": "http://www.greenfishcatering.com/",
+        "userRatingCount": 15,
         "displayName": {
-            "text": "Kingston Hotel",
+            "text": "Greenfish Catering",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "No.75/5, 20th A Main Rd, 1st R Block, Rajajinagar, Bengaluru"
+        "shortFormattedAddress": "1996 Lafayette St, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "080673 83939",
-        "internationalPhoneNumber": "+91 80673 83939",
-        "formattedAddress": "Plot No 514, Outer Ring Rd, opp. Lumbini Garden, Kanaka Nagar, Veerannapalya, Nagavara, Bengaluru, Karnataka 560045, India",
+        "nationalPhoneNumber": "(408) 855-8611",
+        "internationalPhoneNumber": "+1 408-855-8611",
+        "formattedAddress": "3270 Keller St, Santa Clara, CA 95054, USA",
         "location": {
-            "latitude": 13.0419462,
-            "longitude": 77.6130838
+            "latitude": 37.3802875,
+            "longitude": -121.9482369
         },
-        "rating": 4.1,
-        "websiteUri": "https://www.radissonhotels.com/en-us/hotels/country-inn-bengaluru?cid=a:se+b:gmb+c:apac+i:local+e:cis+d:ind+h:INKABENHEB",
-        "userRatingCount": 4793,
+        "rating": 4.8,
+        "websiteUri": "http://www.cateringalloccasions.com/contact-us.html",
+        "userRatingCount": 8,
         "displayName": {
-            "text": "Country Inn & Suites by Radisson, Bengaluru Hebbal Road",
+            "text": "Catering For All Occasions",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "Plot No 514, Outer Ring Rd, Lumbini Garden, Kanaka Nagar, Veerannapalya, Nagavara, Bengaluru"
+        "shortFormattedAddress": "3270 Keller St, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "080 2535 7170",
-        "internationalPhoneNumber": "+91 80 2535 7170",
-        "formattedAddress": "490, 8th Main Rd, near Embassy Golf Links, West Wing, Krishna Reddy Layout, Amarjyoti Layout, Domlur, Bengaluru, Karnataka 560071, India",
+        "nationalPhoneNumber": "(408) 567-9144",
+        "internationalPhoneNumber": "+1 408-567-9144",
+        "formattedAddress": "1505 Space Park Dr, Santa Clara, CA 95054, USA",
         "location": {
-            "latitude": 12.9534317,
-            "longitude": 77.63832599999999
-        },
-        "rating": 4.1,
-        "websiteUri": "http://polonest.com/",
-        "userRatingCount": 122,
-        "displayName": {
-            "text": "Polonest Boutique Hotel, Domlur, Bangalore",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "490, 8th Main Rd, Embassy Golf Links, West Wing, Krishna Reddy Layout, Amarjyoti Layout, Domlur, Bengaluru"
-    },
-    {
-        "nationalPhoneNumber": "082170 63585",
-        "internationalPhoneNumber": "+91 82170 63585",
-        "formattedAddress": "19 & 20, 3rd Main Rd, Gandhi Nagar, Bengaluru, Karnataka 560009, India",
-        "location": {
-            "latitude": 12.976225900000001,
-            "longitude": 77.5786043
+            "latitude": 37.3764667,
+            "longitude": -121.9564944
         },
         "rating": 4.4,
-        "websiteUri": "http://www.grandkalingahotel.com/",
-        "userRatingCount": 984,
+        "websiteUri": "http://www.athenagrill.com/",
+        "userRatingCount": 1834,
         "displayName": {
-            "text": "Grand Kalinga Hotel",
+            "text": "Athena Grill & Catering",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "19 & 20, 3rd Main Rd, Gandhi Nagar, Bengaluru"
+        "shortFormattedAddress": "1505 Space Park Dr, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 263-4366",
+        "internationalPhoneNumber": "+1 408-263-4366",
+        "formattedAddress": "5202 N First St, San Jose, CA 95002, USA",
+        "location": {
+            "latitude": 37.4259378,
+            "longitude": -121.97364949999998
+        },
+        "rating": 4.6,
+        "websiteUri": "https://tonycaterstoyou.com/",
+        "userRatingCount": 21,
+        "displayName": {
+            "text": "Tony Caters",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "5202 N First St, San Jose"
+    },
+    {
+        "nationalPhoneNumber": "(408) 202-2412",
+        "internationalPhoneNumber": "+1 408-202-2412",
+        "formattedAddress": "3443 El Camino Real, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.352624399999996,
+            "longitude": -121.9905054
+        },
+        "rating": 4.8,
+        "userRatingCount": 9,
+        "displayName": {
+            "text": "Oriental Side Dish Catering",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3443 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 984-0414",
+        "internationalPhoneNumber": "+1 408-984-0414",
+        "formattedAddress": "638 El Camino Real, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3546672,
+            "longitude": -121.94212669999999
+        },
+        "rating": 4.4,
+        "websiteUri": "https://fiorillos.com/index.html",
+        "userRatingCount": 629,
+        "displayName": {
+            "text": "Fiorillo's Restaurant and Banquet Facilities",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "638 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 732-1400",
+        "internationalPhoneNumber": "+1 408-732-1400",
+        "formattedAddress": "1288 Reamwood Ave, Sunnyvale, CA 94089, USA",
+        "location": {
+            "latitude": 37.4087124,
+            "longitude": -121.98725499999998
+        },
+        "rating": 4.1,
+        "websiteUri": "http://www.cosmocaters.com/",
+        "userRatingCount": 50,
+        "displayName": {
+            "text": "Cosmopolitan Catering",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "1288 Reamwood Ave, Sunnyvale"
+    },
+    {
+        "nationalPhoneNumber": "(408) 210-5946",
+        "internationalPhoneNumber": "+1 408-210-5946",
+        "formattedAddress": "3233-D, 3233 De La Cruz Blvd, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.3827388,
+            "longitude": -121.94101870000001
+        },
+        "rating": 4.8,
+        "userRatingCount": 4,
+        "displayName": {
+            "text": "BLOOM Catering USA",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3233-D, 3233 De La Cruz Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(650) 321-8003",
+        "internationalPhoneNumber": "+1 650-321-8003",
+        "formattedAddress": "2234 Lafayette St, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3620605,
+            "longitude": -121.9493775
+        },
+        "rating": 3,
+        "websiteUri": "http://www.oaxacankitchenmobile.com/",
+        "userRatingCount": 28,
+        "displayName": {
+            "text": "The Oaxacan Kitchen",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2234 Lafayette St, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(800) 828-2689",
+        "internationalPhoneNumber": "+1 800-828-2689",
+        "formattedAddress": "2170 Martin Ave, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3655902,
+            "longitude": -121.9630223
+        },
+        "rating": 3.8,
+        "websiteUri": "https://www.nourishinc.com/",
+        "userRatingCount": 13,
+        "displayName": {
+            "text": "Nourish Inc.",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2170 Martin Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 685-2058",
+        "internationalPhoneNumber": "+1 408-685-2058",
+        "formattedAddress": "550 E Remington Dr, Sunnyvale, CA 94087, USA",
+        "location": {
+            "latitude": 37.357708099999996,
+            "longitude": -122.02631360000001
+        },
+        "rating": 5,
+        "websiteUri": "http://hautecuisinecatering.net/",
+        "userRatingCount": 61,
+        "displayName": {
+            "text": "Haute Cuisine Catering",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "Senior Center, 550 E Remington Dr, Sunnyvale"
+    },
+    {
+        "nationalPhoneNumber": "(408) 410-6058",
+        "internationalPhoneNumber": "+1 408-410-6058",
+        "formattedAddress": "656 Los Padres Blvd, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3387071,
+            "longitude": -121.9626416
+        },
+        "rating": 5,
+        "websiteUri": "http://jaydubzbbq.com/",
+        "userRatingCount": 6,
+        "displayName": {
+            "text": "Jay Dubz BBQ",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "656 Los Padres Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 246-1010",
+        "internationalPhoneNumber": "+1 408-246-1010",
+        "formattedAddress": "830 Kiely Blvd UNIT 105, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3392445,
+            "longitude": -121.97780059999998
+        },
+        "rating": 4.5,
+        "websiteUri": "https://eriksdelicafe.com/location/santa-clara-kiely-boulevard-california-deli-cafe/",
+        "userRatingCount": 255,
+        "displayName": {
+            "text": "Erik's DeliCaf\u00e9",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "830 Kiely Blvd UNIT 105, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 459-7546",
+        "internationalPhoneNumber": "+1 408-459-7546",
+        "formattedAddress": "2002 El Camino Real, Santa Clara, CA 95015, USA",
+        "location": {
+            "latitude": 37.35201310000001,
+            "longitude": -121.9599985
+        },
+        "rating": 4,
+        "websiteUri": "https://www.panerabread.com/en-us/cafe/locations/ca/santa-clara/2002-el-camino-real?utm_medium=local&utm_source=google&utm_campaign=dpm-dist&utm_term=204482&utm_content=main",
+        "userRatingCount": 487,
+        "displayName": {
+            "text": "Panera Bread",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2002 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 441-8719",
+        "internationalPhoneNumber": "+1 408-441-8719",
+        "formattedAddress": "403 B Reynolds Cir, San Jose, CA 95112, USA",
+        "location": {
+            "latitude": 37.371333199999995,
+            "longitude": -121.9097348
+        },
+        "rating": 4.4,
+        "websiteUri": "https://www.caterman.net/",
+        "userRatingCount": 29,
+        "displayName": {
+            "text": "Caterman Catering Corporate And Wedding Caterer | Bay Area Professional Catering",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "403 B Reynolds Cir, San Jose"
+    },
+    {
+        "nationalPhoneNumber": "(408) 249-4723",
+        "internationalPhoneNumber": "+1 408-249-4723",
+        "formattedAddress": "1000 Lafayette St A, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.35015,
+            "longitude": -121.94377
+        },
+        "rating": 4.2,
+        "websiteUri": "https://www.togos.com/locations/santa-clara/1000-lafayette-st-ste-a",
+        "userRatingCount": 257,
+        "displayName": {
+            "text": "TOGO'S Sandwiches",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "1000 Lafayette St A, Santa Clara"
     }
 ]

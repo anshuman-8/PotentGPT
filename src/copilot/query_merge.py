@@ -20,7 +20,7 @@ question_gen_few_shot = [ {
                     "role": "system",
                     "content": "{\"merged_goal\":\"I want a new Toyota SUV car in Oakland, CA\", \"tags\":[\"Car\"]}",
                 }]
-
+## TODO : Also extract Date and location form the goal if given.
 def merge_goal(choices:dict, goal:str):
     """
     Reframe and generates goal query based on the user's choses and preferences

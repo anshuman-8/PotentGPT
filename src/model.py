@@ -16,7 +16,7 @@ class ServiceProvider(BaseModel):
     target : str
     source : str
     info : str
-    provider : str
+    provider : List[str]
     latitude : float | None 
     longitude : float | None
     rating : str 
