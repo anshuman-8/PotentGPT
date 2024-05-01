@@ -30,6 +30,7 @@ def process_search_results(results: List[str]) -> List[str]:
         "instagram",
         "facebook",
         "twitter",
+        "theknot",
         "youtube",
         "makemytrip",
         "linkedin",
@@ -38,9 +39,22 @@ def process_search_results(results: List[str]) -> List[str]:
         "reddit",
         "yelp",
     ]
+    avoid_endings = [
+        ".pdf",
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".gif",
+        ".svg",
+        ".mp4",
+        ".avi",
+        ".mp3",
+        ".wav",
+        ".gov"]
     processed_results = []
     for result in results:
-        if not any(avoid_link in result["link"] for avoid_link in avoid_links):
+        if not any(avoid_link in result["link"] for avoid_link in avoid_links) and\
+        not any(avoid_link in result["link"] for avoid_link in avoid_endings):
             processed_results.append(result)
     return processed_results
 

@@ -51,6 +51,7 @@ You are an amazing thinker and researcher. Comprehend the goal, and provide smal
             model="ft:gpt-3.5-turbo-1106:margati:querysanitation:93po9nBX",
             response_format={"type": "json_object"},
             temperature=0.15,
+            seed=3,
             messages=[
                 {"role": "system", "content": f"{system_prompt}"},
                 {"role": "user", "content": f"Goal: {prompt}; User's location- {location};"},

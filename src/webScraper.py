@@ -9,7 +9,7 @@ from langchain.docstore.document import Document
 from src.utils import document2map
 from src.config import Config
 
-LOG_FILES = False # Logs the data (keep it False)
+LOG_FILES = True # Logs the data (keep it False)
 
 config = Config()
 class AsyncChromiumLoader:
@@ -56,7 +56,7 @@ class AsyncChromiumLoader:
                 "**/*",
                 route_handler
             )
-            await page.goto(url, timeout=config.get_web_scraping_timeout(), wait_until="domcontentloaded" )
+            await page.goto(url, timeout=config.get_web_scraping_timeout(), wait_until="load" )
             web_content = await page.content()
             t_end = time.time()
 

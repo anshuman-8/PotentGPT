@@ -86,6 +86,7 @@ async def extract_thread_contacts(
             model="gpt-3.5-turbo-1106",
             response_format={"type": "json_object"},
             temperature=0.1,
+            seed=3,
             messages=[
                 {
                     "role": "system",

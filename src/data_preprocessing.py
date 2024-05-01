@@ -11,7 +11,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from src.utils import create_documents, document_lambda, document2map
 
 
-LOG_FILES = False
+LOG_FILES = True
  
 def transform_documents(
         documents: Sequence[Document],
@@ -133,7 +133,7 @@ def preprocess_text(docs: Document) -> Dict:
     return docs_transformed, site_contact_links
 
 
-def docs_recursive_split(docs: Document, chunk_size: int = 400, overlap:int=50) -> List[Document]:
+def docs_recursive_split(docs: Document, chunk_size: int = 400, overlap:int=15) -> List[Document]:
     """
     Split the documents into chunks using RecursiveCharacterTextSplitter
     """

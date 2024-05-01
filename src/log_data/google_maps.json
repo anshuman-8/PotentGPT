@@ -1,306 +1,326 @@
 [
     {
-        "nationalPhoneNumber": "(408) 692-4782",
-        "internationalPhoneNumber": "+1 408-692-4782",
-        "formattedAddress": "Event Planning, Corporate and Wedding Caterer Division, 1725 De La Cruz Blvd #1, Santa Clara, CA 95050, USA",
+        "nationalPhoneNumber": "(408) 296-0662",
+        "internationalPhoneNumber": "+1 408-296-0662",
+        "formattedAddress": "1291 Franklin St, Santa Clara, CA 95050, USA",
         "location": {
-            "latitude": 37.3593379,
-            "longitude": -121.9395133
-        },
-        "rating": 4.8,
-        "websiteUri": "https://handheldcatering.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb-listing",
-        "userRatingCount": 26,
-        "displayName": {
-            "text": "Handheld Catering and Events",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "Event Planning, Corporate and Wedding Caterer Division, 1725 De La Cruz Blvd #1, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 480-3825",
-        "internationalPhoneNumber": "+1 408-480-3825",
-        "formattedAddress": "1285 Homestead Rd, Santa Clara, CA 95050, USA",
-        "location": {
-            "latitude": 37.348011899999996,
-            "longitude": -121.94744440000001
-        },
-        "rating": 4.1,
-        "websiteUri": "http://www.jalsasf.com/",
-        "userRatingCount": 64,
-        "displayName": {
-            "text": "Jalsa Catering & Events",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "1285 Homestead Rd, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 432-1182",
-        "internationalPhoneNumber": "+1 408-432-1182",
-        "formattedAddress": "1996 Lafayette St, Santa Clara, CA 95050, USA",
-        "location": {
-            "latitude": 37.3601737,
-            "longitude": -121.94853309999999
-        },
-        "rating": 4.7,
-        "websiteUri": "http://www.greenfishcatering.com/",
-        "userRatingCount": 15,
-        "displayName": {
-            "text": "Greenfish Catering",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "1996 Lafayette St, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 855-8611",
-        "internationalPhoneNumber": "+1 408-855-8611",
-        "formattedAddress": "3270 Keller St, Santa Clara, CA 95054, USA",
-        "location": {
-            "latitude": 37.3802875,
-            "longitude": -121.9482369
-        },
-        "rating": 4.8,
-        "websiteUri": "http://www.cateringalloccasions.com/contact-us.html",
-        "userRatingCount": 8,
-        "displayName": {
-            "text": "Catering For All Occasions",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "3270 Keller St, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 567-9144",
-        "internationalPhoneNumber": "+1 408-567-9144",
-        "formattedAddress": "1505 Space Park Dr, Santa Clara, CA 95054, USA",
-        "location": {
-            "latitude": 37.3764667,
-            "longitude": -121.9564944
-        },
-        "rating": 4.4,
-        "websiteUri": "http://www.athenagrill.com/",
-        "userRatingCount": 1834,
-        "displayName": {
-            "text": "Athena Grill & Catering",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "1505 Space Park Dr, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 263-4366",
-        "internationalPhoneNumber": "+1 408-263-4366",
-        "formattedAddress": "5202 N First St, San Jose, CA 95002, USA",
-        "location": {
-            "latitude": 37.4259378,
-            "longitude": -121.97364949999998
-        },
-        "rating": 4.6,
-        "websiteUri": "https://tonycaterstoyou.com/",
-        "userRatingCount": 21,
-        "displayName": {
-            "text": "Tony Caters",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "5202 N First St, San Jose"
-    },
-    {
-        "nationalPhoneNumber": "(408) 202-2412",
-        "internationalPhoneNumber": "+1 408-202-2412",
-        "formattedAddress": "3443 El Camino Real, Santa Clara, CA 95051, USA",
-        "location": {
-            "latitude": 37.352624399999996,
-            "longitude": -121.9905054
-        },
-        "rating": 4.8,
-        "userRatingCount": 9,
-        "displayName": {
-            "text": "Oriental Side Dish Catering",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "3443 El Camino Real, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 984-0414",
-        "internationalPhoneNumber": "+1 408-984-0414",
-        "formattedAddress": "638 El Camino Real, Santa Clara, CA 95050, USA",
-        "location": {
-            "latitude": 37.3546672,
-            "longitude": -121.94212669999999
-        },
-        "rating": 4.4,
-        "websiteUri": "https://fiorillos.com/index.html",
-        "userRatingCount": 629,
-        "displayName": {
-            "text": "Fiorillo's Restaurant and Banquet Facilities",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "638 El Camino Real, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 732-1400",
-        "internationalPhoneNumber": "+1 408-732-1400",
-        "formattedAddress": "1288 Reamwood Ave, Sunnyvale, CA 94089, USA",
-        "location": {
-            "latitude": 37.4087124,
-            "longitude": -121.98725499999998
-        },
-        "rating": 4.1,
-        "websiteUri": "http://www.cosmocaters.com/",
-        "userRatingCount": 50,
-        "displayName": {
-            "text": "Cosmopolitan Catering",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "1288 Reamwood Ave, Sunnyvale"
-    },
-    {
-        "nationalPhoneNumber": "(408) 210-5946",
-        "internationalPhoneNumber": "+1 408-210-5946",
-        "formattedAddress": "3233-D, 3233 De La Cruz Blvd, Santa Clara, CA 95054, USA",
-        "location": {
-            "latitude": 37.3827388,
-            "longitude": -121.94101870000001
-        },
-        "rating": 4.8,
-        "userRatingCount": 4,
-        "displayName": {
-            "text": "BLOOM Catering USA",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "3233-D, 3233 De La Cruz Blvd, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(650) 321-8003",
-        "internationalPhoneNumber": "+1 650-321-8003",
-        "formattedAddress": "2234 Lafayette St, Santa Clara, CA 95050, USA",
-        "location": {
-            "latitude": 37.3620605,
-            "longitude": -121.9493775
-        },
-        "rating": 3,
-        "websiteUri": "http://www.oaxacankitchenmobile.com/",
-        "userRatingCount": 28,
-        "displayName": {
-            "text": "The Oaxacan Kitchen",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "2234 Lafayette St, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(800) 828-2689",
-        "internationalPhoneNumber": "+1 800-828-2689",
-        "formattedAddress": "2170 Martin Ave, Santa Clara, CA 95050, USA",
-        "location": {
-            "latitude": 37.3655902,
-            "longitude": -121.9630223
-        },
-        "rating": 3.8,
-        "websiteUri": "https://www.nourishinc.com/",
-        "userRatingCount": 13,
-        "displayName": {
-            "text": "Nourish Inc.",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "2170 Martin Ave, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 685-2058",
-        "internationalPhoneNumber": "+1 408-685-2058",
-        "formattedAddress": "550 E Remington Dr, Sunnyvale, CA 94087, USA",
-        "location": {
-            "latitude": 37.357708099999996,
-            "longitude": -122.02631360000001
-        },
-        "rating": 5,
-        "websiteUri": "http://hautecuisinecatering.net/",
-        "userRatingCount": 61,
-        "displayName": {
-            "text": "Haute Cuisine Catering",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "Senior Center, 550 E Remington Dr, Sunnyvale"
-    },
-    {
-        "nationalPhoneNumber": "(408) 410-6058",
-        "internationalPhoneNumber": "+1 408-410-6058",
-        "formattedAddress": "656 Los Padres Blvd, Santa Clara, CA 95050, USA",
-        "location": {
-            "latitude": 37.3387071,
-            "longitude": -121.9626416
-        },
-        "rating": 5,
-        "websiteUri": "http://jaydubzbbq.com/",
-        "userRatingCount": 6,
-        "displayName": {
-            "text": "Jay Dubz BBQ",
-            "languageCode": "en"
-        },
-        "shortFormattedAddress": "656 Los Padres Blvd, Santa Clara"
-    },
-    {
-        "nationalPhoneNumber": "(408) 246-1010",
-        "internationalPhoneNumber": "+1 408-246-1010",
-        "formattedAddress": "830 Kiely Blvd UNIT 105, Santa Clara, CA 95051, USA",
-        "location": {
-            "latitude": 37.3392445,
-            "longitude": -121.97780059999998
+            "latitude": 37.348698299999995,
+            "longitude": -121.9479131
         },
         "rating": 4.5,
-        "websiteUri": "https://eriksdelicafe.com/location/santa-clara-kiely-boulevard-california-deli-cafe/",
-        "userRatingCount": 255,
+        "websiteUri": "http://www.facebook.com/pages/Santa-Clara-Liquors/111561815565830",
+        "userRatingCount": 156,
         "displayName": {
-            "text": "Erik's DeliCaf\u00e9",
+            "text": "Santa Clara Liquors",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "830 Kiely Blvd UNIT 105, Santa Clara"
+        "shortFormattedAddress": "1291 Franklin St, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 459-7546",
-        "internationalPhoneNumber": "+1 408-459-7546",
-        "formattedAddress": "2002 El Camino Real, Santa Clara, CA 95015, USA",
+        "nationalPhoneNumber": "(408) 248-4949",
+        "internationalPhoneNumber": "+1 408-248-4949",
+        "formattedAddress": "3425 El Camino Real, Santa Clara, CA 95051, USA",
         "location": {
-            "latitude": 37.35201310000001,
-            "longitude": -121.9599985
+            "latitude": 37.3526776,
+            "longitude": -121.9900021
         },
         "rating": 4,
-        "websiteUri": "https://www.panerabread.com/en-us/cafe/locations/ca/santa-clara/2002-el-camino-real?utm_medium=local&utm_source=google&utm_campaign=dpm-dist&utm_term=204482&utm_content=main",
-        "userRatingCount": 487,
+        "userRatingCount": 89,
         "displayName": {
-            "text": "Panera Bread",
+            "text": "Hana Bottle Shop",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "2002 El Camino Real, Santa Clara"
+        "shortFormattedAddress": "3425 El Camino Real, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 441-8719",
-        "internationalPhoneNumber": "+1 408-441-8719",
-        "formattedAddress": "403 B Reynolds Cir, San Jose, CA 95112, USA",
+        "nationalPhoneNumber": "(408) 855-0980",
+        "internationalPhoneNumber": "+1 408-855-0980",
+        "formattedAddress": "3970 Rivermark Plaza, Santa Clara, CA 95054, USA",
         "location": {
-            "latitude": 37.371333199999995,
-            "longitude": -121.9097348
+            "latitude": 37.3945639,
+            "longitude": -121.94765400000001
         },
-        "rating": 4.4,
-        "websiteUri": "https://www.caterman.net/",
-        "userRatingCount": 29,
+        "rating": 2.6,
+        "websiteUri": "http://www.safeway.com/ShopStores/The-Market-SJ-Grocery.page",
+        "userRatingCount": 5,
         "displayName": {
-            "text": "Caterman Catering Corporate And Wedding Caterer | Bay Area Professional Catering",
+            "text": "Safeway Liquor",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "403 B Reynolds Cir, San Jose"
+        "shortFormattedAddress": "3970 Rivermark Plaza, Santa Clara"
     },
     {
-        "nationalPhoneNumber": "(408) 249-4723",
-        "internationalPhoneNumber": "+1 408-249-4723",
-        "formattedAddress": "1000 Lafayette St A, Santa Clara, CA 95050, USA",
+        "nationalPhoneNumber": "(408) 243-2780",
+        "internationalPhoneNumber": "+1 408-243-2780",
+        "formattedAddress": "3585 Benton St, Santa Clara, CA 95051, USA",
         "location": {
-            "latitude": 37.35015,
-            "longitude": -121.94377
+            "latitude": 37.3458561,
+            "longitude": -121.99482999999998
+        },
+        "rating": 4.1,
+        "userRatingCount": 38,
+        "displayName": {
+            "text": "Bob's Discount Liquors",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3585 Benton St, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 241-4156",
+        "internationalPhoneNumber": "+1 408-241-4156",
+        "formattedAddress": "1670 Lafayette St, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3564873,
+            "longitude": -121.946906
+        },
+        "rating": 4.8,
+        "userRatingCount": 33,
+        "displayName": {
+            "text": "Lafayette Food & Liquor",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "1670 Lafayette St, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 217-8842",
+        "internationalPhoneNumber": "+1 408-217-8842",
+        "formattedAddress": "2561 Newhall St, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3378339,
+            "longitude": -121.95106279999997
+        },
+        "rating": 3.4,
+        "userRatingCount": 8,
+        "displayName": {
+            "text": "One Stop Market Food & liquor",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2561 Newhall St, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 249-2161",
+        "internationalPhoneNumber": "+1 408-249-2161",
+        "formattedAddress": "1500 Kiely Blvd, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.351451,
+            "longitude": -121.97790839999999
+        },
+        "rating": 3.8,
+        "userRatingCount": 24,
+        "displayName": {
+            "text": "Mel's Mini Mart/Liquor",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "1500 Kiely Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 984-1120",
+        "internationalPhoneNumber": "+1 408-984-1120",
+        "formattedAddress": "2327 El Camino Real, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3527461,
+            "longitude": -121.9655944
         },
         "rating": 4.2,
-        "websiteUri": "https://www.togos.com/locations/santa-clara/1000-lafayette-st-ste-a",
-        "userRatingCount": 257,
+        "userRatingCount": 65,
         "displayName": {
-            "text": "TOGO'S Sandwiches",
+            "text": "Bobby's Liquor",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "1000 Lafayette St A, Santa Clara"
+        "shortFormattedAddress": "2327 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 984-3811",
+        "internationalPhoneNumber": "+1 408-984-3811",
+        "formattedAddress": "240 Saratoga Ave, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3295639,
+            "longitude": -121.966739
+        },
+        "rating": 4.6,
+        "websiteUri": "https://santomasliquor.com/",
+        "userRatingCount": 74,
+        "displayName": {
+            "text": "San Tomas Liquor",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "Pruneridge Shopping Center, 240 Saratoga Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 248-0563",
+        "internationalPhoneNumber": "+1 408-248-0563",
+        "formattedAddress": "2718 Homestead Rd, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3379549,
+            "longitude": -121.974807
+        },
+        "rating": 5,
+        "websiteUri": "http://www.safeway.com/ShopStores/The-Market-SJ-Grocery.page",
+        "userRatingCount": 1,
+        "displayName": {
+            "text": "Safeway Liquor",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2718 Homestead Rd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 855-8081",
+        "internationalPhoneNumber": "+1 408-855-8081",
+        "formattedAddress": "2036 Agnew Rd, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.3942451,
+            "longitude": -121.9598816
+        },
+        "rating": 4.2,
+        "websiteUri": "https://instagram.com/bobs_liquor_9?r=nametag",
+        "userRatingCount": 172,
+        "displayName": {
+            "text": "Bob's Discount Liquors #9",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2036 Agnew Rd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 241-2222",
+        "internationalPhoneNumber": "+1 408-241-2222",
+        "formattedAddress": "2099 Scott Blvd, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3606287,
+            "longitude": -121.95935989999998
+        },
+        "rating": 4.6,
+        "userRatingCount": 37,
+        "displayName": {
+            "text": "Mission Liquor",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2099 Scott Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 538-8004",
+        "internationalPhoneNumber": "+1 408-538-8004",
+        "formattedAddress": "2364 Pruneridge Ave, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.329616099999996,
+            "longitude": -121.96267379999999
+        },
+        "rating": 4.7,
+        "websiteUri": "https://raretequilas.com/",
+        "userRatingCount": 13,
+        "displayName": {
+            "text": "Grizzly Spirits",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2364 Pruneridge Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 247-7706",
+        "internationalPhoneNumber": "+1 408-247-7706",
+        "formattedAddress": "3737 El Camino Real, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.35339,
+            "longitude": -121.9988773
+        },
+        "rating": 3.6,
+        "userRatingCount": 54,
+        "displayName": {
+            "text": "Adel's Liquor",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3737 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 638-7824",
+        "internationalPhoneNumber": "+1 408-638-7824",
+        "formattedAddress": "3290 El Camino Real, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.352059,
+            "longitude": -121.9864702
+        },
+        "rating": 3.6,
+        "userRatingCount": 14,
+        "displayName": {
+            "text": "Lucky's Liquor",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "Buttitta Plaza, 3290 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 296-6468",
+        "internationalPhoneNumber": "+1 408-296-6468",
+        "formattedAddress": "3203 Cabrillo Ave, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3584768,
+            "longitude": -121.98499819999998
+        },
+        "rating": 4.7,
+        "userRatingCount": 42,
+        "displayName": {
+            "text": "Cabrillo Market & liquors",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3203 Cabrillo Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 418-3361",
+        "internationalPhoneNumber": "+1 408-418-3361",
+        "formattedAddress": "Fairway Glen Shopping Center, 4767 Lafayette St UNIT 106, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.4011937,
+            "longitude": -121.9623767
+        },
+        "rating": 2.6,
+        "userRatingCount": 57,
+        "displayName": {
+            "text": "Fairway Glen Liquors",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "Fairway Glen Shopping Center, 4767 Lafayette St UNIT 106, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 246-1880",
+        "internationalPhoneNumber": "+1 408-246-1880",
+        "formattedAddress": "932 El Camino Real, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3543399,
+            "longitude": -121.94635489999999
+        },
+        "rating": 5,
+        "userRatingCount": 14,
+        "displayName": {
+            "text": "2 GO Liquor and Food Mart",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "932 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 246-1880",
+        "internationalPhoneNumber": "+1 408-246-1880",
+        "formattedAddress": "932 El Camino Real, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3543314,
+            "longitude": -121.94640729999998
+        },
+        "rating": 4.6,
+        "userRatingCount": 7,
+        "displayName": {
+            "text": "Mand Liquor & Food Mart",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "932 El Camino Real, Santa Clara"
+    },
+    {
+        "formattedAddress": "Scott Blvd, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.3761793,
+            "longitude": -121.96043279999998
+        },
+        "rating": 4.5,
+        "userRatingCount": 2,
+        "displayName": {
+            "text": "Liquos",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "Scott Blvd, Santa Clara"
     }
 ]
