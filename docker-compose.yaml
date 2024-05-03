@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./sp.dockerfile
+    ports:
+      - "80:80"
+
+  frontend-searchprobe:
+    build: 
+      context: .
+      dockerfile: ./ui.dockerfile
+    ports:
+      - "3000:3000"
