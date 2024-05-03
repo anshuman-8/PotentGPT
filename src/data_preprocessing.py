@@ -11,7 +11,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from src.utils import create_documents, document_lambda, document2map
 
 
-LOG_FILES = True
+LOG_FILES = False
  
 def transform_documents(
         documents: Sequence[Document],
@@ -29,7 +29,7 @@ def transform_documents(
             site_contact_link = combine_contactlink(doc.metadata,contact_href) 
             
             if site_contact_link:
-                site_contact_links.append(site_contact_link)
+                site_contact_links.extend(site_contact_link)
             
             if remove_lines:
                 cleaned_content = remove_unnecessary_lines(cleaned_content)
@@ -38,24 +38,30 @@ def transform_documents(
 
         return documents, site_contact_links
 
+# TODO : Convet this into an universal recursive function not just for contacts
 def combine_contactlink(base_link:dict, contact_link:List[str]) -> dict | None:
     if len(contact_link) < 1:
         return None
-    single_contact_link = contact_link[0]
+    # single_contact_link = contact_link[0]
+    combined_links = []
     try:
-        combined_link_dict = base_link.copy()
-        combined_link_dict["base_link"] = base_link["link"]
-        if single_contact_link.startswith("href"):
-            combined_link_dict["link"] = single_contact_link
-            return combined_link_dict
-        else:
-            base_domain = f"{urlparse(base_link["link"]).scheme}://{urlparse(base_link["link"]).hostname}"
-            combined_link = urljoin(base_domain, single_contact_link)
-            combined_link_dict["link"] = combined_link
-            return combined_link_dict
+        for single_contact_link in contact_link:
+            combined_link_dict = base_link.copy()
+            combined_link_dict["base_link"] = base_link["link"]
+            if single_contact_link.startswith("href"):
+                combined_link_dict["link"] = single_contact_link
+                if combined_link_dict not in combined_links:
+                    combined_links.append(combined_link_dict)
+            else:
+                base_domain = f"{urlparse(base_link["link"]).scheme}://{urlparse(base_link["link"]).hostname}" if "contact" in contact_link else base_link["link"]
+                combined_link = urljoin(base_domain, single_contact_link)
+                combined_link_dict["link"] = combined_link
+                if combined_link_dict not in combined_links:
+                    combined_links.append(combined_link_dict)
+        return combined_links
     except Exception as e:
         log.warn(f"Error combining link: {e}")
-        return None
+        return None 
 
 def remove_unwanted_tags(html_content: str, unwanted_tags: List[str]) -> str:
     soup = BeautifulSoup(html_content, "html.parser")
@@ -97,7 +103,7 @@ def get_navigable_strings(element: Any) -> Tuple[List[str], List[str]]:
             if (element.name == "a") and (href := element.get("href")):
                 if href.startswith(("mailto:", "tel:")):
                     text_parts.append(f"{child.strip()} [Contact:({href})]")
-                elif "contact" in href.lower():
+                elif any(keyword in href.lower() for keyword in ["contact", "?page"]):
                     contact_hrefs.append(href)
             else:
                 text_parts.append(child.strip())
@@ -202,8 +208,6 @@ def process_secondary_links(base_data, site_contact_links):
     new_site_contact_link = list(new_site_contact_link.values())
     return new_site_contact_link
 
-def context_compression(context: Document):
-    pass
 
 def process_data_docs(html_docs: Document, chunk_size: int = 400):
     """
@@ -219,6 +223,6 @@ def process_data_docs(html_docs: Document, chunk_size: int = 400):
 
     data = relevant_data(extracted_content=data)
 
-    sec_site_contact_links = process_secondary_links(data, site_contact_links)
+    # sec_site_contact_links = process_secondary_links(data, site_contact_links)
 
-    return data, sec_site_contact_links
+    return data, site_contact_links

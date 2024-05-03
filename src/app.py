@@ -131,6 +131,12 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
             search_results = gmaps_links + search_results
         else:
             log.warning("Google Business data not used")
+
+          
+    # with open("src/log_data/test.json", "r") as f:
+        # take search_results from text.json
+        # search_results = json.load(f)
+
     # ranking and filtering
     refined_search_results = rank_weblinks(search_results)
 

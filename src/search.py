@@ -17,7 +17,7 @@ BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
 ## --- Alert ---
-LOG_FILES = True  # Set to True to log the results to files
+LOG_FILES = False  # Set to True to log the results to files
 
 
 class Search:
@@ -161,7 +161,7 @@ class Search:
         websites = []
         data = response.json()
         t_flag2 = time.time()
-        log.debug(f"Bing search time: {t_flag2 - t_flag1}")
+        log.debug(f"Bing search time for {search_query}: {t_flag2 - t_flag1}")
 
         if LOG_FILES:
             with open("src/log_data/bing.json", "w") as f:
@@ -579,15 +579,15 @@ class Search:
         results = await asyncio.gather(*tasks, return_exceptions=True)
         google_results, bing_results = results
 
-        log.debug(f"Google search results: {google_results}")
-        log.debug(f"Bing search results: {bing_results}")
+        log.debug(f"Google search results for {query} : {google_results}")
+        log.debug(f"Bing search results for {query} : {bing_results}")
 
         # Merge the search results
         search_results = await self.web_search_ranking(bing_results, google_results)
         log.debug(f"Web search results: {search_results}")
 
         t_flag2 = time.time()
-        log.info(f"\nWeb search for query: {query} completed in {t_flag2 - t_flag1} seconds")
+        log.info(f"\nWeb search for query: {query} completed in {t_flag2 - t_flag1} seconds\n")
 
         return search_results
     
@@ -638,6 +638,7 @@ class Search:
             search_jobs.append(self.single_web_search(query, self.location))
         
         search_results = await asyncio.gather(*search_jobs, return_exceptions=True)
+        log.debug(f"\n\nThe combined results: {search_results}\n")
         search_results = self.gen_search_results(search_results, max_results)
 
         t_flag2 = time.time()
