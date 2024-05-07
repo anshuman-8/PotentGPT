@@ -13,17 +13,24 @@ from src.contactRetrieval import (
     static_retrieval_multifetching,
 )
 from src.search import Search
-from src.model import RequestContext
-from src.utils import process_results, rank_weblinks, sort_results
+from src.model import RequestContext, Link, getLinkJsonList
+from src.utils import (
+    process_results,
+    rank_weblinks,
+    links_merger,
+    process_secondary_links,
+    document2link
+)
 
 load_dotenv()
 
 OPENAI_ENV = os.getenv("OPENAI_API_KEY")
 config = Config()
 
-def process_search_results(results: List[str]) -> List[str]:
+
+def sanitize_search_results(results: List[Link]) -> List[Link]:
     """
-    Process the search links to remove the unwanted links
+    Sanitize the search links to remove the unwanted links like social media, images, gov sites etc
     """
     # TODO : Hame to move the data to config file
     avoid_links = [
@@ -38,6 +45,12 @@ def process_search_results(results: List[str]) -> List[str]:
         "indeed",
         "reddit",
         "yelp",
+        "tripadvisor",
+        "glassdoor",
+        "zomato",
+        "swiggy",
+        "edmunds",
+        "cars",
     ]
     avoid_endings = [
         ".pdf",
@@ -50,11 +63,13 @@ def process_search_results(results: List[str]) -> List[str]:
         ".avi",
         ".mp3",
         ".wav",
-        ".gov"]
+        ".gov",
+    ]
     processed_results = []
     for result in results:
-        if not any(avoid_link in result["link"] for avoid_link in avoid_links) and\
-        not any(avoid_link in result["link"] for avoid_link in avoid_endings):
+        if not any(avoid_link in result.link for avoid_link in avoid_links) and not any(
+            avoid_link in result.link for avoid_link in avoid_endings
+        ):
             processed_results.append(result)
     return processed_results
 
@@ -63,7 +78,7 @@ def search_query_extrapolate(request_context: RequestContext):
     """
     Extract the search query from the prompt
 
-    Returns : search query and goal target 
+    Returns : search query and goal target
     """
     log.info(f"Prompt: {request_context.prompt}")
     goal_target = []
@@ -83,12 +98,14 @@ def search_query_extrapolate(request_context: RequestContext):
     return (search_query, goal_target)
 
 
-async def extract_web_context(request_context: RequestContext, deep_scrape: bool = False):
+async def extract_web_context(
+    request_context: RequestContext, deep_scrape: bool = False
+):
     """
     Extract the web context from the search results
 
     ### Response
-    List[dict] - 
+    List[dict] -
     {
         "id": str,
         "rank": int,
@@ -117,25 +134,22 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
     web_results = await search_client.search_web(max_results=max_web_results)
 
     # process the search links
-    search_results = process_search_results(web_results)
-    log.info(f"\nRefined Search Results length: {len(search_results)}\n")
+    search_results = sanitize_search_results(web_results)
+    log.info(f"\nSanitized Search Results length: {len(search_results)}\n")
 
-    if deep_scrape and (request_context.gmaps_query is not None):
-        response_gmaps = await search_client.search_google_business()
-        if response_gmaps is not None:
-            gmaps_links = search_client.process_google_business_links(
-                response_gmaps
-            )
-            gmaps_links = gmaps_links[:20]
-            log.debug(f"\nGoogle Business Details: {gmaps_links}\n")
-            search_results = gmaps_links + search_results
-        else:
-            log.warning("Google Business data not used")
+    # if deep_scrape and (request_context.gmaps_query is not None):
+    #     response_gmaps = await search_client.search_google_business()
+    #     if response_gmaps is not None:
+    #         gmaps_links = search_client.process_google_business_links(response_gmaps)
+    #         gmaps_links = gmaps_links[:20]
+    #         log.debug(f"\nGoogle Business Details: {gmaps_links}\n")
+    #         search_results = gmaps_links + search_results
+    #     else:
+    #         log.warning("Google Business data not used")
 
-          
     # with open("src/log_data/test.json", "r") as f:
-        # take search_results from text.json
-        # search_results = json.load(f)
+    # take search_results from text.json
+    # search_results = json.load(f)
 
     # ranking and filtering
     refined_search_results = rank_weblinks(search_results)
@@ -149,11 +163,24 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data, site_contact_links = process_data_docs(extracted_content, config.get_primary_context_size())
+    context_data, _site_contact_links, unused_data = process_data_docs(
+        extracted_content, config.get_primary_context_size()
+    )
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
-    if len(site_contact_links) > 0:
-        secondary_context_data = await secondary_search(site_contact_links)
+    processed_unused_data = process_secondary_links(unused_data)
+    log.info(f"\nUnused Data len: {len(processed_unused_data)}\n")
+    secondary_web_search_results = await search_client.secondary_web_search(
+        processed_unused_data
+    )
+    log.info(f"\nSecondary Web Search Completed\n")
+    # site_contact_links = [document2link(links) for links in _site_contact_links]
+    # common_secondary_links = links_merger(
+    #     secondary_web_search_results, site_contact_links
+    # )
+    rank_common_secondary_links = rank_weblinks(secondary_web_search_results, start_rank=len(refined_search_results))
+    if len(rank_common_secondary_links) > 0:
+        secondary_context_data = await secondary_search(secondary_web_search_results)
         context_data.extend(secondary_context_data)
         log.info(f"\nTotal Context Data len: {len(context_data)}\n")
     else:
@@ -165,11 +192,12 @@ async def extract_web_context(request_context: RequestContext, deep_scrape: bool
     if len(data) == 0:
         log.error("No relevant data extracted")
         return []
-    
+
     return data
 
 
-async def secondary_search(web_links:List[str]):
+# FIXME : how does it decide the source of the data?
+async def secondary_search(web_links: List[str]):
     extracted_content = await scrape_with_playwright(web_links)
     log.info(f"\nSecondary Scraped Content: {len(extracted_content)}\n")
 
@@ -178,9 +206,11 @@ async def secondary_search(web_links:List[str]):
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data, site_contact_links = process_data_docs(extracted_content, config.get_secondary_context_size())
+    context_data, site_contact_links, unused_docs = process_data_docs(
+        extracted_content, config.get_secondary_context_size()
+    )
     log.info(f"\nSecondary Context Data len: {len(context_data)}\n")
-    
+
     return context_data
 
 

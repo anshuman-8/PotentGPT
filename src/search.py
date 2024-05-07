@@ -8,6 +8,8 @@ from typing import Dict, List
 from itertools import zip_longest
 from dotenv import load_dotenv
 
+from src.model import Link, getLinkJsonList
+
 load_dotenv(override=True)
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -17,7 +19,7 @@ BING_API_KEY = os.getenv("BING_API_KEY")
 YELP_API_KEY = os.getenv("YELP_API_KEY")
 
 ## --- Alert ---
-LOG_FILES = False  # Set to True to log the results to files
+LOG_FILES = True  # Set to True to log the results to files
 
 
 class Search:
@@ -44,59 +46,35 @@ class Search:
         self.gmap_search = gmap_search
 
     async def web_search_ranking(
-        self, bing_search: dict | None, google_search: dict | None
+        self, bing_search: List[Link] | None, google_search: List[Link] | None
     ) -> dict:
         """
         This function takes the bing and google search results and returns a combined dictionary of all search links.
         """
 
-        def process_single_result(result, source):
-            search_index = []
-            for site in result:
-                if site == None or isinstance(site, (Exception, str)):
-                    continue
-                if isinstance(site, dict):
-                    search_index.append({
-                        "title": site["title"],
-                        "link": site["link"],
-                        "query": site["query"],
-                        "source": [source],
-                    })
-            log.debug(f"Single web {source} search results: {search_index}")
-            return search_index
-        
         if not bing_search:
             log.warning(f"No Bing search results")
-            google_search = process_single_result(google_search, "Google")
             return google_search
         elif not google_search:
             log.warning(f"No Google search results")
-            bing_search = process_single_result(bing_search, "Bing")
             return bing_search
 
-        search_index = {}
-
+        links = {}
+        combined_results = []
         for results in zip_longest(google_search, bing_search):
             for i in range(2):
-                if results[i] == None or isinstance(results[i], (Exception, str)):
+                if not isinstance(results[i], Link):
                     continue
                 source = "Google" if i == 0 else "Bing"
-                search_link = results[i]["link"]
+                search_link = results[i].link
+                if search_link in links.keys():
+                    links[search_link].addSource(source)
+                    continue
 
-                if search_link in search_index:
-                    if source not in search_index[search_link]["source"]:
-                        search_index[search_link]["source"].append(source)
-                else:
-                    search_index[search_link] = {
-                        "title": results[i]["title"],
-                        "link": results[i]["link"],
-                        "query": results[i]["query"],
-                        "source": [source],
-                    }
+                links[search_link] = results[i]
+                combined_results.append(results[i])
 
-        final_result = list(search_index.values())
-
-        return final_result
+        return combined_results
 
     async def search_bing(
         self,
@@ -169,12 +147,13 @@ class Search:
 
         if "error" not in data.keys():
             websites = [
-                {
-                    "index": index,
-                    "title": result["name"],
-                    "link": result["url"],
-                    "query": search_query
-                }
+                Link(
+                    local_index=index,
+                    title=result["name"],
+                    link=result["url"],
+                    query=search_query,
+                    source=["Bing"],
+                )
                 for index, result in enumerate(data["webPages"]["value"])
             ]
         else:
@@ -204,7 +183,7 @@ class Search:
         country: ['AU', 'CA', 'IN', 'FR', 'DE', 'JP', 'NZ', 'UK', 'US']
 
         ### Returns:
-        - List[dict] or None: A list of dictionaries representing the search results. Each dictionary contains the following fields:
+        - List Object or None: A list of dictionaries representing the search results. Each dictionary contains the following fields:
         - "index": The index of the result.
         - "title": The title of the web page.
         - "link": The URL of the web page.
@@ -231,7 +210,6 @@ class Search:
 
         api_endpoint = f"https://www.googleapis.com/customsearch/v1?key={google_api_key}&cx={google_search_engine_id}"
 
-
         params = {"q": search_query, "gl": country, "lr": "lang_en", "num": 10}
 
         try:
@@ -249,12 +227,13 @@ class Search:
 
         if "error" not in data.keys():
             websites = [
-                {
-                    "index": index,
-                    "title": result["title"],
-                    "link": result["link"],
-                    "query": search_query,
-                }
+                Link(
+                    local_index=index,
+                    title=result["title"],
+                    link=result["link"],
+                    query=search_query,
+                    source=["Google"],
+                )
                 for index, result in enumerate(data["items"])
             ]
         else:
@@ -376,8 +355,8 @@ class Search:
             with open("src/log_data/yelp_processed.json", "w") as f:
                 json.dump(processed_results, f, indent=4)
         return processed_results
-    
-    def yelp_reverse_search(name:str, location:str, yelp_api_key:str=None):
+
+    def yelp_reverse_search(name: str, location: str, yelp_api_key: str = None):
         # TODO : need to intigrate with the above yelp search algorithm
         """
         Takes vendor's name, location to do a reverse search on yelp
@@ -385,7 +364,7 @@ class Search:
 
         yelp_url = "https://api.yelp.com/v3/businesses/search"
 
-        #TODO take key from the toml config
+        # TODO take key from the toml config
         if yelp_api_key is None:
             try:
                 yelp_api_key = os.getenv("YELP_API_KEY")
@@ -396,7 +375,6 @@ class Search:
             "Authorization": f"Bearer {yelp_api_key}",
             "accept": "application/json",
         }
-
 
         search_limit = 5
 
@@ -430,22 +408,21 @@ class Search:
                     "yelp_id": business["id"],
                     # "price": business['']
                     "latitude": business["coordinates"]["latitude"],
-                    "longitude": business["coordinates"]["longitude"]
-
+                    "longitude": business["coordinates"]["longitude"],
                 }
                 for business in data["businesses"]
             ]
 
-            if len(data)== 0:
+            if len(data) == 0:
                 return {}
-            
+
             log.info(
                 f"Yelp search complete; {len(data)} results, time: {t_flag2 - t_flag1}"
             )
 
             business_details = {}
             for business in data:
-                if business['title'].lower().strip() == name.lower().strip():
+                if business["title"].lower().strip() == name.lower().strip():
                     business_details = business
                     break
 
@@ -454,7 +431,6 @@ class Search:
         except Exception as e:
             log.error(f"Error on Yelp Search request: {e}")
             return None
-
 
     async def _search_google_business_details(self, place_id):
         """
@@ -517,7 +493,7 @@ class Search:
 
         return results
 
-    def process_google_business_links(self, results: List[dict]):
+    def process_google_business_links(self, results: List[dict]) -> List[Link]:
         """ """
         processed_results = []
         for result in results:
@@ -529,18 +505,18 @@ class Search:
             ):
                 continue
             if isinstance(result, dict):
-                processed_result = {
-                    "title": result["displayName"].get("text", ""),
-                    "link": result.get("websiteUri", ""),
-                    "latitude": result["location"]["latitude"],
-                    "longitude": result["location"]["longitude"],
-                    "rating": str(result.get("rating", "-")),
-                    "rating_count": str(result.get("userRatingCount", "-")),
-                    "source": ["Google Maps"],
-                }
-                processed_results.append(processed_result)
+                processed_results.append(Link(
+                    title=result["displayName"].get("text", ""),
+                    link=result.get("websiteUri", ""),
+                    source=["Google Maps"],
+                    latitude=result["location"]["latitude"],
+                    longitude=result["location"]["longitude"],
+                    rating=str(result.get("rating", "-")),
+                    rating_count=str(result.get("userRatingCount", "-")),
+                ))
         return processed_results
 
+    # TODO : Refactor this function, not in use
     def process_google_business_results(self, results: List[dict]):
         """
         Formats the results from Google Maps API
@@ -560,12 +536,21 @@ class Search:
                         "address": result.get("formattedAddress", ""),
                     },
                 }
+                # Link(
+                #     title=result["displayName"].get("text", ""),
+                #     link=result.get("websiteUri", ""),
+                #     source=["Google Maps"],
+                #     latitude=result["location"]["latitude"],
+                #     longitude=result["location"]["longitude"],
+                #     rating=str(result.get("rating", "-")),
+                #     rating_count=str(result.get("userRatingCount", "-")),
+                # )
                 processed_results.append(processed_result)
         return processed_results
-    
-    async def single_web_search(self, query, location) -> List[dict]:
+
+    async def single_web_search(self, query, location, max_results=20) -> List[dict]:
         """
-        Parallely search the web using Google and Bing
+        Parallely search the web using Google and Bing  
         """
         log.info(f"Starting web search for : | {query} | in {location}")
         t_flag1 = time.time()
@@ -579,18 +564,20 @@ class Search:
         results = await asyncio.gather(*tasks, return_exceptions=True)
         google_results, bing_results = results
 
-        log.debug(f"Google search results for {query} : {google_results}")
-        log.debug(f"Bing search results for {query} : {bing_results}")
+        log.debug(f"Google search results for {query} : {getLinkJsonList(google_results)}")
+        log.debug(f"Bing search results for {query} : {getLinkJsonList(bing_results)}")
 
         # Merge the search results
         search_results = await self.web_search_ranking(bing_results, google_results)
-        log.debug(f"Web search results: {search_results}")
+        log.debug(f"Web search results: {getLinkJsonList(search_results)}")
+        search_results = search_results[:max_results]
 
         t_flag2 = time.time()
-        log.info(f"\nWeb search for query: {query} completed in {t_flag2 - t_flag1} seconds\n")
-
+        log.info(
+            f"\nWeb search for query: {query} completed in {t_flag2 - t_flag1} seconds\n"
+        )
         return search_results
-    
+
     def gen_search_results(self, search_results, max_results: int = 15):
         """
         Generate the search results
@@ -599,34 +586,64 @@ class Search:
             return []
         if len(search_results) == 1:
             return search_results[0][:max_results]
-        
+
         common_results = []
-        total=0
+        total = 0
         i = 0
 
         for results in zip_longest(*search_results):
             for result in results:
-                if result == None or isinstance(result, (Exception, str)):
+                if not isinstance(result, Link):
                     continue
-                if result["link"] not in [r["link"] for r in common_results]:
+                if result.link not in [r.link for r in common_results]:
                     common_results.append(result)
-                    total+=1
+                    total += 1
                 if total >= max_results:
                     break
             if total >= max_results:
                 break
 
-
         common_results = list(common_results[:max_results])
         log.info(f"Common search results ready!")
 
+        # FIXME : Need to refactor this, dict to List
         if LOG_FILES:
             with open("src/log_data/common_search_results.json", "w") as f:
-                json.dump(common_results, f, indent=4)
+                json.dump(getLinkJsonList(common_results), f, indent=4)
         return common_results
 
+    async def secondary_web_search(self, docs: List[Link]) -> List[Link]:
+        """
+        Takes primary search docs and does a secondary search on the web based in the vendor_name in metadata
+        """
+        log.info(f"Starting secondary web search")
+        t_flag1 = time.time()
+        search_jobs = []
 
-    async def search_web(self, max_results: int = 20):
+        for doc in docs:
+            vendor_name = doc.vendor_name
+            log.warning(f"Vendor name search: {vendor_name}")
+            if vendor_name:
+                search_jobs.append(
+                    self.single_web_search(
+                        f"{vendor_name} contact email", self.location, max_results=3
+                    )
+                )
+
+        search_results = await asyncio.gather(*search_jobs, return_exceptions=True)
+        search_results = self.gen_search_results(search_results, max_results=20)
+
+        t_flag2 = time.time()
+        log.warning(
+            f"\nSecondary Web search completed in {t_flag2 - t_flag1} seconds\n"
+        )
+
+        if LOG_FILES:
+            with open("src/log_data/secondary_search_results.json", "w") as f:
+                json.dump(getLinkJsonList(search_results), f, indent=4)
+        return search_results
+
+    async def search_web(self, max_results: int = 20, search_gmaps=False) -> List[Link]:
         """
         Parallely search multiple queries on the web
         """
@@ -636,9 +653,20 @@ class Search:
 
         for query in self.web_queries:
             search_jobs.append(self.single_web_search(query, self.location))
-        
+
+        if search_gmaps and self.gmaps_query:
+            search_jobs.append(self.search_google_business())
+
         search_results = await asyncio.gather(*search_jobs, return_exceptions=True)
-        log.debug(f"\n\nThe combined results: {search_results}\n")
+
+        if search_gmaps and self.gmaps_query:
+            gmaps_results = search_results[-1]
+            if gmaps_results is not None:
+                gmaps_links = self.process_google_business_links(gmaps_results)
+                gmaps_links = gmaps_links[:25]
+                search_results[-1] = gmaps_links
+
+        log.debug(f"\n\nThe combined results: {getLinkJsonList(search_results)}\n")
         search_results = self.gen_search_results(search_results, max_results)
 
         t_flag2 = time.time()

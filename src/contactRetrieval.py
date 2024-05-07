@@ -10,7 +10,7 @@ from src.utils import inflating_retrieval_results, gpt_cost_calculator
 LOG_FILES = False
 
 
-SYS_PROMPT = """You are an information researcher. Extract all maximum possible vendors/peoples and their contact details from internet scraped context below, aiming to assist the user's goal in finding the right service providers or vendors with contacts, according to the target list. Only retrieve the contacts of vendor/person that can server the user's goal (in targets), skip all unrelated.
+SYS_PROMPT = """You are an information researcher. Extract all maximum possible relevant vendors/peoples and their contact details from internet scraped context below, aiming to assist the user's goal in finding the right service providers or vendors with contacts, according to the target list. Only retrieve the contacts of vendor/person that can confidently server the user's goal (based on targets), strictly skip all unrelated.
 The response should strictly adhere to the JSON format: {"results": [{"contacts": {"email": "(string)vendor email", "phone": "(string)vendor phone number"},"id":(int)correct id of the json data given in Context,"name": "(string)Name of the vendor helping the goal", "target":"(string) which category from the target list", "info": "(string)Describe the service provider and their service accurately in 15-25 words also how can the vendor help with user's goal(Optional)"}, {...}]}.
 Use an empty string if any data is absent or is not available. Strictly avoid providing incorrect contact details. Give phone numbers and emails in usable and correct format (no helper words). If contact information is unavailable or not enough, just omit or skip the vendor or person. Give only one email and one phone number for each vendor/person.
 Make sure the phone number is in E.164 format, based on country. Give empty list [], if not vendor details are given in the context. Always give correct id of the json content used for contact retrieval. Go not give contacts to government or any inappropriate vendors.
@@ -79,7 +79,6 @@ async def extract_thread_contacts(
 
     t_flag1 = time.time()
     log.info(f"Contact Retrival Thread {id} started")
-
 
     try:
         response = await openai_client.chat.completions.create(
@@ -172,18 +171,20 @@ async def static_retrieval_multifetching(
     open_ai_key: str,
     context_chunk_size: int = 5,
     max_thread: int = 5,
-    timeout: int = 10
+    timeout: int = 10,
 ) -> list:
     """
     Creates multiple LLM calls
     """
     # Deflate the data for LLM data retrieval
     context_data = [
-        { "id": d["metadata"]["id"],"title":d["metadata"]["title"], 
-          "content": d["content"]
+        {
+            "id": d["metadata"]["id"],
+            "title": d["metadata"]["title"],
+            "content": d["content"],
         }
-          for d in data
-          ]
+        for d in data
+    ]
 
     # Divide the data into chunks of size chunk_size
     data_chunks = [
@@ -205,7 +206,7 @@ async def static_retrieval_multifetching(
 
         results = await asyncio.gather(*llm_threads, return_exceptions=True)
         combined_results = []
-        
+
         for result in results:
             if not result:
                 log.warn(f"Unexpected result format: {result}")
@@ -218,9 +219,11 @@ async def static_retrieval_multifetching(
                 log.warn(f"Unexpected result format: {result}")
         t_end = time.time()
         log.info(f"OpenAI task completed")
-        log.info(f"\nTotal time taken: {t_end - t_start}; Total results: {len(combined_results)}\n")
+        log.info(
+            f"\nTotal time taken: {t_end - t_start}; Total results: {len(combined_results)}\n"
+        )
         log.info(f"Contacts extracted by OpenAI: {combined_results}")
-        
+
         # inflate the results
         log.info(f" Inflating the results, with the original data")
         inflated_results = inflating_retrieval_results(combined_results, data)
