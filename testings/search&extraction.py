@@ -1,7 +1,8 @@
-import time 
+import time
 from playwright.async_api import async_playwright
 
-async def searchExtraction(web_link:str):
+
+async def searchExtraction(web_link: str):
     """
     Scrape the url and return the document, it also ignores assets
     """
@@ -9,8 +10,12 @@ async def searchExtraction(web_link:str):
 
         browser = await p.chromium.launch(headless=True)
         web_content = ""
-        metadata = {"website": web_link['link'],"source": web_link['source'], "title": web_link['title']}
-        url = web_link['link']
+        metadata = {
+            "website": web_link["link"],
+            "source": web_link["source"],
+            "title": web_link["title"],
+        }
+        url = web_link["link"]
         print(f"Scraping {url}...")
         t_start = time.time()
         try:
@@ -24,10 +29,7 @@ async def searchExtraction(web_link:str):
                 else:
                     await route.continue_()
 
-            await page.route(
-                "**/*",
-                route_handler
-            )
+            await page.route("**/*", route_handler)
             await page.goto(url, timeout=10000)
             web_content = await page.content()
             t_end = time.time()
@@ -38,7 +40,7 @@ async def searchExtraction(web_link:str):
             await page.close()
         print(page_content=web_content, metadata=metadata)
         return web_content
-    
+
 
 link = "https://www.google.com"
 data = searchExtraction(link)

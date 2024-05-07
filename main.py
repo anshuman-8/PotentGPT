@@ -1,4 +1,5 @@
 import uuid
+import uvicorn
 import time
 import json
 import logging as log
@@ -11,7 +12,15 @@ from src.app import (
     extract_web_context,
     static_contacts_retrieval,
 )
-from src.model import ApiResponse, ErrorResponseModel, RequestContext, Feedback, CpAPIResponse, CpMergeRequest, YelpReverseSearchRequest
+from src.model import (
+    ApiResponse,
+    ErrorResponseModel,
+    RequestContext,
+    Feedback,
+    CpAPIResponse,
+    CpMergeRequest,
+    YelpReverseSearchRequest,
+)
 from src.copilot.question_generation import generate_question
 from src.copilot.query_merge import merge_goal
 from src.lmBasic.titleGenerator import generate_title
@@ -30,6 +39,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 async def read_root():
     response = {
@@ -39,20 +49,6 @@ async def read_root():
         "data": None,
     }
     return response
-
-def collect_data(id, goal, solution, context, search_space, search_query, results): 
-    data = {
-        "id": id,
-        "goal": goal,
-        "solution": solution,
-        "context": context,
-        "search_space": search_space,
-        "search_query": search_query,
-        "results": json.loads(results)
-    }
-    log.info(f"\nData collected for {id} in data-collection!\n")
-    with open(f"data-collection/{id}.json", "w") as f:
-        json.dump(data, f)
 
 
 @app.get("/static/")
@@ -93,16 +89,19 @@ async def staticProbe(
         request_context.update_search_param(target, query)
         log.info(f"Updated request context !")
         log.debug(request_context.__dict__)
-        web_context = await extract_web_context(request_context=request_context, deep_scrape=True)
+        web_context = await extract_web_context(
+            request_context=request_context, deep_scrape=True
+        )
     except Exception as e:
         raise HTTPException(
             status_code=500,
             detail={"id": str(ID), "status": "Internal Error", "message": str(e)},
         )
-    
+
     response = await static_contacts_retrieval(request_context, web_context)
-    
+
     return Response(content=response)
+
 
 @app.post("/static/reverse-yelp/")
 async def reverseSearchYelp(
@@ -113,13 +112,14 @@ async def reverseSearchYelp(
 
     if location is None or not location.strip():
         raise HTTPException(status_code=400, detail="location needed!")
-    
+
     search = Search.yelp_reverse_search(vendor_name, location)
 
     if search is None or search == {}:
         raise HTTPException(status_code=404, detail="No results found")
-    
+
     return JSONResponse(content=search)
+
 
 @app.get("/title/")
 async def title(
@@ -145,15 +145,16 @@ async def title(
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail={ "status": "Internal Error", "message": str(e)},
+            detail={"status": "Internal Error", "message": str(e)},
         )
 
     return JSONResponse(content=response)
 
+
 @app.get("/copilot/")
 async def copilot(
     request: Request,
-    prompt: str | None, 
+    prompt: str | None,
     location: str | None,
 ) -> CpAPIResponse | ErrorResponseModel:
     ID = uuid.uuid4()
@@ -169,31 +170,30 @@ async def copilot(
     if prompt is None or not prompt.strip():
         log.error(f"No prompt provided")
         raise HTTPException(status_code=400, detail="prompt needed!")
-    
+
     try:
         response = generate_question(prompt, location)
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail={ "status": "Internal Error", "message": str(e)},
+            detail={"status": "Internal Error", "message": str(e)},
         )
 
     return JSONResponse(content=response)
 
 
 @app.post("/copilot/merge/")
-def cpMerge(
-    request: CpMergeRequest 
-) -> CpAPIResponse | ErrorResponseModel:
-    
+def cpMerge(request: CpMergeRequest) -> CpAPIResponse | ErrorResponseModel:
+
     try:
         response = merge_goal(request.choices, request.goal)
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail={ "status": "Internal Error", "message": str(e)},
+            detail={"status": "Internal Error", "message": str(e)},
         )
     return JSONResponse(response)
+
 
 @app.post("/feedback/")
 async def feedback(request: Request, feedback: Feedback) -> JSONResponse:
@@ -220,3 +220,7 @@ async def feedback(request: Request, feedback: Feedback) -> JSONResponse:
         },
         status_code=200,
     )
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

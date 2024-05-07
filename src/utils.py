@@ -6,6 +6,8 @@ from typing import List, Optional
 import copy
 import re
 
+from src.model import Link
+
 
 def create_documents(
     texts: List[str], metadatas: Optional[List[dict]] = None
@@ -20,9 +22,7 @@ def create_documents(
     return documents
 
 
-def document_lambda(
-    documents: List[Document], func: callable
-) -> List[Document]:
+def document_lambda(documents: List[Document], func: callable) -> List[Document]:
     """Filter documents based on a regex pattern.
     ### Parameters:
     - documents: List of documents to be filtered.
@@ -46,6 +46,25 @@ def document2map(documents: List[Document]) -> List[dict]:
         {"metadata": doc.metadata, "content": doc.page_content} for doc in documents
     ]
 
+def document2link(documents: List[Document]) -> List[Link]:
+    """Convert a list of documents to a map."""
+    log.info("Converting documents to Links...")
+    return [
+        Link(
+            # id=doc.metadata.get("id", ""),
+            # rank = doc.metadata.get("rank", ""),
+            query = doc.metadata.get("query", ""),
+            title=doc.metadata.get("title", ""),
+            link=doc.metadata.get("link", ""),
+            source=doc.metadata.get("source", ""),
+            latitude=doc.metadata.get("latitude", ""),
+            longitude=doc.metadata.get("longitude", ""),
+            rating=doc.metadata.get("rating", ""),
+            rating_count=doc.metadata.get("rating_count", ""),
+
+        ) for doc in documents
+    ]
+
 def count_tokens(text: str) -> int:
     # FIXME this is a dummy function have to impliment actual token count
     """
@@ -53,29 +72,36 @@ def count_tokens(text: str) -> int:
     """
     return len(text.split())
 
-def rank_weblinks(web_links: List[dict]) -> List[dict]:
+
+def rank_weblinks(web_links: List[Link], start_rank=1) -> List[Link]:
     """
     Ranks the web links by adding rank field and making the list unique
     """
     # make the list unique
     unique_web_links = []
+    rank = start_rank
+    id = 0
     for web_link in web_links:
-        if web_link not in unique_web_links:
+        if web_link.link not in [link.link for link in unique_web_links]:
+            web_link.rank = rank
+            web_link.id = id
+            id += 1
+            rank += 1
             unique_web_links.append(web_link)
-
-    # add rank field
-    for i, web_link in enumerate(unique_web_links):
-        web_link["rank"] = i + 1
-        web_link["id"] = i 
 
     return unique_web_links
 
-def inflating_retrieval_results(results: List[dict], base_informationList: List[dict]) -> List[dict]:
+
+def inflating_retrieval_results(
+    results: List[dict], base_informationList: List[dict]
+) -> List[dict]:
     """
     Inflating the retrieval results with the base information
     """
     inflated_results = []
-    base_info_dict = {info.get("metadata", {}).get("id"): info for info in base_informationList}
+    base_info_dict = {
+        info.get("metadata", {}).get("id"): info for info in base_informationList
+    }
 
     for result in results:
         id = result.get("id")
@@ -93,6 +119,7 @@ def inflating_retrieval_results(results: List[dict], base_informationList: List[
         inflated_results.append(result)
 
     return inflated_results
+
 
 def gpt_cost_calculator(
     inp_tokens: int, out_tokens: int, model: str = "gpt-3.5-turbo"
@@ -130,20 +157,66 @@ def gpt_cost_calculator(
 
     return cost
 
+
 def sort_results(results: List[dict]) -> List[dict]:
     """
     Sort the results based on the rank
     """
-    sorted_list = sorted(results, key=lambda x: x['rank'])
+    sorted_list = sorted(results, key=lambda x: x["rank"])
 
     results = []
-    # Reassign the ranks as 1, 2, 3, ...
     for index, item in enumerate(sorted_list, start=1):
         updated_item = dict(item)
-        updated_item['rank'] = index
+        updated_item["rank"] = index
         results.append(updated_item)
 
     return results
+
+
+def extract_domain(url):
+    """
+    Extract the domain from the URL
+    """
+    pattern = r"(https?://)?(www\d?\.)?(?P<domain>[\w\.-]+\.\w+)(/\S*)?"
+    match = re.match(pattern, url)
+    if match:
+        domain = match.group("domain")
+        return domain
+    else:
+        return None
+
+
+def links_merger(links1: Link, links2:Link):
+    """
+    Merge the two list of links
+    """
+    links = []
+    merge = []
+    for link in links1 + links2:
+        if extract_domain(link.link) not in links:
+            links.append(extract_domain(link.link))
+            merge.append(link)
+
+    return links
+
+
+def process_secondary_links(docs):
+    """
+    Process the secondary links, gives the vendor name 
+    """
+    domains = []
+    docs = document2link(docs)
+    for doc in docs:
+        if doc.base_url:
+            continue
+
+        _link = doc.link
+        domain = extract_domain(_link)
+        if domain in domains:
+            continue
+        doc.vendor_name = doc.title
+
+    return docs
 
 
 def process_results(results):
@@ -154,11 +227,11 @@ def process_results(results):
     try:
         for result in results:
             if isinstance(result, (str)):
-                    try:
-                        result = json.loads(result)
-                    except json.JSONDecodeError:
-                        result = {}
-            
+                try:
+                    result = json.loads(result)
+                except json.JSONDecodeError:
+                    result = {}
+
             if isinstance(result, dict):
                 contacts = result.get("contacts", {})
                 email = ""
@@ -178,27 +251,27 @@ def process_results(results):
                 if contacts.get("phone"):
                     if isinstance(contacts["phone"], list):
                         phone = re.search(
-                            r'\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b',
+                            r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b",
                             contacts["phone"][0],
                         )
                     else:
                         phone = re.search(
-                            r'\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b',
+                            r"\b(?:\+\d{1,3}\s?)?(?:\(\d{1,4}\)|\d{1,4})[\s.-]?\d{3,9}[\s.-]?\d{4}\b",
                             contacts["phone"],
                         )
 
                 processed_result = {
                     "id": result.get("id", random.randint(30, 60)),
-                    "rank": result.get("metadata",{}).get("rank"),
+                    "rank": result.get("metadata", {}).get("rank"),
                     "name": result.get("name", ""),
                     "target": result.get("target", ""),
-                    "source": result.get("metadata",{}).get("link", ""),
-                    "info": result.get("info",""),
-                    "provider": result.get("metadata",{}).get("source", []),
-                    "latitude": result.get("metadata",{}).get("latitude", None),
-                    "longitude": result.get("metadata",{}).get("longitude", None),
-                    "rating": result.get("metadata",{}).get("rating", ""),
-                    "rating_count": result.get("metadata",{}).get("rating_count", ""),
+                    "source": result.get("metadata", {}).get("link", ""),
+                    "info": result.get("info", ""),
+                    "provider": result.get("metadata", {}).get("source", []),
+                    "latitude": result.get("metadata", {}).get("latitude", None),
+                    "longitude": result.get("metadata", {}).get("longitude", None),
+                    "rating": result.get("metadata", {}).get("rating", ""),
+                    "rating_count": result.get("metadata", {}).get("rating_count", ""),
                     "contacts": {
                         "email": email.string if email else "",
                         "phone": phone.string if phone else "",
@@ -214,14 +287,14 @@ def process_results(results):
 
                 # Append the processed result to the list
                 processed_results.append(processed_result)
-        
+
         # sorting
         processed_results = sort_results(processed_results)
 
     except Exception as e:
         log.error(f"Error processing API results : {e}")
         raise Exception("Error processing API results")
-    
+
     return processed_results
 
 

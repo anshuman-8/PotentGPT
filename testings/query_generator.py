@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MY_ENV_VAR = os.getenv('OPENAI_API_KEY')
+MY_ENV_VAR = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=MY_ENV_VAR)
 print("client ready")
 
@@ -16,60 +16,63 @@ Comprehend the goal, and provide small web search queries to assist in achieving
 train_sys_prompt = """
 Comprehend the goal, and provide small web search queries to assist in achieving it. The queries should be based on finding the email of best individual person or an expert, to contact for helping or completing the user goal. First give the list of people/vendor to approach for the goal in small strings as targets (focus on a person). Then give search queries, always give search queries for `web` in a list of string, each targeting a target and slightly broaden the search. 'yelp' search query should not include location in its query string. The output should be in JSON format : "{\"targets\": [\"\",\"\"], \"queries\": {\"web\": [\"\", \"\"...], \"yelp\": \"\", \"gmaps\": \"\"}}
 """
-i=0
+i = 0
+
 
 def gpt4_response_string(goal):
     response = client.chat.completions.create(
-        model= "gpt-4-1106-preview",
-        response_format={ "type": "json_object" },
+        model="gpt-4-1106-preview",
+        response_format={"type": "json_object"},
         messages=[
             {"role": "system", "content": sys_prompt},
             {"role": "user", "content": f"Goal:{goal}"},
-        ]
+        ],
     )
     response = json.loads(response.choices[0].message.content)
     return json.dumps(response)
 
+
 def display_response(response):
     print(response)
+
 
 fail_file = "./data/fail_goals.txt"
 dataset_file = "./data/query_generation.jsonl"
 
-with open('./data/goals.txt', 'r') as file:
+with open("./data/goals.txt", "r") as file:
     for line in file:
         goal = line[1:].strip()
-        print("index: ",i, "  Goal: ", goal)
-        
+        print("index: ", i, "  Goal: ", goal)
+
         try:
             response = gpt4_response_string(goal)
         except Exception as e:
             print(e)
-            with open(fail_file, 'a') as f:
+            with open(fail_file, "a") as f:
                 f.write(f"{goal}\n")
             continue
 
         display_response(response)
-        
+
         # ask for user input if Enter then continue if n the skip if e then exit
         inp = input("\nEnter to continue, n to skip, e to exit\n:")
-        i+=1
+        i += 1
         if inp == "n":
-            with open(fail_file, 'a') as f:
+            with open(fail_file, "a") as f:
                 f.write(f"{goal}\n")
         elif inp == "e":
             break
         else:
-            val = {"messages":[{"role": "system", "content": train_sys_prompt},{"role": "user", "content": goal},{ "role": "assistant", "content": response}]}
+            val = {
+                "messages": [
+                    {"role": "system", "content": train_sys_prompt},
+                    {"role": "user", "content": goal},
+                    {"role": "assistant", "content": response},
+                ]
+            }
             # wirte to file dataset file
-            with open(dataset_file, 'a') as f:
+            with open(dataset_file, "a") as f:
                 f.write(json.dumps(val) + "\n")
             print("\n\n")
 
 print("done")
-
-
-        
-
-
-        

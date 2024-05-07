@@ -8,15 +8,18 @@ from playwright.async_api import async_playwright
 from langchain.docstore.document import Document
 from src.utils import document2map
 from src.config import Config
+from src.model import Link
 
-LOG_FILES = True # Logs the data (keep it False)
+LOG_FILES = True  # Logs the data (keep it False)
 
 config = Config()
+
+
 class AsyncChromiumLoader:
     def __init__(self, web_links: List[str]):
         self.web_links = web_links
 
-    async def scrape_browser(self, web_links: List[str]) -> List[Document]:
+    async def scrape_browser(self, web_links: List[Link]) -> List[Document]:
         """
         Scrape the urls by creating async tasks for each url
         """
@@ -24,21 +27,25 @@ class AsyncChromiumLoader:
         results = []
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
-            scraping_tasks = [self.scrape_url(browser, web_link) for web_link in web_links]
+            scraping_tasks = [
+                self.scrape_url(browser, web_link) for web_link in web_links
+            ]
             results = await asyncio.gather(*scraping_tasks, return_exceptions=True)
             await browser.close()
             log.debug(f"Browser closed")
             size_in_bytes = sys.getsizeof(results)
             size_in_mb = size_in_bytes / (1024 * 1024)
-            log.info(f"Scraping done for {len(web_links)} sites, Size : {size_in_mb:.3f} MB")
+            log.info(
+                f"Scraping done for {len(web_links)} sites, Size : {size_in_mb:.3f} MB"
+            )
         return results
 
-    async def scrape_url(self, browser, web_link: str) -> Document:
+    async def scrape_url(self, browser, web_link: Link) -> Document:
         """
         Scrape the url and return the document, it also ignores assets
         """
         web_content = ""
-        url = web_link['link']
+        url = web_link.link
         log.info(f"Scraping {url}...")
         t_start = time.time()
         try:
@@ -52,17 +59,18 @@ class AsyncChromiumLoader:
                 else:
                     await route.continue_()
 
-            await page.route(
-                "**/*",
-                route_handler
+            await page.route("**/*", route_handler)
+            await page.goto(
+                url, timeout=config.get_web_scraping_timeout(), wait_until="load"
             )
-            await page.goto(url, timeout=config.get_web_scraping_timeout(), wait_until="load" )
             web_content = await page.content()
             t_end = time.time()
 
             size_in_bytes = sys.getsizeof(web_content)
             size_in_kb = size_in_bytes / 1024
-            log.info(f"Content scraped for {url} in {(t_end - t_start):.2f} seconds, Size : {size_in_kb:.3f} KB")
+            log.info(
+                f"Content scraped for {url} in {(t_end - t_start):.2f} seconds, Size : {size_in_kb:.3f} KB"
+            )
         except Exception as e:
             log.error(f"Error scraping {url}: {e}")
         finally:
@@ -70,7 +78,7 @@ class AsyncChromiumLoader:
                 await page.close()
             except Exception as e:
                 log.error(f"Error closing page: {e}")
-        result_doc = Document(page_content=web_content, metadata=web_link)
+        result_doc = Document(page_content=web_content, metadata=web_link.getDocumentMetadata())
         return result_doc
 
     async def load_data(self) -> List[Document]:
@@ -79,13 +87,14 @@ class AsyncChromiumLoader:
         """
         data = await self.scrape_browser(self.web_links)
         return data
-    
-async def scrape_with_playwright(results) -> List[dict]:
+
+
+async def scrape_with_playwright(web_links:List[Link]) -> List[dict]:
     """
     Scrape the websites using playwright and chunk the text tokens
     """
     t_flag1 = time.time()
-    loader = AsyncChromiumLoader(results)
+    loader = AsyncChromiumLoader(web_links)
     docs = await loader.load_data()
     t_flag2 = time.time()
 
