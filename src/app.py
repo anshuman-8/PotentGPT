@@ -166,7 +166,7 @@ async def extract_web_context(
     # common_secondary_links = links_merger(
     #     secondary_web_search_results, site_contact_links
     # )
-    
+
     rank_common_secondary_links = rank_weblinks(secondary_web_search_results, start_rank=len(refined_search_results))
     if len(rank_common_secondary_links) > 0:
         secondary_context_data = await secondary_search(secondary_web_search_results)
@@ -181,7 +181,7 @@ async def extract_web_context(
     if len(data) == 0:
         log.error("No relevant data extracted")
         return []
-
+    # TODO : Skip content if refering to same email
     return data
 
 

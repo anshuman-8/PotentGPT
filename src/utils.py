@@ -1,6 +1,7 @@
 from langchain.docstore.document import Document
 import logging as log
 import json
+import tldextract
 import random
 from typing import List, Optional
 import copy
@@ -236,13 +237,13 @@ def extract_domain(url):
     """
     Extract the domain from the URL
     """
-    pattern = r"(https?://)?(www\d?\.)?(?P<domain>[\w\.-]+\.\w+)(/\S*)?"
-    match = re.match(pattern, url)
-    if match:
-        domain = match.group("domain")
+    try:
+        extracted_info = tldextract.extract(url)
+        domain = extracted_info.domain
         return domain
-    else:
+    except Exception as e:
         return None
+
 
 
 def links_merger(links1: Link, links2:Link):
@@ -264,7 +265,6 @@ def process_secondary_links(docs:List[Document]):
     Process the secondary links, gives the vendor name 
     """
     domains = []
-    vendor = []
     docs = document2link(docs)
     for doc in docs:
         if doc.base_link:
@@ -274,8 +274,8 @@ def process_secondary_links(docs:List[Document]):
         domain = extract_domain(_link)
         if domain in domains:
             continue
-        doc.vendor_name = doc.title
-        vendor.append(doc.vendor_name)
+        doc.vendor_name = domain
+        domains.append(domain)
     return docs
 
 

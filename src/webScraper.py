@@ -62,7 +62,7 @@ class AsyncChromiumLoader:
 
             await page.route("**/*", route_handler)
             await page.goto(
-                url, timeout=config.get_web_scraping_timeout(), wait_until="domcontentloaded"
+                url, timeout=config.get_web_scraping_timeout(), wait_until="load"
             )
             web_content = await page.content()
             t_end = time.time()
