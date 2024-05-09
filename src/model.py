@@ -74,7 +74,7 @@ class Link:
         source: List[str],
         query: str | None = None,
         local_index: int | None = None,
-        base_url: str | None = None,
+        base_link: str | None = None,
         latitude: str | None = None,
         longitude: str | None = None,
         rating: str | None = None,
@@ -87,7 +87,7 @@ class Link:
         self.link = link
         self.query = query
         self.source = source
-        self.base_url = base_url
+        self.base_link = base_link
         self.latitude = latitude
         self.longitude = longitude
         self.vendor_name = None
@@ -115,7 +115,7 @@ class Link:
             "source": self.source,
             "query": self.query,
             "local_index": self.local_index,
-            "base_url": self.base_url,
+            "base_link": self.base_link,
             "latitude": self.latitude,
             "longitude": self.longitude,
             "rating": self.rating,
@@ -132,7 +132,7 @@ class Link:
             "meta": {
                 "query": self.query,
                 "local_index": self.local_index,
-                "base_url": self.base_url,
+                "base_link": self.base_link,
                 "latitude": self.latitude,
                 "longitude": self.longitude,
                 "rating": self.rating,

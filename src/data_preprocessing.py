@@ -27,10 +27,11 @@ def transform_documents(
         cleaned_content = remove_unwanted_tags(cleaned_content, unwanted_tags)
         cleaned_content, contact_href = extract_tags(cleaned_content, tags_to_extract)
 
-        site_contact_link = combine_contactlink(doc.metadata, contact_href)
+        # site_contact_link = combine_contactlink(doc.metadata, contact_href)
 
-        if site_contact_link:
-            site_contact_links.extend(site_contact_link)
+        # if site_contact_link:
+        #     site_contact_link = inflate_secondary_link(doc, site_contact_link)
+        #     site_contact_links.extend(site_contact_link)
 
         if remove_lines:
             cleaned_content = remove_unnecessary_lines(cleaned_content)
@@ -44,7 +45,6 @@ def transform_documents(
 def combine_contactlink(base_link: dict, contact_link: List[str]) -> dict | None:
     if len(contact_link) < 1:
         return None
-    # single_contact_link = contact_link[0]
     combined_links = []
     try:
         for single_contact_link in contact_link:
@@ -113,15 +113,40 @@ def get_navigable_strings(element: Any) -> Tuple[List[str], List[str]]:
             if (element.name == "a") and (href := element.get("href")):
                 if href.startswith(("mailto:", "tel:")):
                     text_parts.append(f"{child.strip()} [Contact:({href})]")
-                elif any(keyword in href.lower() for keyword in ["contact", "?page"]):
-                    contact_hrefs.append(href)
+                # elif any(keyword in href.lower() for keyword in ["contact", "?page"]):
+                #     contact_hrefs.append(href)
             else:
                 text_parts.append(child.strip())
 
     return text_parts, contact_hrefs
 
+def preprocess_doc(doc: str) -> str:
+    """
+    Extract text from HTML and preprocess it using BeautifulSoup
+    """
+    t_flag1 = time.time()
+    
+    tags_to_extract=["p", "li", "div", "a", "span", "tr", "article"],
+    unwanted_tags=[
+        "script",
+        "style",
+        "noscript",
+        "svg",
+        "img",
+        "input",
+        "pre",
+        "template",
+    ],
+    _cleaned_content = remove_unwanted_tags(doc, unwanted_tags)
+    _cleaned_content, contact_href = extract_tags(_cleaned_content, tags_to_extract)
+    cleaned_content = remove_unnecessary_lines(_cleaned_content)
 
-def preprocess_text(docs: Document) -> Dict:
+    t_flag2 = time.time()
+    log.debug(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
+
+    return cleaned_content
+
+def preprocess_docs(docs: List[Document]) -> List[dict]:
     """
     Extract text from HTML and preprocess it using BeautifulSoup
     """
@@ -142,7 +167,8 @@ def preprocess_text(docs: Document) -> Dict:
             "template",
         ],
     )
-    # remove long white space
+
+    # removes long white space
     regex_lambda = lambda x: re.sub(r"\s+", " ", x)
     docs_transformed = document_lambda(docs_transformed, func=regex_lambda)
 
@@ -158,7 +184,7 @@ def preprocess_text(docs: Document) -> Dict:
 
     return docs_transformed, site_contact_links
 
-
+# TODO : This is a blind split, in future we should use a contact focused split
 def docs_recursive_split(
     docs: Document, chunk_size: int = 400, overlap: int = 15
 ) -> List[Document]:
@@ -221,45 +247,51 @@ def relevant_data(extracted_content):
     return data
 
 
-# FIXME : This function is not working as expected
-def process_secondary_links(base_data, site_contact_links):
+def inflate_secondary_link(base_doc : dict, site_contact_links : str):
     """ 
-    
+
     """
-    base_links = [chunk["metadata"]["link"] for chunk in base_data]
+    if isinstance(site_contact_link, list):
+        combined_links = []
+        for site_contact_link in site_contact_links:
+            _doc = site_contact_link.copy()
+            _doc["base_link"] = base_doc["link"]
+            combined_links.append(_doc)
+        return combined_links
+    return None
 
-    new_site_contact_link = {}
-    for link in site_contact_links:
-        if (link["base_link"] not in base_links) and (
-            link["link"] not in new_site_contact_link.keys()
-        ):
-            new_site_contact_link[link["link"]] = link
 
-    new_site_contact_link = list(new_site_contact_link.values())
-    return new_site_contact_link
-
+    
 
 def process_data_docs(html_docs: Document, chunk_size: int = 400):
     """
     Process the data by extracting text from HTML, splitting it into chunks and extracting relevant data.
     Also gives list of secondary search links
     """
-    _docs, site_contact_links = preprocess_text(docs=html_docs)
+    # _docs, site_contact_links = preprocess_docs(docs=html_docs)
 
-    _used_docs = list(
-        filter(lambda doc: contains_contacts(doc.page_content, email_only=True), _docs)
-    )
-    unused_docs = list(
-        filter(
-            lambda doc: not contains_contacts(doc.page_content, email_only=True), _docs
-        )
-    )
+    _used_docs = []
+    unused_docs = []
+
+    for doc in html_docs:
+        if contains_contacts(doc.page_content, email_only=True):
+            _used_docs.append(doc)
+        else:
+            unused_docs.append(doc)
+    
     log.warn(f"Length after doc regex processing: {len(_used_docs)}")
+
+    if len(_used_docs) < 1:
+        log.error("No relevant data found")
+        return [], [], unused_docs
 
     data = docs_recursive_split(docs=_used_docs, chunk_size=chunk_size, overlap=15)
 
     data = relevant_data(extracted_content=data)
 
-    sec_site_contact_links = process_secondary_links(data, site_contact_links)
+    if LOG_FILES:
+        with open("src/log_data/unused_context_data.json", "w") as f:
+            json.dump(document2map(unused_docs), f)
 
-    return data, sec_site_contact_links, unused_docs
+
+    return data, [], unused_docs
