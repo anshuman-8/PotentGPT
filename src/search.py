@@ -145,7 +145,7 @@ class Search:
             with open("src/log_data/bing.json", "w") as f:
                 json.dump(data, f)
 
-        if "error" not in data.keys():
+        if "error" not in data.keys() and "webPages" in data.keys():
             websites = [
                 Link(
                     local_index=index,
@@ -157,7 +157,7 @@ class Search:
                 for index, result in enumerate(data["webPages"]["value"])
             ]
         else:
-            log.error(f"Bing search error: {data['error']['message']}")
+            log.error(f"Bing search error: {data.get('error', {}).get('message', 'Unknown error')}")
             return None
 
         return websites
@@ -225,7 +225,7 @@ class Search:
         t_flag2 = time.time()
         log.debug(f"Google search time: {t_flag2 - t_flag1}")
 
-        if "error" not in data.keys():
+        if "items" in data.keys() and 'error' not in data.keys():
             websites = [
                 Link(
                     local_index=index,
@@ -237,7 +237,7 @@ class Search:
                 for index, result in enumerate(data["items"])
             ]
         else:
-            log.error(f"Google search error: {data['error']['message']}")
+            log.error(f"Google search error: {data.get('error', {}).get('message', 'Unknown error')}")
             return None
 
         if LOG_FILES:

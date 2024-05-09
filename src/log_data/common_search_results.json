@@ -2,159 +2,16 @@
     {
         "id": null,
         "rank": null,
-        "title": "Used Cars for Sale in Santa Clara, CA: Stevens Creek BMW",
-        "link": "https://www.stevenscreekbmw.com/used-inventory/index.htm",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "Used Cars for Sale in Santa Clara, CA: Stevens Creek BMW contact email",
-            "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
         "title": "Stevens Creek BMW: BMW Dealership in Santa Clara, CA",
         "link": "https://www.stevenscreekbmw.com/",
         "source": [
-            "Google"
+            "Google",
+            "Bing"
         ],
         "meta": {
-            "query": "Stevens Creek BMW: BMW Dealership in Santa Clara, CA contact email",
+            "query": "Stevens Creek BMW: See Cars for Sale in 4343 Stevens Creek Blvd ... contact email",
             "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
-        "title": "BMW Sales & Service Team | BMW of Manhattan",
-        "link": "https://www.bmwnyc.com/about-us/staff/",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "BMW Sales & Service Team | BMW of Manhattan contact email",
-            "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
-        "title": "New BMW Models for Sale in Santa Clarita, CA | Valencia BMW",
-        "link": "https://www.valenciabmw.com/new-inventory/index.htm",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "New BMW Models for Sale in Santa Clarita, CA | Valencia BMW contact email",
-            "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
-        "title": "Contact Stevens Creek BMW",
-        "link": "https://www.stevenscreekbmw.com/contact.htm",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "Contact Stevens Creek BMW contact email",
-            "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
-        "title": "BMW Group CONTACT.",
-        "link": "https://www.bmwgroup.com/en/general/contact.html",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "BMW Group CONTACT. contact email",
-            "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
-        "title": "Germain BMW of Naples Staff |BMW Dealer Near Bonita Springs",
-        "link": "https://www.germainbmw.com/about-us/staff/",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "Germain BMW of Naples Staff |BMW Dealer Near Bonita Springs contact email",
-            "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
-        "title": "BMW of Mountain View | San Jose BMW Dealership",
-        "link": "https://www.bmwofmountainview.com/",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "BMW of Mountain View | San Jose BMW Dealership contact email",
-            "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
-        "title": "Century West BMW Staff | North Hollywood BMW Dealer",
-        "link": "https://www.centurywestbmw.com/about-us/staff/",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "Century West BMW Staff | North Hollywood BMW Dealer contact email",
-            "local_index": 0,
-            "base_url": null,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -172,7 +29,7 @@
         "meta": {
             "query": "Dealer got my build sheet wrong :( - G20 BMW 3-Series Forum contact email",
             "local_index": 0,
-            "base_url": null,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -182,15 +39,15 @@
     {
         "id": null,
         "rank": null,
-        "title": "Meet the Staff | Irvine BMW",
-        "link": "https://www.irvinebmw.com/dealership/staff.htm",
+        "title": "About Us | Phone 408-618-2154 | San Jose BMW Motorcycles",
+        "link": "https://www.sjbmw.com/about-us/",
         "source": [
             "Google"
         ],
         "meta": {
-            "query": "Meet Our Staff | Alhambra BMW Dealer contact email",
+            "query": "About Us | Phone 408-618-2154 | San Jose BMW Motorcycles contact email",
             "local_index": 0,
-            "base_url": null,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -200,33 +57,15 @@
     {
         "id": null,
         "rank": null,
-        "title": "Sterling BMW Staff | Newport Beach BMW Dealer",
-        "link": "https://www.sterlingbmw.com/about-us/staff/",
+        "title": "Used BMW 3 Series for Sale Near Me - CARFAX",
+        "link": "https://www.carfax.com/Used-BMW-3-Series_w44",
         "source": [
             "Google"
         ],
         "meta": {
-            "query": "Sterling BMW Staff | Newport Beach BMW Dealer contact email",
+            "query": "Used BMW 3 Series 330i for Sale (with Photos) - CARFAX contact email",
             "local_index": 0,
-            "base_url": null,
-            "latitude": null,
-            "longitude": null,
-            "rating": null,
-            "rating_count": null
-        }
-    },
-    {
-        "id": null,
-        "rank": null,
-        "title": "AutoNation: New Cars, Used Cars For Sale, Car Dealers and Pricing",
-        "link": "https://www.autonation.com/",
-        "source": [
-            "Google"
-        ],
-        "meta": {
-            "query": "Find Our AutoNation Dealership Locations | AutoNation Drive contact email",
-            "local_index": 0,
-            "base_url": null,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -239,12 +78,31 @@
         "title": "Stevens Creek BMW - Santa Clara, CA | Cars.com",
         "link": "https://www.cars.com/dealers/25732/stevens-creek-bmw/",
         "source": [
+            "Google",
+            "Bing"
+        ],
+        "meta": {
+            "query": "Stevens Creek BMW: See Cars for Sale in 4343 Stevens Creek Blvd ... contact email",
+            "local_index": 1,
+            "base_link": null,
+            "latitude": null,
+            "longitude": null,
+            "rating": null,
+            "rating_count": null
+        }
+    },
+    {
+        "id": null,
+        "rank": null,
+        "title": "Future BMW model information - Page 93 - BMW 3-Series and 4 ...",
+        "link": "https://f30.bimmerpost.com/forums/showthread.php?t=901686&page=121",
+        "source": [
             "Google"
         ],
         "meta": {
-            "query": "Used Cars for Sale in Santa Clara, CA: Stevens Creek BMW contact email",
+            "query": "Dealer got my build sheet wrong :( - G20 BMW 3-Series Forum contact email",
             "local_index": 1,
-            "base_url": null,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -260,9 +118,9 @@
             "Google"
         ],
         "meta": {
-            "query": "Stevens Creek BMW: BMW Dealership in Santa Clara, CA contact email",
+            "query": "Stevens Creek BMW - BMW, Service Center, Used Car Dealer ... contact email",
             "local_index": 1,
-            "base_url": null,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -272,15 +130,15 @@
     {
         "id": null,
         "rank": null,
-        "title": "Dealer Search | BMW Motorrad",
-        "link": "https://www.bmwmotorcycles.com/en/public-pool/content-pool/dealerlocator.html",
+        "title": "Contact Us | Phone 408-618-2154 | San Jose BMW Motorcycles",
+        "link": "https://www.sjbmw.com/reserve-yours-now-zero-motorcycles/",
         "source": [
-            "Google"
+            "Bing"
         ],
         "meta": {
-            "query": "BMW Sales & Service Team | BMW of Manhattan contact email",
-            "local_index": 1,
-            "base_url": null,
+            "query": "About Us | Phone 408-618-2154 | San Jose BMW Motorcycles contact email",
+            "local_index": 0,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -290,15 +148,15 @@
     {
         "id": null,
         "rank": null,
-        "title": "Santa Clarita",
-        "link": "https://www.centurywestbmw.com/santa-clarita/",
+        "title": "Used BMW 3 Series For Sale | BMW of Shrewsbury",
+        "link": "https://www.bmwofshrewsbury.com/used-bmw/3-series-for-sale-shrewsbury-ma.htm",
         "source": [
             "Google"
         ],
         "meta": {
-            "query": "New BMW Models for Sale in Santa Clarita, CA | Valencia BMW contact email",
+            "query": "Used BMW 3 Series 330i for Sale (with Photos) - CARFAX contact email",
             "local_index": 1,
-            "base_url": null,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -308,15 +166,15 @@
     {
         "id": null,
         "rank": null,
-        "title": "BMW Dealership San Jose, CA | BMW Sales, Specials, Service ...",
-        "link": "https://www.bmwoffremont.com/san-jose/bmw-dealership.htm",
+        "title": "Used Cars for Sale in Santa Clara, CA: Stevens Creek BMW",
+        "link": "https://www.stevenscreekbmw.com/used-inventory/index.htm",
         "source": [
-            "Google"
+            "Bing"
         ],
         "meta": {
-            "query": "BMW Dealership San Jose, CA - BMW Sales, Specials, Service ... contact email",
+            "query": "Stevens Creek BMW: See Cars for Sale in 4343 Stevens Creek Blvd ... contact email",
             "local_index": 1,
-            "base_url": null,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -326,15 +184,15 @@
     {
         "id": null,
         "rank": null,
-        "title": "Bay Area buyers beware Stevens Creek BMW - G20 BMW 3-Series ...",
-        "link": "https://g20.bimmerpost.com/forums/showthread.php?t=1653314",
+        "title": "Incorrect build delivered to me - G20 BMW 3-Series Forum",
+        "link": "https://g20.bimmerpost.com/forums/showthread.php?t=1635591",
         "source": [
             "Google"
         ],
         "meta": {
-            "query": "Contact Stevens Creek BMW contact email",
-            "local_index": 1,
-            "base_url": null,
+            "query": "Dealer got my build sheet wrong :( - G20 BMW 3-Series Forum contact email",
+            "local_index": 2,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,
@@ -344,15 +202,51 @@
     {
         "id": null,
         "rank": null,
-        "title": "Contact Us | BMW USA",
-        "link": "https://www.bmwusa.com/contact-us.html",
+        "title": "BMW Auto Service & Repair in Santa Clara: Stevens Creek BMW",
+        "link": "https://www.stevenscreekbmw.com/service/index.htm",
+        "source": [
+            "Bing"
+        ],
+        "meta": {
+            "query": "Stevens Creek BMW - BMW, Service Center, Used Car Dealer ... contact email",
+            "local_index": 1,
+            "base_link": null,
+            "latitude": null,
+            "longitude": null,
+            "rating": null,
+            "rating_count": null
+        }
+    },
+    {
+        "id": null,
+        "rank": null,
+        "title": "BMW Motorcycles of San Francisco: BMW Motorcycle Dealer Near ...",
+        "link": "https://www.bmwmotorcycle.com/",
         "source": [
             "Google"
         ],
         "meta": {
-            "query": "BMW Group CONTACT. contact email",
+            "query": "About Us | Phone 408-618-2154 | San Jose BMW Motorcycles contact email",
             "local_index": 1,
-            "base_url": null,
+            "base_link": null,
+            "latitude": null,
+            "longitude": null,
+            "rating": null,
+            "rating_count": null
+        }
+    },
+    {
+        "id": null,
+        "rank": null,
+        "title": "Used BMW 3 Series 330i xDrive for Sale (with Photos) - CARFAX",
+        "link": "https://www.carfax.com/Used-BMW-3-Series-330i-xDrive_t7411",
+        "source": [
+            "Google"
+        ],
+        "meta": {
+            "query": "Used BMW 3 Series 330i for Sale (with Photos) - CARFAX contact email",
+            "local_index": 2,
+            "base_link": null,
             "latitude": null,
             "longitude": null,
             "rating": null,

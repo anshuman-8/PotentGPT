@@ -19,7 +19,7 @@ from src.utils import (
     rank_weblinks,
     links_merger,
     process_secondary_links,
-    document2link
+    map2Link
 )
 
 load_dotenv()
@@ -137,20 +137,6 @@ async def extract_web_context(
     search_results = sanitize_search_results(web_results)
     log.info(f"\nSanitized Search Results length: {len(search_results)}\n")
 
-    # if deep_scrape and (request_context.gmaps_query is not None):
-    #     response_gmaps = await search_client.search_google_business()
-    #     if response_gmaps is not None:
-    #         gmaps_links = search_client.process_google_business_links(response_gmaps)
-    #         gmaps_links = gmaps_links[:20]
-    #         log.debug(f"\nGoogle Business Details: {gmaps_links}\n")
-    #         search_results = gmaps_links + search_results
-    #     else:
-    #         log.warning("Google Business data not used")
-
-    # with open("src/log_data/test.json", "r") as f:
-    # take search_results from text.json
-    # search_results = json.load(f)
-
     # ranking and filtering
     refined_search_results = rank_weblinks(search_results)
 
@@ -168,16 +154,19 @@ async def extract_web_context(
     )
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
+    # Removes duplicates and unwanted links, also gives vendor name
     processed_unused_data = process_secondary_links(unused_data)
     log.info(f"\nUnused Data len: {len(processed_unused_data)}\n")
+
     secondary_web_search_results = await search_client.secondary_web_search(
         processed_unused_data
     )
     log.info(f"\nSecondary Web Search Completed\n")
-    # site_contact_links = [document2link(links) for links in _site_contact_links]
+    # site_contact_links = map2Link(_site_contact_links)
     # common_secondary_links = links_merger(
     #     secondary_web_search_results, site_contact_links
     # )
+    
     rank_common_secondary_links = rank_weblinks(secondary_web_search_results, start_rank=len(refined_search_results))
     if len(rank_common_secondary_links) > 0:
         secondary_context_data = await secondary_search(secondary_web_search_results)

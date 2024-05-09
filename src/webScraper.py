@@ -9,6 +9,7 @@ from langchain.docstore.document import Document
 from src.utils import document2map
 from src.config import Config
 from src.model import Link
+from src.data_preprocessing import preprocess_doc
 
 LOG_FILES = True  # Logs the data (keep it False)
 
@@ -61,7 +62,7 @@ class AsyncChromiumLoader:
 
             await page.route("**/*", route_handler)
             await page.goto(
-                url, timeout=config.get_web_scraping_timeout(), wait_until="load"
+                url, timeout=config.get_web_scraping_timeout(), wait_until="domcontentloaded"
             )
             web_content = await page.content()
             t_end = time.time()
@@ -71,6 +72,7 @@ class AsyncChromiumLoader:
             log.info(
                 f"Content scraped for {url} in {(t_end - t_start):.2f} seconds, Size : {size_in_kb:.3f} KB"
             )
+            processed_web_content = preprocess_doc(web_content)
         except Exception as e:
             log.error(f"Error scraping {url}: {e}")
         finally:
