@@ -120,23 +120,26 @@ def get_navigable_strings(element: Any) -> Tuple[List[str], List[str]]:
 
     return text_parts, contact_hrefs
 
+
 def preprocess_doc(doc: str) -> str:
     """
     Extract text from HTML and preprocess it using BeautifulSoup
     """
     t_flag1 = time.time()
-    
-    tags_to_extract=["p", "li", "div", "a", "span", "tr", "article"],
-    unwanted_tags=[
-        "script",
-        "style",
-        "noscript",
-        "svg",
-        "img",
-        "input",
-        "pre",
-        "template",
-    ],
+
+    tags_to_extract = (["p", "li", "div", "a", "span", "tr", "article"],)
+    unwanted_tags = (
+        [
+            "script",
+            "style",
+            "noscript",
+            "svg",
+            "img",
+            "input",
+            "pre",
+            "template",
+        ],
+    )
     _cleaned_content = remove_unwanted_tags(doc, unwanted_tags)
     _cleaned_content, contact_href = extract_tags(_cleaned_content, tags_to_extract)
     cleaned_content = remove_unnecessary_lines(_cleaned_content)
@@ -145,6 +148,7 @@ def preprocess_doc(doc: str) -> str:
     log.debug(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
 
     return cleaned_content
+
 
 def preprocess_docs(docs: List[Document]) -> List[dict]:
     """
@@ -183,6 +187,7 @@ def preprocess_docs(docs: List[Document]) -> List[dict]:
             json.dump(document2map(docs_transformed), f)
 
     return docs_transformed, site_contact_links
+
 
 # TODO : This is a blind split, in future we should use a contact focused split
 def docs_recursive_split(
@@ -247,10 +252,8 @@ def relevant_data(extracted_content):
     return data
 
 
-def inflate_secondary_link(base_doc : dict, site_contact_links : str):
-    """ 
-
-    """
+def inflate_secondary_link(base_doc: dict, site_contact_links: str):
+    """ """
     if isinstance(site_contact_link, list):
         combined_links = []
         for site_contact_link in site_contact_links:
@@ -260,8 +263,6 @@ def inflate_secondary_link(base_doc : dict, site_contact_links : str):
         return combined_links
     return None
 
-
-    
 
 def process_data_docs(html_docs: Document, chunk_size: int = 400):
     """
@@ -278,7 +279,7 @@ def process_data_docs(html_docs: Document, chunk_size: int = 400):
             _used_docs.append(doc)
         else:
             unused_docs.append(doc)
-    
+
     log.warn(f"Length after doc regex processing: {len(_used_docs)}")
 
     if len(_used_docs) < 1:
@@ -292,6 +293,5 @@ def process_data_docs(html_docs: Document, chunk_size: int = 400):
     if LOG_FILES:
         with open("src/log_data/unused_context_data.json", "w") as f:
             json.dump(document2map(unused_docs), f)
-
 
     return data, [], unused_docs

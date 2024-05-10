@@ -83,10 +83,10 @@ async def staticProbe(
     log.info(f"Time: {timestamp}")
 
     try:
-        target, query = search_query_extrapolate(
+        target, query, goal_type = search_query_extrapolate(
             request_context=request_context,
         )
-        request_context.update_search_param(target, query)
+        request_context.update_search_param(target, query, goal_type)
         log.info(f"Updated request context !")
         log.debug(request_context.__dict__)
         web_context = await extract_web_context(

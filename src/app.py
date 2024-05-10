@@ -19,7 +19,7 @@ from src.utils import (
     rank_weblinks,
     links_merger,
     process_secondary_links,
-    map2Link
+    map2Link,
 )
 
 load_dotenv()
@@ -78,7 +78,7 @@ def search_query_extrapolate(request_context: RequestContext):
     """
     Extract the search query from the prompt
 
-    Returns : search query and goal target
+    Returns : search query, goal target and goal type(product or service)
     """
     log.info(f"Prompt: {request_context.prompt}")
     goal_target = []
@@ -90,12 +90,13 @@ def search_query_extrapolate(request_context: RequestContext):
         )
         search_query = goal_query["queries"]
         goal_target = goal_query["targets"]
+        goal_type = goal_query["type"]
 
     except Exception as e:
         log.error(f"Prompt sanitization failed, Error:{e}")
         raise Exception("Prompt sanitization failed")
 
-    return (search_query, goal_target)
+    return (search_query, goal_target, goal_type)
 
 
 async def extract_web_context(
@@ -154,26 +155,31 @@ async def extract_web_context(
     )
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
-    # Removes duplicates and unwanted links, also gives vendor name
-    processed_unused_data = process_secondary_links(unused_data)
-    log.info(f"\nUnused Data len: {len(processed_unused_data)}\n")
+    if request_context.isProduct:
+        # Removes duplicates and unwanted links, also gives vendor name
+        processed_unused_data = process_secondary_links(unused_data)
+        log.info(f"\nUnused Data len: {len(processed_unused_data)}\n")
 
-    secondary_web_search_results = await search_client.secondary_web_search(
-        processed_unused_data
-    )
-    log.info(f"\nSecondary Web Search Completed\n")
-    # site_contact_links = map2Link(_site_contact_links)
-    # common_secondary_links = links_merger(
-    #     secondary_web_search_results, site_contact_links
-    # )
+        secondary_web_search_results = await search_client.secondary_web_search(
+            processed_unused_data
+        )
+        log.info(f"\nSecondary Web Search Completed\n")
+        # site_contact_links = map2Link(_site_contact_links)
+        # common_secondary_links = links_merger(
+        #     secondary_web_search_results, site_contact_links
+        # )
 
-    rank_common_secondary_links = rank_weblinks(secondary_web_search_results, start_rank=len(refined_search_results))
-    if len(rank_common_secondary_links) > 0:
-        secondary_context_data = await secondary_search(secondary_web_search_results)
-        context_data.extend(secondary_context_data)
-        log.info(f"\nTotal Context Data len: {len(context_data)}\n")
-    else:
-        log.warning("No secondary search required\n")
+        rank_common_secondary_links = rank_weblinks(
+            secondary_web_search_results, start_rank=len(refined_search_results)
+        )
+        if len(rank_common_secondary_links) > 0:
+            secondary_context_data = await secondary_search(
+                secondary_web_search_results
+            )
+            context_data.extend(secondary_context_data)
+            log.info(f"\nTotal Context Data len: {len(context_data)}\n")
+        else:
+            log.warning("No secondary search required\n")
 
     # FIXME need to count based on number of token not length
     data = [x for x in context_data if len(x["content"]) > 200]
