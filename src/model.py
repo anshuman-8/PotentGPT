@@ -119,7 +119,7 @@ class Link:
             "latitude": self.latitude,
             "longitude": self.longitude,
             "rating": self.rating,
-            "rating_count": self.rating_count
+            "rating_count": self.rating_count,
         }
 
     def getJSON(self):
@@ -139,7 +139,7 @@ class Link:
                 "rating_count": self.rating_count,
             },
         }
-    
+
 
 def getLinkJsonList(links):
     """
@@ -185,7 +185,9 @@ class RequestContext:
         self.yelp_query = None
         self.gmaps_query = None
 
-    def update_search_param(self, search_query: Dict[str, any], targets: List[str]):
+    def update_search_param(
+        self, search_query: Dict[str, any], targets: List[str], goal_type: str
+    ):
         if (
             search_query is None
             or not isinstance(search_query, dict)
@@ -212,6 +214,9 @@ class RequestContext:
 
         if isinstance(targets, str) and targets.strip() == "":
             targets = [targets]
+
+        if goal_type.lower() in ["product"]:
+            self.isProduct = True
 
         self.targets = targets
         self.web_queries = web_queries

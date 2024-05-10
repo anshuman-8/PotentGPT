@@ -157,7 +157,9 @@ class Search:
                 for index, result in enumerate(data["webPages"]["value"])
             ]
         else:
-            log.error(f"Bing search error: {data.get('error', {}).get('message', 'Unknown error')}")
+            log.error(
+                f"Bing search error: {data.get('error', {}).get('message', 'Unknown error')}"
+            )
             return None
 
         return websites
@@ -225,7 +227,7 @@ class Search:
         t_flag2 = time.time()
         log.debug(f"Google search time: {t_flag2 - t_flag1}")
 
-        if "items" in data.keys() and 'error' not in data.keys():
+        if "items" in data.keys() and "error" not in data.keys():
             websites = [
                 Link(
                     local_index=index,
@@ -237,7 +239,9 @@ class Search:
                 for index, result in enumerate(data["items"])
             ]
         else:
-            log.error(f"Google search error: {data.get('error', {}).get('message', 'Unknown error')}")
+            log.error(
+                f"Google search error: {data.get('error', {}).get('message', 'Unknown error')}"
+            )
             return None
 
         if LOG_FILES:
@@ -505,15 +509,17 @@ class Search:
             ):
                 continue
             if isinstance(result, dict):
-                processed_results.append(Link(
-                    title=result["displayName"].get("text", ""),
-                    link=result.get("websiteUri", ""),
-                    source=["Google Maps"],
-                    latitude=result["location"]["latitude"],
-                    longitude=result["location"]["longitude"],
-                    rating=str(result.get("rating", "-")),
-                    rating_count=str(result.get("userRatingCount", "-")),
-                ))
+                processed_results.append(
+                    Link(
+                        title=result["displayName"].get("text", ""),
+                        link=result.get("websiteUri", ""),
+                        source=["Google Maps"],
+                        latitude=result["location"]["latitude"],
+                        longitude=result["location"]["longitude"],
+                        rating=str(result.get("rating", "-")),
+                        rating_count=str(result.get("userRatingCount", "-")),
+                    )
+                )
         return processed_results
 
     # TODO : Refactor this function, not in use
@@ -550,7 +556,7 @@ class Search:
 
     async def single_web_search(self, query, location, max_results=20) -> List[dict]:
         """
-        Parallely search the web using Google and Bing  
+        Parallely search the web using Google and Bing
         """
         log.info(f"Starting web search for : | {query} | in {location}")
         t_flag1 = time.time()
@@ -564,7 +570,9 @@ class Search:
         results = await asyncio.gather(*tasks, return_exceptions=True)
         google_results, bing_results = results
 
-        log.debug(f"Google search results for {query} : {getLinkJsonList(google_results)}")
+        log.debug(
+            f"Google search results for {query} : {getLinkJsonList(google_results)}"
+        )
         log.debug(f"Bing search results for {query} : {getLinkJsonList(bing_results)}")
 
         # Merge the search results
@@ -574,7 +582,7 @@ class Search:
 
         t_flag2 = time.time()
         log.info(
-            f"\nWeb search for query: {query} completed in {t_flag2 - t_flag1} seconds\n"
+            f"Web search for query: {query} completed in {t_flag2 - t_flag1} seconds\n"
         )
         return search_results
 
@@ -624,10 +632,13 @@ class Search:
             vendor_name = doc.vendor_name
             log.warning(f"Vendor name search: {vendor_name}")
             if vendor_name:
+                search_query = (
+                    f"{vendor_name} {self.location} contact email"
+                    if len(self.location) > 2
+                    else f"{vendor_name} contact email"
+                )
                 search_jobs.append(
-                    self.single_web_search(
-                        f"{vendor_name} contact email", self.location, max_results=3
-                    )
+                    self.single_web_search(search_query, self.location, max_results=3)
                 )
 
         search_results = await asyncio.gather(*search_jobs, return_exceptions=True)

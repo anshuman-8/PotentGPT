@@ -40,7 +40,7 @@ def document_lambda(documents: List[Document], func: callable) -> List[Document]
     return create_documents(texts, metadatas=metadatas)
 
 
-def document2map(documents: List[Document] | Document) -> List[dict] | dict: 
+def document2map(documents: List[Document] | Document) -> List[dict] | dict:
     """Convert a list of documents to a map."""
     log.debug("Converting documents to map...")
     if isinstance(documents, Document):
@@ -49,32 +49,33 @@ def document2map(documents: List[Document] | Document) -> List[dict] | dict:
         return [
             {"metadata": doc.metadata, "content": doc.page_content} for doc in documents
         ]
-    else :
+    else:
         return []
-    
+
+
 # FIXME : Fails if the map has content and metadata keys
 def map2Link(map: List[dict] | dict) -> List[Link] | Link:
     """Converts maps to Links."""
     log.info("Converting maps to Links...")
     if isinstance(map, dict):
         return Link(
-                # id=doc.metadata.get("id", ""),
-                # rank = doc.metadata.get("rank", ""),
-                query = map.get("query", ""),
-                title=map.get("title", ""),
-                link=map.get("link", ""),
-                source=map.get("source", ""),
-                latitude=map.get("latitude", None),
-                longitude=map.get("longitude", None),
-                rating=map.get("rating", None),
-                rating_count=map.get("rating_count", None),
-            )
+            # id=doc.metadata.get("id", ""),
+            # rank = doc.metadata.get("rank", ""),
+            query=map.get("query", ""),
+            title=map.get("title", ""),
+            link=map.get("link", ""),
+            source=map.get("source", ""),
+            latitude=map.get("latitude", None),
+            longitude=map.get("longitude", None),
+            rating=map.get("rating", None),
+            rating_count=map.get("rating_count", None),
+        )
     if isinstance(map, list):
         return [
             Link(
                 # id=doc.metadata.get("id", ""),
                 # rank = doc.metadata.get("rank", ""),
-                query = doc.get("query", ""),
+                query=doc.get("query", ""),
                 title=doc.get("title", ""),
                 link=doc.get("link", ""),
                 source=doc.get("source", ""),
@@ -82,36 +83,36 @@ def map2Link(map: List[dict] | dict) -> List[Link] | Link:
                 longitude=doc.get("longitude", None),
                 rating=doc.get("rating", None),
                 rating_count=doc.get("rating_count", None),
-
-            ) for doc in map
+            )
+            for doc in map
         ]
-    else :
+    else:
         return []
-        
+
 
 def document2link(documents: List[Document] | Document) -> List[Link] | Link:
     """Convert a list of documents to a map."""
     log.debug("Converting documents to Links...")
     if isinstance(documents, Document):
         return Link(
-                # id=doc.metadata.get("id", ""),
-                # rank = doc.metadata.get("rank", ""),
-                query = documents.metadata.get("query", ""),
-                title=documents.metadata.get("title", ""),
-                link=documents.metadata.get("link", ""),
-                source=documents.metadata.get("source", ""),
-                latitude=documents.metadata.get("latitude", None),
-                longitude=documents.metadata.get("longitude", None),
-                rating=documents.metadata.get("rating", None),
-                rating_count=documents.metadata.get("rating_count", None),
-            )
-        
+            # id=doc.metadata.get("id", ""),
+            # rank = doc.metadata.get("rank", ""),
+            query=documents.metadata.get("query", ""),
+            title=documents.metadata.get("title", ""),
+            link=documents.metadata.get("link", ""),
+            source=documents.metadata.get("source", ""),
+            latitude=documents.metadata.get("latitude", None),
+            longitude=documents.metadata.get("longitude", None),
+            rating=documents.metadata.get("rating", None),
+            rating_count=documents.metadata.get("rating_count", None),
+        )
+
     if isinstance(documents, list):
         return [
             Link(
                 # id=doc.metadata.get("id", ""),
                 # rank = doc.metadata.get("rank", ""),
-                query = doc.metadata.get("query", ""),
+                query=doc.metadata.get("query", ""),
                 title=doc.metadata.get("title", ""),
                 link=doc.metadata.get("link", ""),
                 source=doc.metadata.get("source", ""),
@@ -119,11 +120,12 @@ def document2link(documents: List[Document] | Document) -> List[Link] | Link:
                 longitude=doc.metadata.get("longitude", None),
                 rating=doc.metadata.get("rating", None),
                 rating_count=doc.metadata.get("rating_count", None),
-
-            ) for doc in documents
+            )
+            for doc in documents
         ]
-    else :
+    else:
         return []
+
 
 def count_tokens(text: str) -> int:
     # FIXME this is a dummy function have to impliment actual token count
@@ -232,12 +234,14 @@ def sort_results(results: List[dict]) -> List[dict]:
 
     return results
 
+
 # TODO : Get a better method to extract the domain
 def extract_domain(url):
     """
     Extract the domain from the URL
     """
     try:
+        # TODO : use urlparse instead of tldextract
         extracted_info = tldextract.extract(url)
         domain = extracted_info.domain
         return domain
@@ -245,8 +249,7 @@ def extract_domain(url):
         return None
 
 
-
-def links_merger(links1: Link, links2:Link):
+def links_merger(links1: Link, links2: Link):
     """
     Merge the two list of links
     """
@@ -260,9 +263,9 @@ def links_merger(links1: Link, links2:Link):
     return links
 
 
-def process_secondary_links(docs:List[Document]):
+def process_secondary_links(docs: List[Document]):
     """
-    Process the secondary links, gives the vendor name 
+    Process the secondary links, gives the vendor name
     """
     domains = []
     docs = document2link(docs)
@@ -274,7 +277,7 @@ def process_secondary_links(docs:List[Document]):
         domain = extract_domain(_link)
         if domain in domains:
             continue
-        doc.vendor_name = domain
+        doc.vendor_name = f"{domain}"
         domains.append(domain)
     return docs
 

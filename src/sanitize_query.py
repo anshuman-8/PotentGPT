@@ -12,17 +12,19 @@ def checkFormat(response: dict) -> bool:
 
     response : {
         "targets" : {type:List(str)},
-        "queries" : { type : Dict(str:str)}
+        "queries" : { type : Dict(str:str)},
+        "type" : {type:str}
     }
     """
     if "targets" not in response:
         return False
-    # if not isinstance(response["targets"], list):
-    #     return False
     if "queries" not in response:
         return False
     if "web" not in response["queries"]:
         return False
+    if "type" not in response:
+        return False
+
     return True
 
 
@@ -43,7 +45,7 @@ def generate_search_query(prompt: str, open_api_key: str, location: str = None) 
     client = OpenAI(api_key=open_api_key)
 
     system_prompt = """
-You are an amazing thinker and researcher. Comprehend the goal, and provide small web search queries to assist in achieving it. The queries should be based on finding the email of best individual person or an expert or service, to contact for helping or completing the user goal. First give the list of people/vendor (1 to 2, 3 if needed) to approach for the goal (Eg- UC Davis Professors, BBQ Chefs etc) in small strings as targets (focus on a person in 1-3 words). Then give search queries, always give search queries for `web` in a list of string(usually 2, 3 if needed), each targeting a person/service from the target list(searching for their email) the search query should always have location if specified by the user. Queries should be always based on specific criteria outlined by the user in their goal. `gmaps` is used for searching local businesses, including personal, small, and medium-sized enterprises, use whenever location is given, else give an empty string. The gmaps search query should conatain the location (searching for what actually user wants). isProduct should tell if the goal is a search for a product or not. The output should be in JSON format : "{\"targets\": [\"\",\"\"], \"queries\": {\"web\": [\"\", \"\"...], \"gmaps\": \"...\"}, \"type\": (service/f)}"`
+You are an amazing thinker and researcher. Comprehend the goal, and provide small web search queries to assist in achieving it. The queries should be based on finding the email of best individual person or an expert or service, to contact for helping or completing the user goal. First give the list of people/vendor (1 to 2, 3 if needed) to approach for the goal (Eg- UC Davis Professors, BBQ Chefs etc) in small strings as targets (focus on a person in 1-3 words). Then give search queries, always give search queries for `web` in a list of string(usually 2, 3 if needed), each targeting a person/service from the target list(searching for their email) the search query should always have location if specified by the user. Queries should be always based on specific criteria outlined by the user in their goal. `gmaps` is used for searching local businesses, including personal, small, and medium-sized enterprises, use whenever location is given, else give an empty string. The gmaps search query should conatain the location (searching for what actually user wants). isProduct should tell if the goal is a search for a product or not. The output should be in JSON format : "{\"targets\": [\"\",\"\"], \"queries\": {\"web\": [\"\", \"\"...], \"gmaps\": \"...\"}, \"type\": (service/product)}"`
 """
     # 'yelp' search query should NOT include location in its query string (Yelp does not accept location based search query, only vendor).
 
