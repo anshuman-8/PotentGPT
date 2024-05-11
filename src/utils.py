@@ -286,7 +286,7 @@ def process_results(results):
     log.debug(f"Processing API results : {results}")
     # Initialize an empty list to store processed results
     processed_results = []
-
+    emails_check = set()
     try:
         for result in results:
             if isinstance(result, (str)):
@@ -347,6 +347,10 @@ def process_results(results):
                     and processed_result["contacts"]["address"].strip() == ""
                 ):
                     continue
+
+                if processed_result["contacts"]["email"] in emails_check:
+                    continue
+                emails_check.add(processed_result["contacts"]["email"])
 
                 # Append the processed result to the list
                 processed_results.append(processed_result)

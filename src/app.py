@@ -49,8 +49,14 @@ def sanitize_search_results(results: List[Link]) -> List[Link]:
         "glassdoor",
         "zomato",
         "swiggy",
-        "edmunds",
-        "cars",
+        "edmunds.com",
+        "cars.com",
+        "autotrader.com",
+        "yellowpages.com",
+        "truecar.com",
+        "svaw.com",
+        "yahoo.com",
+        "pagjobs.com",
     ]
     avoid_endings = [
         ".pdf",
@@ -132,7 +138,7 @@ async def extract_web_context(
         max_web_results = 37
 
     # get the search results
-    web_results = await search_client.search_web(max_results=max_web_results)
+    web_results = await search_client.search_web(max_results=max_web_results, search_gmaps=True)
 
     # process the search links
     search_results = sanitize_search_results(web_results)
@@ -164,17 +170,21 @@ async def extract_web_context(
             processed_unused_data
         )
         log.info(f"\nSecondary Web Search Completed\n")
+
+        sanitized_secondary_results = sanitize_search_results(secondary_web_search_results)
+        log.info(f"\nSanitized Secondary Search Results length: {len(sanitized_secondary_results)}\n")
+
         # site_contact_links = map2Link(_site_contact_links)
         # common_secondary_links = links_merger(
         #     secondary_web_search_results, site_contact_links
         # )
 
         rank_common_secondary_links = rank_weblinks(
-            secondary_web_search_results, start_rank=len(refined_search_results)
+            sanitized_secondary_results, start_rank=len(refined_search_results)
         )
         if len(rank_common_secondary_links) > 0:
             secondary_context_data = await secondary_search(
-                secondary_web_search_results
+                rank_common_secondary_links
             )
             context_data.extend(secondary_context_data)
             log.info(f"\nTotal Context Data len: {len(context_data)}\n")

@@ -1,19 +1,318 @@
 [
     {
-        "nationalPhoneNumber": "(800) 298-1501",
-        "internationalPhoneNumber": "+1 800-298-1501",
-        "formattedAddress": "4343 Stevens Creek Blvd, Santa Clara, CA 95051, USA",
+        "nationalPhoneNumber": "(408) 338-7559",
+        "internationalPhoneNumber": "+1 408-338-7559",
+        "formattedAddress": "1400 Coleman Ave, Santa Clara, CA 95050, USA",
         "location": {
-            "latitude": 37.3241385,
-            "longitude": -121.97797010000001
+            "latitude": 37.357987,
+            "longitude": -121.93568030000002
         },
-        "rating": 4.3,
-        "websiteUri": "https://www.stevenscreekbmw.com/?utm_source=google&utm_campaign=GoogleLocalListing&utm_medium=organic",
-        "userRatingCount": 5384,
         "displayName": {
-            "text": "Stevens Creek BMW",
+            "text": "SK Auto Sales",
             "languageCode": "en"
         },
-        "shortFormattedAddress": "4343 Stevens Creek Blvd, Santa Clara"
+        "shortFormattedAddress": "1400 Coleman Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(650) 264-7553",
+        "internationalPhoneNumber": "+1 650-264-7553",
+        "formattedAddress": "2041 Mission College Blvd, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.387589299999995,
+            "longitude": -121.9606866
+        },
+        "displayName": {
+            "text": "Warriors Auto | Auto dealership in Santa Clara",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2041 Mission College Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 512-2285",
+        "internationalPhoneNumber": "+1 408-512-2285",
+        "formattedAddress": "4401 Stevens Creek Blvd, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3234966,
+            "longitude": -121.9794149
+        },
+        "rating": 3.8,
+        "websiteUri": "https://www.hertzcarsales.com/santa-clara.htm?utm_source=google&utm_medium=organic&utm_campaign=GoogleLocalListing",
+        "userRatingCount": 145,
+        "displayName": {
+            "text": "Hertz Car Sales Santa Clara",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "4401 Stevens Creek Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 329-4576",
+        "internationalPhoneNumber": "+1 408-329-4576",
+        "formattedAddress": "4517 Stevens Creek Blvd, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.32378800000001,
+            "longitude": -121.98155599999998
+        },
+        "rating": 4.7,
+        "websiteUri": "http://www.enterprisecarsales.com/location/23R6/Enterprise_Car_Sales_San_Jose?mcid=iyp:24489698",
+        "userRatingCount": 529,
+        "displayName": {
+            "text": "Enterprise Car Sales",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "4517 Stevens Creek Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(650) 460-3377",
+        "internationalPhoneNumber": "+1 650-460-3377",
+        "formattedAddress": "2368 Walsh Ave, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.368006199999996,
+            "longitude": -121.9676605
+        },
+        "websiteUri": "https://www.campbellcitymotors.com/",
+        "displayName": {
+            "text": "Campbell City Motors",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2368 Walsh Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 549-8822",
+        "internationalPhoneNumber": "+1 408-549-8822",
+        "formattedAddress": "3275 Stevens Creek Blvd, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3236308,
+            "longitude": -121.9546211
+        },
+        "websiteUri": "https://www.everyoneautosales.com/contact",
+        "displayName": {
+            "text": "Everyone Auto Sales",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3275 Stevens Creek Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 887-4859",
+        "internationalPhoneNumber": "+1 408-887-4859",
+        "formattedAddress": "3180 De La Cruz Blvd, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.3810073,
+            "longitude": -121.94113379999999
+        },
+        "websiteUri": "https://www.bayautosportllc.com/",
+        "displayName": {
+            "text": "Bay Auto Sport",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3180 De La Cruz Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 540-4185",
+        "internationalPhoneNumber": "+1 408-540-4185",
+        "formattedAddress": "2975 El Camino Real, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3532653,
+            "longitude": -121.9803469
+        },
+        "rating": 4.7,
+        "websiteUri": "http://www.norcalautosalessj.com/",
+        "userRatingCount": 31,
+        "displayName": {
+            "text": "NorCal Auto Sales LLC",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2975 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(669) 455-9691",
+        "internationalPhoneNumber": "+1 669-455-9691",
+        "formattedAddress": "3275 Stevens Creek Blvd suite 335, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3237452,
+            "longitude": -121.95475289999999
+        },
+        "displayName": {
+            "text": "West Auto Sales",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3275 Stevens Creek Blvd suite 335, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(650) 456-0961",
+        "internationalPhoneNumber": "+1 650-456-0961",
+        "formattedAddress": "3368 El Camino Real, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3518245,
+            "longitude": -121.98846549999999
+        },
+        "rating": 3,
+        "websiteUri": "http://www.euroautosalesca.com/",
+        "userRatingCount": 70,
+        "displayName": {
+            "text": "Euro Auto Sale",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3368 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 306-7741",
+        "internationalPhoneNumber": "+1 408-306-7741",
+        "formattedAddress": "3275 Stevens Creek Blvd, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.323634399999996,
+            "longitude": -121.9547492
+        },
+        "rating": 4.7,
+        "websiteUri": "https://www.dinomotors.net/",
+        "userRatingCount": 10,
+        "displayName": {
+            "text": "Dino Motors",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3275 Stevens Creek Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 900-9006",
+        "internationalPhoneNumber": "+1 408-900-9006",
+        "formattedAddress": "4701 Patrick Henry Dr bldg 3 ste 307, Santa Clara, CA 95054, USA",
+        "location": {
+            "latitude": 37.3979997,
+            "longitude": -121.9844735
+        },
+        "rating": 5,
+        "websiteUri": "https://www.royalautosale.com/",
+        "userRatingCount": 12,
+        "displayName": {
+            "text": "Royal Auto Sales",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "4701 Patrick Henry Dr bldg 3 ste 307, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 333-8000",
+        "internationalPhoneNumber": "+1 408-333-8000",
+        "formattedAddress": "1815 El Camino Real, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3527918,
+            "longitude": -121.957465
+        },
+        "rating": 5,
+        "websiteUri": "http://westautonation.com/",
+        "userRatingCount": 15,
+        "displayName": {
+            "text": "West AutoNation Auto Sales",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "1815 El Camino Real, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 442-7616",
+        "internationalPhoneNumber": "+1 408-442-7616",
+        "formattedAddress": "3275 Stevens Creek Blvd Suite 250, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3236308,
+            "longitude": -121.9546211
+        },
+        "rating": 4.3,
+        "userRatingCount": 6,
+        "displayName": {
+            "text": "Car Hero LLC",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "3275 Stevens Creek Blvd Suite 250, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 475-7652",
+        "internationalPhoneNumber": "+1 408-475-7652",
+        "formattedAddress": "858 Civic Center Dr, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3560388,
+            "longitude": -121.945623
+        },
+        "displayName": {
+            "text": "Carpick Auto Sales",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "858 Civic Center Dr, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 637-8262",
+        "internationalPhoneNumber": "+1 408-637-8262",
+        "formattedAddress": "3275 Stevens Creek Blvd, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.323634399999996,
+            "longitude": -121.9547492
+        },
+        "rating": 1,
+        "websiteUri": "https://www.goldenstatemotor.com/contact?form=carfinder",
+        "userRatingCount": 3,
+        "displayName": {
+            "text": "Golden State Motors",
+            "languageCode": "ja"
+        },
+        "shortFormattedAddress": "3275 Stevens Creek Blvd, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 727-7770",
+        "internationalPhoneNumber": "+1 408-727-7770",
+        "formattedAddress": "527 Robert Ave, Santa Clara, CA 95050, USA",
+        "location": {
+            "latitude": 37.3648145,
+            "longitude": -121.9442835
+        },
+        "rating": 3.3,
+        "websiteUri": "http://www.svaw.com/",
+        "userRatingCount": 35,
+        "displayName": {
+            "text": "South Valley Auto Wholesale",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "527 Robert Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(650) 285-1972",
+        "internationalPhoneNumber": "+1 650-285-1972",
+        "formattedAddress": "2368 Walsh Ave, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3678516,
+            "longitude": -121.9678711
+        },
+        "websiteUri": "https://www.suprememotorsca.com/about-us/",
+        "displayName": {
+            "text": "Supreme Motors",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2368 Walsh Ave, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 244-8949",
+        "internationalPhoneNumber": "+1 408-244-8949",
+        "formattedAddress": "3148 El Camino Real UNIT 104, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.3517128,
+            "longitude": -121.9829208
+        },
+        "rating": 4.8,
+        "userRatingCount": 5,
+        "displayName": {
+            "text": "J C Motors Group Corporation",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "Seoul Plaza, 3148 El Camino Real UNIT 104, Santa Clara"
+    },
+    {
+        "nationalPhoneNumber": "(408) 617-8107",
+        "internationalPhoneNumber": "+1 408-617-8107",
+        "formattedAddress": "2368 Walsh Ave, Santa Clara, CA 95051, USA",
+        "location": {
+            "latitude": 37.368006199999996,
+            "longitude": -121.9676605
+        },
+        "websiteUri": "https://discountcarsca.com/about-us",
+        "displayName": {
+            "text": "Discount Cars CA",
+            "languageCode": "en"
+        },
+        "shortFormattedAddress": "2368 Walsh Ave, Santa Clara"
     }
 ]

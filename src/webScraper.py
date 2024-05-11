@@ -72,8 +72,7 @@ class AsyncChromiumLoader:
             log.info(
                 f"Content scraped for {url} in {(t_end - t_start):.2f} seconds, Size : {size_in_kb:.3f} KB"
             )
-            # processed_web_content = preprocess_doc(web_content)
-            processed_web_content = web_content
+            processed_web_content = preprocess_doc(web_content)
         except Exception as e:
             log.error(f"Error scraping {url}: {e}")
         finally:
