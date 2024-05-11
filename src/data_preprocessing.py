@@ -22,10 +22,8 @@ def transform_documents(
 ) -> Sequence[Document]:
     site_contact_links = []
     for doc in documents:
-        cleaned_content = doc.page_content
-
-        cleaned_content = remove_unwanted_tags(cleaned_content, unwanted_tags)
-        cleaned_content, contact_href = extract_tags(cleaned_content, tags_to_extract)
+        _content = doc.page_content
+        cleaned_content, contact_href = tags_cleaning(_content, unwanted_tags, tags_to_extract)
 
         # site_contact_link = combine_contactlink(doc.metadata, contact_href)
 
@@ -69,16 +67,36 @@ def combine_contactlink(base_link: dict, contact_link: List[str]) -> dict | None
         log.warn(f"Error combining link: {e}")
         return None
 
-
-def remove_unwanted_tags(html_content: str, unwanted_tags: List[str]) -> str:
+# TODO : Remove it
+def remove_unwanted_tags(html_content, unwanted_tags: List[str]) -> str:
     soup = BeautifulSoup(html_content, "html.parser")
     for tag in unwanted_tags:
         for element in soup.find_all(tag):
             element.decompose()
-    return str(soup)
+    return soup
 
+def tags_cleaning(html_content, unwanted_tags: List[str] = ["script", "style"],
+    tags_to_extract: List[str] = ["p", "li", "div", "a"]) -> str:
 
-def extract_tags(html_content: str, tags: List[str]) -> str:
+    try: 
+        soup = BeautifulSoup(html_content, "html.parser")
+        text_parts: List[str] = []
+        contact_hrefs: List[str] = []
+        for tag in unwanted_tags:
+            for element in soup.find_all(tag):
+                element.decompose()
+        for element in soup.find_all(tags_to_extract):
+            navigable_text, contact_href = get_navigable_strings(element)
+            text_parts += navigable_text
+            contact_hrefs += contact_href
+            element.decompose()
+    except Exception as e:
+        print(f"Error in tags_cleaning: {e}")
+
+    return " ".join(text_parts), contact_hrefs
+
+# TODO : Remove it
+def extract_tags(html_content, tags: List[str]) -> str:
     soup = BeautifulSoup(html_content, "html.parser")
     text_parts: List[str] = []
     contact_hrefs: List[str] = []
@@ -140,8 +158,7 @@ def preprocess_doc(doc: str) -> str:
             "template",
         ],
     )
-    _cleaned_content = remove_unwanted_tags(doc, unwanted_tags)
-    _cleaned_content, contact_href = extract_tags(_cleaned_content, tags_to_extract)
+    _cleaned_content, contact_hrefs = tags_cleaning(doc, unwanted_tags, tags_to_extract)
     cleaned_content = remove_unnecessary_lines(_cleaned_content)
 
     t_flag2 = time.time()
