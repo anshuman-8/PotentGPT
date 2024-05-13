@@ -68,12 +68,11 @@ def combine_secondary_link(
                 combined_links.append(combined_link)
                 links.add(single_contact_link)
             else:
-                base_domain = base_link.link
-                combined_url = urljoin(base_domain, single_contact_link)
+                combined_url = urljoin(base_link.link, single_contact_link)
                 if combined_url not in links:
                     combined_link.link = combined_url
                     combined_links.append(combined_link)
-                    links.add(combined_link)
+                    links.add(combined_url)
 
         return combined_links
     except Exception as e:

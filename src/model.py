@@ -102,6 +102,15 @@ class Link:
 
     def __str__(self):
         return f"{self.title} - {self.link}"
+    
+    def __eq__(self, other):
+        return self.link == other.link
+    
+    def __ne__(self, other):
+        return not self.__eq__(other)
+    
+    def __hash__(self):
+        return hash(self.link)
 
     def getDomain(self):
         domain = urlparse(self.link).netloc
@@ -172,6 +181,7 @@ def check_duplicate_links(links: List[Link]) -> bool:
             return True
         link_set.add(link.link)
     return False
+
 
 
 class RequestContext:

@@ -251,7 +251,7 @@ def extract_domain(url):
 
 def links_merger(links1: Link, links2: Link):
     """
-    Merge the two list of links
+    Merge the two list of links, Also removes the duplicate links
     """
     links = []
     merge = []

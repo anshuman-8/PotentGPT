@@ -26,8 +26,11 @@ class AsyncChromiumLoader:
         """
         log.info(f"Starting scraping for {len(web_links)} sites...")
         results = []
+        bt1 = time.time()
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
+            bt2 = time.time()
+            log.info(f"Browser launched in {(bt2-bt1):.3f} seconds")
             scraping_tasks = [
                 self.scrape_url(browser, web_link) for web_link in web_links
             ]
@@ -97,7 +100,7 @@ class AsyncChromiumLoader:
         result_doc = Document(page_content=processed_web_content, metadata=metadata)
         return result_doc
 
-    async def load_data(self) -> List[Document]:
+    async def load_data(self) -> Tuple[List[Document], List[Link]]:
         """
         Load the data from the urls asynchronously
         """
@@ -118,7 +121,7 @@ async def scrape_with_playwright(web_links: List[Link]) -> List[dict]:
     """
     t_flag1 = time.time()
     loader = AsyncChromiumLoader(web_links)
-    docs, secondary_links = await loader.load_data()
+    docs, _secondary_links = await loader.load_data()
     t_flag2 = time.time()
 
     # FIXME : few document are error objects, and not Document objects
@@ -127,5 +130,7 @@ async def scrape_with_playwright(web_links: List[Link]) -> List[dict]:
             json.dump(document2map(docs), f)
 
     log.info(f"AsyncChromium Web scrape time : { t_flag2 - t_flag1}")
+
+    secondary_links = list(set(_secondary_links))
 
     return docs, secondary_links
