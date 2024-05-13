@@ -260,26 +260,26 @@ def links_merger(links1: Link, links2: Link):
             links.append(extract_domain(link.link))
             merge.append(link)
 
-    return links
+    return merge
 
 
-def process_secondary_links(docs: List[Document]):
+def process_secondary_docs(docs: List[Document]):
     """
     Process the secondary links, gives the vendor name
     """
     domains = []
-    docs = document2link(docs)
-    for doc in docs:
-        if doc.base_link:
+    links = document2link(docs)
+    for link in links:
+        if link.base_link:
             continue
 
-        _link = doc.link
+        _link = link.link
         domain = extract_domain(_link)
         if domain in domains:
             continue
-        doc.vendor_name = f"{domain}"
+        link.vendor_name = f"{domain}"
         domains.append(domain)
-    return docs
+    return links
 
 
 def process_results(results):

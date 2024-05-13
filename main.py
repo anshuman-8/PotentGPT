@@ -20,11 +20,13 @@ from src.model import (
     CpAPIResponse,
     CpMergeRequest,
     YelpReverseSearchRequest,
+    VendorQuestionRequest,
 )
 from src.copilot.question_generation import generate_question
 from src.copilot.query_merge import merge_goal
 from src.lmBasic.titleGenerator import generate_title
 from src.search import Search
+from src.vendor_question import generate_questions
 import tracemalloc
 
 tracemalloc.start()
@@ -193,6 +195,26 @@ def cpMerge(request: CpMergeRequest) -> CpAPIResponse | ErrorResponseModel:
             detail={"status": "Internal Error", "message": str(e)},
         )
     return JSONResponse(response)
+
+
+@app.post("/vendor-question")
+async def vendor_question(request: VendorQuestionRequest) -> JSONResponse:
+
+    vendor_targets = request.vendor_targets
+    goal = request.goal
+
+    if not vendor_targets:
+        raise Exception("No choices provided")
+
+    if not goal:
+        raise Exception("No goal provided")
+
+    try:
+        response = generate_questions(vendor_targets, goal)
+    except Exception as e:
+        raise Exception("Error OpenAI API call")
+
+    return JSONResponse(content=response)
 
 
 @app.post("/feedback/")

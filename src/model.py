@@ -51,6 +51,11 @@ class CpMergeRequest(BaseModel):
     choices: dict
 
 
+class VendorQuestionRequest(BaseModel):
+    vendor_targets: List[str]
+    goal: str
+
+
 class ErrorResponseModel(BaseModel):
     id: str
     prompt: str

@@ -170,6 +170,7 @@ class Search:
         google_search_engine_id: str,
         google_api_key: str = None,
         country: str = "US",
+        max_results: int = 10,
     ) -> List[dict] | None:
         """
         Search the web for the query using Google.\
@@ -209,10 +210,14 @@ class Search:
         if country not in ["AU", "CA", "IN", "FR", "DE", "JP", "NZ", "UK", "US"]:
             log.error(f"Invalid country code, for Google search")
             return None
+        
+        if max_results > 10:
+            log.warning(f"Google search max results limited to 10")
+            max_results = 10
 
         api_endpoint = f"https://www.googleapis.com/customsearch/v1?key={google_api_key}&cx={google_search_engine_id}"
 
-        params = {"q": search_query, "gl": country, "lr": "lang_en", "num": 10}
+        params = {"q": search_query, "gl": country, "lr": "lang_en", "num": max_results}
 
         try:
             response = requests.get(api_endpoint, params=params, timeout=5)
@@ -638,7 +643,9 @@ class Search:
                     else f"{vendor_name} contact email"
                 )
                 search_jobs.append(
-                    self.single_web_search(search_query, self.location, max_results=3)
+                    self.search_google(
+                        search_query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code, max_results=2
+                    )
                 )
 
         search_results = await asyncio.gather(*search_jobs, return_exceptions=True)

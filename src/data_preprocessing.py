@@ -8,6 +8,7 @@ from typing import Dict, Any, Iterator, List, Sequence, cast, Tuple
 from langchain.docstore.document import Document
 from langchain.retrievers.document_compressors import LLMChainExtractor
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from src.model import Link
 from src.utils import create_documents, document_lambda, document2map
 
 
@@ -15,57 +16,70 @@ LOG_FILES = False
 
 
 def transform_documents(
-    documents: Sequence[Document],
+    doc: str,
+    source_link: Link,
     unwanted_tags: List[str] = ["script", "style"],
     tags_to_extract: List[str] = ["p", "li", "div", "a"],
     remove_lines: bool = True,
-) -> Sequence[Document]:
+) -> Tuple[List[Document], List[Link]]:
     site_contact_links = []
-    for doc in documents:
-        _content = doc.page_content
-        cleaned_content, contact_href = tags_cleaning(_content, unwanted_tags, tags_to_extract)
+    # for doc in documents:
+    # _content = doc.page_content
+    cleaned_content, contact_href = tags_cleaning(doc, unwanted_tags, tags_to_extract)
 
-        # site_contact_link = combine_contactlink(doc.metadata, contact_href)
+    site_contact_link = combine_secondary_link(source_link, contact_href)
 
-        # if site_contact_link:
-        #     site_contact_link = inflate_secondary_link(doc, site_contact_link)
-        #     site_contact_links.extend(site_contact_link)
+    if site_contact_link:
+        site_contact_links.extend(site_contact_link)
 
-        if remove_lines:
-            cleaned_content = remove_unnecessary_lines(cleaned_content)
+    if remove_lines:
+        cleaned_content = remove_unnecessary_lines(cleaned_content)
 
-        doc.page_content = cleaned_content
+    # doc.page_content = cleaned_content
 
-    return documents, site_contact_links
+    return cleaned_content, site_contact_links
 
 
-# TODO : Convet this into an universal recursive function not just for contacts
-def combine_contactlink(base_link: dict, contact_link: List[str]) -> dict | None:
-    if len(contact_link) < 1:
+def combine_secondary_link(
+    base_link: Link, contact_links: List[str]
+) -> List[Link] | None:
+    if len(contact_links) < 1:
         return None
     combined_links = []
+    links = set()
     try:
-        for single_contact_link in contact_link:
-            combined_link_dict = base_link.copy()
-            combined_link_dict["base_link"] = base_link["link"]
-            if single_contact_link.startswith("href"):
-                combined_link_dict["link"] = single_contact_link
-                if combined_link_dict not in combined_links:
-                    combined_links.append(combined_link_dict)
+        for single_contact_link in contact_links:
+            combined_link = Link(
+                title=base_link.title,
+                link=base_link.link,
+                source=base_link.source,
+                query=base_link.query,
+                latitude=base_link.latitude,
+                longitude=base_link.longitude,
+                rating=base_link.rating,
+                rating_count=base_link.rating_count,
+                base_link=base_link.link,
+            )
+            if (
+                single_contact_link.startswith("href")
+                and single_contact_link not in links
+            ):
+                combined_link.link = single_contact_link
+                combined_links.append(combined_link)
+                links.add(single_contact_link)
             else:
-                base_domain = (
-                    f"{urlparse(base_link["link"]).scheme}://{urlparse(base_link["link"]).hostname}"
-                    if "contact" in contact_link
-                    else base_link["link"]
-                )
-                combined_link = urljoin(base_domain, single_contact_link)
-                combined_link_dict["link"] = combined_link
-                if combined_link_dict not in combined_links:
-                    combined_links.append(combined_link_dict)
+                base_domain = base_link.link
+                combined_url = urljoin(base_domain, single_contact_link)
+                if combined_url not in links:
+                    combined_link.link = combined_url
+                    combined_links.append(combined_link)
+                    links.add(combined_link)
+
         return combined_links
     except Exception as e:
         log.warn(f"Error combining link: {e}")
         return None
+
 
 # TODO : Remove it
 def remove_unwanted_tags(html_content, unwanted_tags: List[str]) -> str:
@@ -75,10 +89,14 @@ def remove_unwanted_tags(html_content, unwanted_tags: List[str]) -> str:
             element.decompose()
     return soup
 
-def tags_cleaning(html_content, unwanted_tags: List[str] = ["script", "style"],
-    tags_to_extract: List[str] = ["p", "li", "div", "a"]) -> str:
 
-    try: 
+def tags_cleaning(
+    html_content,
+    unwanted_tags: List[str] = ["script", "style"],
+    tags_to_extract: List[str] = ["p", "li", "div", "a"],
+) -> str:
+
+    try:
         soup = BeautifulSoup(html_content, "html.parser")
         text_parts: List[str] = []
         contact_hrefs: List[str] = []
@@ -94,6 +112,7 @@ def tags_cleaning(html_content, unwanted_tags: List[str] = ["script", "style"],
         print(f"Error in tags_cleaning: {e}")
 
     return " ".join(text_parts), contact_hrefs
+
 
 # TODO : Remove it
 def extract_tags(html_content, tags: List[str]) -> str:
@@ -131,21 +150,22 @@ def get_navigable_strings(element: Any) -> Tuple[List[str], List[str]]:
             if (element.name == "a") and (href := element.get("href")):
                 if href.startswith(("mailto:", "tel:")):
                     text_parts.append(f"{child.strip()} [Contact:({href})]")
-                # elif any(keyword in href.lower() for keyword in ["contact", "?page"]):
-                #     contact_hrefs.append(href)
+                elif any(keyword in href.lower() for keyword in ["contact", "?page"]):
+                    contact_hrefs.append(href)
             else:
                 text_parts.append(child.strip())
 
     return text_parts, contact_hrefs
 
 
-def preprocess_doc(doc: str) -> str:
+def preprocess_doc(doc: str, web_link: Link) -> str:
     """
-    Extract text from HTML and preprocess it using BeautifulSoup
+    Extract text from HTML and preprocess it using BeautifulSoup.
+    Also gives a list of secondary links of same domain
     """
     t_flag1 = time.time()
 
-    tags_to_extract = (["p", "li", "div", "a", "span", "tr", "article"],)
+    tags_to_extract = (["p", "li", "div", "a", "span", "tr", "article", "h4", "h3"],)
     unwanted_tags = (
         [
             "script",
@@ -158,52 +178,54 @@ def preprocess_doc(doc: str) -> str:
             "template",
         ],
     )
-    _cleaned_content, contact_hrefs = tags_cleaning(doc, unwanted_tags, tags_to_extract)
+    _cleaned_content, secondary_links = transform_documents(
+        doc, web_link, unwanted_tags, tags_to_extract
+    )
     cleaned_content = remove_unnecessary_lines(_cleaned_content)
 
     t_flag2 = time.time()
     log.debug(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
 
-    return cleaned_content
+    return cleaned_content, secondary_links
 
 
-def preprocess_docs(docs: List[Document]) -> List[dict]:
-    """
-    Extract text from HTML and preprocess it using BeautifulSoup
-    """
-    t_flag1 = time.time()
+# def preprocess_docs(docs: List[Document]) -> List[dict]:
+#     """
+#     Extract text from HTML and preprocess it using BeautifulSoup
+#     """
+#     t_flag1 = time.time()
 
-    # Beautiful Soup Transformer
-    docs_transformed, site_contact_links = transform_documents(
-        docs,
-        tags_to_extract=["p", "li", "div", "a", "span", "tr", "article"],
-        unwanted_tags=[
-            "script",
-            "style",
-            "noscript",
-            "svg",
-            "img",
-            "input",
-            "pre",
-            "template",
-        ],
-    )
+#     # Beautiful Soup Transformer
+#     docs_transformed, site_contact_links = transform_documents(
+#         docs,
+#         tags_to_extract=["p", "li", "div", "a", "span", "tr", "article"],
+#         unwanted_tags=[
+#             "script",
+#             "style",
+#             "noscript",
+#             "svg",
+#             "img",
+#             "input",
+#             "pre",
+#             "template",
+#         ],
+#     )
 
-    # removes long white space
-    regex_lambda = lambda x: re.sub(r"\s+", " ", x)
-    docs_transformed = document_lambda(docs_transformed, func=regex_lambda)
+#     # removes long white space
+#     regex_lambda = lambda x: re.sub(r"\s+", " ", x)
+#     docs_transformed = document_lambda(docs_transformed, func=regex_lambda)
 
-    unicode_lambda = lambda x: x.encode("utf-8", errors="ignore").decode("utf-8")
-    docs_transformed = document_lambda(docs_transformed, func=unicode_lambda)
+#     unicode_lambda = lambda x: x.encode("utf-8", errors="ignore").decode("utf-8")
+#     docs_transformed = document_lambda(docs_transformed, func=unicode_lambda)
 
-    t_flag2 = time.time()
-    log.info(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
+#     t_flag2 = time.time()
+#     log.info(f"BeautifulSoupTransformer time: {t_flag2 - t_flag1}")
 
-    if LOG_FILES:
-        with open("src/log_data/docs_beautify.json", "w") as f:
-            json.dump(document2map(docs_transformed), f)
+#     if LOG_FILES:
+#         with open("src/log_data/docs_beautify.json", "w") as f:
+#             json.dump(document2map(docs_transformed), f)
 
-    return docs_transformed, site_contact_links
+#     return docs_transformed, site_contact_links
 
 
 # TODO : This is a blind split, in future we should use a contact focused split
@@ -283,8 +305,7 @@ def inflate_secondary_link(base_doc: dict, site_contact_links: str):
 
 def process_data_docs(html_docs: Document, chunk_size: int = 400):
     """
-    Process the data by extracting text from HTML, splitting it into chunks and extracting relevant data.
-    Also gives list of secondary search links
+    Process the data by splitting it into chunks and extracting relevant data.
     """
     # _docs, site_contact_links = preprocess_docs(docs=html_docs)
 
@@ -295,13 +316,15 @@ def process_data_docs(html_docs: Document, chunk_size: int = 400):
         if contains_contacts(doc.page_content, email_only=True):
             _used_docs.append(doc)
         else:
-            unused_docs.append(doc)
+            isError = doc.metadata.get("error", None)
+            if not isError:
+                unused_docs.append(doc)
 
     log.warn(f"Length after doc regex processing: {len(_used_docs)}")
 
     if len(_used_docs) < 1:
         log.error("No relevant data found")
-        return [], [], unused_docs
+        return [], unused_docs
 
     data = docs_recursive_split(docs=_used_docs, chunk_size=chunk_size, overlap=15)
 
@@ -311,4 +334,4 @@ def process_data_docs(html_docs: Document, chunk_size: int = 400):
         with open("src/log_data/unused_context_data.json", "w") as f:
             json.dump(document2map(unused_docs), f)
 
-    return data, [], unused_docs
+    return data, unused_docs

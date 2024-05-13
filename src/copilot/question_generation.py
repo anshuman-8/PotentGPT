@@ -10,7 +10,7 @@ load_dotenv()
 MY_ENV_VAR = os.getenv("OPENAI_API_KEY")
 
 
-System_Prompt_question_gen = 'Below is the user\'s goal or task, based on clear understanding give the following in JSON:\n- List of top(max 5) very important questions for the user with options to improve the goal statement and make the goal less vague. Questions to be asked to remove vagueness and improvement for more clarity for others. Its type can be "choice" and "input", if input then give options as empty list. Always prefer choice over input, number of choices not more than 5. Do not ask questions, only when it\'s very well described goal(respond with empty list for questions). Do not ask Location and exact date to the user. \n- State if it is a product, service or invalid goal (in goal_type), invalid when its invalid or inappropriate. Format - {"questions":[{"question":"","type":"","options":["",""],},{}],"goal_type":""}'
+System_Prompt_question_gen = 'Below is the user\'s goal or task, based on clear understanding give the following in JSON:\n- List of top(max 4) very important questions for the user with options to improve the goal statement and make the goal less vague(). Questions to be asked to remove vagueness and improvement for more clarity so that we can search for vendor/person who can serve it better. Its type can be "choice" and "input", if input then give options as empty list. Always prefer choice over input, number of choices not more than 5. Do not ask questions, only when it\'s very well described goal(respond with empty list for questions). Do not ask Location and exact date to the user. \n- State if it is a product, service or invalid goal (in goal_type), invalid when its invalid or inappropriate. Format - {"questions":[{"question":"","type":"","options":["",""],},{}],"goal_type":""}'
 
 question_gen_few_shot = [
     {
@@ -19,7 +19,7 @@ question_gen_few_shot = [
     },
     {
         "role": "system",
-        "content": '{"questions":[{"question":"What type of car do you want?","type":"choice","options":["SUV", "Sedan", "Truck", "Coupe"]},{"question":"What is the budget for the car?","type":"choice","options":["$1000", "$2000", "$3000", "$4000"]},{"question":"Which brand of car do you prefer?","type":"choice","options":["Toyota", "Honda", "Ford", "Chevrolet"]}],"goal_type":"product"}',
+        "content": '{"questions":[{"question":"What type of car do you want?","type":"choice","options":["SUV", "Sedan", "Truck", "Coupe"]},{"question":"Which brand of car do you prefer?","type":"choice","options":["Toyota", "Honda", "Ford", "Chevrolet"]}],"goal_type":"product"}',
     },
     {
         "role": "user",

@@ -18,7 +18,7 @@ from src.utils import (
     process_results,
     rank_weblinks,
     links_merger,
-    process_secondary_links,
+    process_secondary_docs,
     map2Link,
 )
 
@@ -57,6 +57,7 @@ def sanitize_search_results(results: List[Link]) -> List[Link]:
         "svaw.com",
         "yahoo.com",
         "pagjobs.com",
+        "wikipedia",
     ]
     avoid_endings = [
         ".pdf",
@@ -77,6 +78,7 @@ def sanitize_search_results(results: List[Link]) -> List[Link]:
             avoid_link in result.link for avoid_link in avoid_endings
         ):
             processed_results.append(result)
+    log.info(f"\nWebsites avoided: {len(results) - len(processed_results)}")
     return processed_results
 
 
@@ -114,13 +116,12 @@ async def extract_web_context(
     ### Response
     List[dict] -
     {
-        "id": str,
-        "rank": int,
-        "title": str,
-        "link": str,
         "content": str,
-        "source": str,
-        "meta": dict
+        "metadata":{"id": str,
+            "rank": int,
+            "title": str,
+            "link": str,
+            "source": str}
     }
     """
     search_client = Search(
@@ -138,7 +139,9 @@ async def extract_web_context(
         max_web_results = 37
 
     # get the search results
-    web_results = await search_client.search_web(max_results=max_web_results, search_gmaps=True)
+    web_results = await search_client.search_web(
+        max_results=max_web_results, search_gmaps=True
+    )
 
     # process the search links
     search_results = sanitize_search_results(web_results)
@@ -148,22 +151,22 @@ async def extract_web_context(
     refined_search_results = rank_weblinks(search_results)
 
     # scrape the websites
-    extracted_content = await scrape_with_playwright(refined_search_results)
+    extracted_content, secondary_links = await scrape_with_playwright(refined_search_results)
     log.info(f"\nScraped Content: {len(extracted_content)}\n")
-
+ 
     if len(extracted_content) == 0:
         log.error("No content extracted")
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data, _site_contact_links, unused_data = process_data_docs(
+    context_data, unused_data = process_data_docs(
         extracted_content, config.get_primary_context_size()
     )
     log.info(f"\nContext Data len: {len(context_data)}\n")
 
     if request_context.isProduct:
         # Removes duplicates and unwanted links, also gives vendor name
-        processed_unused_data = process_secondary_links(unused_data)
+        processed_unused_data = process_secondary_docs(unused_data)
         log.info(f"\nUnused Data len: {len(processed_unused_data)}\n")
 
         secondary_web_search_results = await search_client.secondary_web_search(
@@ -171,27 +174,30 @@ async def extract_web_context(
         )
         log.info(f"\nSecondary Web Search Completed\n")
 
-        sanitized_secondary_results = sanitize_search_results(secondary_web_search_results)
-        log.info(f"\nSanitized Secondary Search Results length: {len(sanitized_secondary_results)}\n")
-
-        # site_contact_links = map2Link(_site_contact_links)
-        # common_secondary_links = links_merger(
-        #     secondary_web_search_results, site_contact_links
-        # )
+        sanitized_secondary_results = sanitize_search_results(
+            secondary_web_search_results
+        )
+        log.info(
+            f"\nSanitized Secondary Search Results length: {len(sanitized_secondary_results)}\n"
+        )
 
         rank_common_secondary_links = rank_weblinks(
             sanitized_secondary_results, start_rank=len(refined_search_results)
         )
-        if len(rank_common_secondary_links) > 0:
-            secondary_context_data = await secondary_search(
-                rank_common_secondary_links
-            )
-            context_data.extend(secondary_context_data)
-            log.info(f"\nTotal Context Data len: {len(context_data)}\n")
-        else:
-            log.warning("No secondary search required\n")
+        secondary_links = links_merger(
+            secondary_links, rank_common_secondary_links
+        )
+        log.info("Merged Secondary Links with unused docs\n")
 
-    # FIXME need to count based on number of token not length
+
+    if len(secondary_links) > 0:
+        secondary_context_data = await secondary_search(secondary_links)
+        context_data.extend(secondary_context_data)
+        log.info(f"\nTotal Context Data len: {len(context_data)}\n")
+    else:
+        log.warning("No secondary search required\n")
+
+    # TODO need to count based on number of token not length
     data = [x for x in context_data if len(x["content"]) > 200]
 
     if len(data) == 0:
@@ -201,17 +207,17 @@ async def extract_web_context(
     return data
 
 
-# FIXME : how does it decide the source of the data?
-async def secondary_search(web_links: List[str]):
-    extracted_content = await scrape_with_playwright(web_links)
+async def secondary_search(web_links: List[Link]):
+    extracted_content, tertiary_links = await scrape_with_playwright(web_links)
     log.info(f"\nSecondary Scraped Content: {len(extracted_content)}\n")
+
 
     if len(extracted_content) == 0:
         log.error("No content extracted")
         raise Exception("No web content extracted!")
 
     # Preprocess the extracted content
-    context_data, site_contact_links, unused_docs = process_data_docs(
+    context_data, unused_docs = process_data_docs(
         extracted_content, config.get_secondary_context_size()
     )
     log.info(f"\nSecondary Context Data len: {len(context_data)}\n")
