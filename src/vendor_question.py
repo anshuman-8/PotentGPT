@@ -4,11 +4,9 @@ import logging as log
 from openai import OpenAI
 from typing import List
 import json
-from dotenv import load_dotenv
+from src.config import Config
 
-load_dotenv()
-
-MY_ENV_VAR = os.getenv("OPENAI_API_KEY")
+config = Config()
 
 
 System_Prompt_question_gen = 'Based on the leverage of the user or of the service/product provider given in the targets, give 3-4 most appropriate questions user can/should ask the targets them about their offering as first person. If its a service the questions should be towards the individual person giving service or performing the craft. The response should be in JSON format. Follow format {"questions":["",""]}'
@@ -19,7 +17,7 @@ def generate_questions(vendor_targets: List[str], goal: str):
     Reframe and generates goal query based on the user's choses and preferences
     """
     start_time = time.time()
-    client = OpenAI(api_key=MY_ENV_VAR)
+    client = OpenAI(api_key=config.get_openai_api_key())
     if not vendor_targets:
         raise Exception("No choices provided")
 

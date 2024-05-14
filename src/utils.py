@@ -235,7 +235,6 @@ def sort_results(results: List[dict]) -> List[dict]:
     return results
 
 
-# TODO : Get a better method to extract the domain
 def extract_domain(url):
     """
     Extract the domain from the URL
@@ -256,8 +255,8 @@ def links_merger(links1: Link, links2: Link):
     links = []
     merge = []
     for link in links1 + links2:
-        if extract_domain(link.link) not in links:
-            links.append(extract_domain(link.link))
+        if link.link not in links:
+            links.append(link.link)
             merge.append(link)
 
     return merge

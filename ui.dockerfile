@@ -4,6 +4,12 @@ FROM node:14 AS build
 # Set the working directory in the container
 WORKDIR /app
 
+# Take arguments from the command line
+ARG REACT_APP_BACKEND_URL
+
+# Set environment variables
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+
 # Copy package.json and package-lock.json to the container
 COPY ./react-client/package*.json ./
 

@@ -1,4 +1,4 @@
-import os
+# import os
 import time
 import json
 import requests
@@ -6,21 +6,14 @@ import logging as log
 import asyncio
 from typing import Dict, List
 from itertools import zip_longest
-from dotenv import load_dotenv
 
+from src.config import Config
 from src.model import Link, getLinkJsonList
 
-load_dotenv(override=True)
-
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_SEARCH_ENGINE_ID")
-GOOGLE_MAPS_KEY = os.getenv("GOOGLE_MAPS_KEY")
-BING_API_KEY = os.getenv("BING_API_KEY")
-YELP_API_KEY = os.getenv("YELP_API_KEY")
-
 ## --- Alert ---
-LOG_FILES = True  # Set to True to log the results to files
+LOG_FILES = False  # Set to True to log the results to files
 
+config = Config()
 
 class Search:
     def __init__(
@@ -107,7 +100,7 @@ class Search:
 
         if bing_api_key is None:
             try:
-                bing_api_key = os.getenv("BING_API_KEY")
+                bing_api_key = config.get_bing_search_api_key()
             except Exception as e:
                 log.error(f"No Bing API key found")
                 return None
@@ -198,7 +191,7 @@ class Search:
 
         if google_api_key is None:
             try:
-                google_api_key = os.getenv("GOOGLE_API_KEY")
+                google_api_key = config.get_google_search_api_key()
             except Exception as e:
                 log.error(f"No Google API key found")
                 return None
@@ -283,7 +276,7 @@ class Search:
 
         if yelp_api_key is None:
             try:
-                yelp_api_key = os.getenv("YELP_API_KEY")
+                yelp_api_key = config.get_yelp_api_key()
             except Exception as e:
                 log.error(f"No Yelp API key found")
                 return None
@@ -373,10 +366,9 @@ class Search:
 
         yelp_url = "https://api.yelp.com/v3/businesses/search"
 
-        # TODO take key from the toml config
         if yelp_api_key is None:
             try:
-                yelp_api_key = os.getenv("YELP_API_KEY")
+                yelp_api_key = config.get_yelp_api_key()
             except Exception as e:
                 log.error(f"No Yelp API key found")
                 return None
@@ -451,7 +443,7 @@ class Search:
         params = {
             "place_id": place_id,
             "fields": "name,formatted_address,formatted_phone_number,website",
-            "key": GOOGLE_MAPS_KEY,
+            "key": config.get_google_maps_api_key(),
         }
         try:
             response = requests.get(URL, params=params)
@@ -477,7 +469,7 @@ class Search:
 
         headers = {
             "Content-Type": "application/json",
-            "X-Goog-Api-Key": GOOGLE_MAPS_KEY,
+            "X-Goog-Api-Key": config.get_google_maps_api_key(),
             "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.internationalPhoneNumber,places.websiteUri,places.shortFormattedAddress,places.nationalPhoneNumber,places.rating,places.userRatingCount,places.location",
         }
         data = {"textQuery": str(self.gmaps_query)}
@@ -567,9 +559,9 @@ class Search:
         t_flag1 = time.time()
         tasks = [
             self.search_google(
-                query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code
+                query, config.get_google_search_engine_id(), config.get_google_search_api_key(), self.country_code
             ),
-            self.search_bing(query, BING_API_KEY, self.country_code, site_limit=20),
+            self.search_bing(query, config.get_bing_search_api_key(), self.country_code, site_limit=20),
         ]
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -635,8 +627,8 @@ class Search:
 
         for doc in docs:
             vendor_name = doc.vendor_name
-            log.warning(f"Vendor name search: {vendor_name}")
             if vendor_name:
+                log.info(f"Vendor name search: {vendor_name}")
                 search_query = (
                     f"{vendor_name} {self.location} contact email"
                     if len(self.location) > 2
@@ -644,7 +636,7 @@ class Search:
                 )
                 search_jobs.append(
                     self.search_google(
-                        search_query, GOOGLE_SEARCH_ENGINE_ID, GOOGLE_API_KEY, self.country_code, max_results=2
+                        search_query, config.get_google_search_engine_id(), config.get_google_search_api_key(), self.country_code, max_results=2
                     )
                 )
 

@@ -3,7 +3,6 @@ import json
 import time
 import logging as log
 from typing import List
-from dotenv import load_dotenv
 
 from src.config import Config
 from src.sanitize_query import generate_search_query
@@ -19,12 +18,8 @@ from src.utils import (
     rank_weblinks,
     links_merger,
     process_secondary_docs,
-    map2Link,
 )
 
-load_dotenv()
-
-OPENAI_ENV = os.getenv("OPENAI_API_KEY")
 config = Config()
 
 
@@ -32,7 +27,7 @@ def sanitize_search_results(results: List[Link]) -> List[Link]:
     """
     Sanitize the search links to remove the unwanted links like social media, images, gov sites etc
     """
-    # TODO : Hame to move the data to config file
+    # TODO : Have to move the data to config file
     avoid_links = [
         "instagram",
         "facebook",
@@ -94,7 +89,7 @@ def search_query_extrapolate(request_context: RequestContext):
         goal_query = generate_search_query(
             request_context.prompt,
             location=request_context.location,
-            open_api_key=OPENAI_ENV,
+            open_api_key=config.get_openai_api_key(),
         )
         search_query = goal_query["queries"]
         goal_target = goal_query["targets"]
@@ -237,7 +232,7 @@ async def static_contacts_retrieval(
         data,
         request_context.prompt,
         request_context.targets,
-        OPENAI_ENV,
+        config.get_openai_api_key(),
         context_chunk_size=config.get_content_per_llm_call(),
         max_thread=config.get_max_llm_calls(),
         timeout=10,

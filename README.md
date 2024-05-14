@@ -6,15 +6,17 @@
 - Returns contact details in a well structured output.
 - Helps you find the right person to help you with your goals.
 
-### Setup
-- Create a .env file and populate it with values from the .env.sample file. Ensure to fill in all the necessary environment variables as specified.
+### Running
+1. Ensure Docker is installed and running on your system.
+2. Clone the repository
+3. Rename `sample.config.toml` to `config.toml` and flling all the fields in the file.
+5. Ensure you are in the directory containing the `docker-compose.yaml` file and execute:
 
-- Create an python or Conda env based in the requirement.txt file
-
-- Install uvicorn 
-
-- Activate the env.
-
+   ```bash
+   docker compose up -d
+   ```
+   
+### Development
 ```bash
 # Run
 uvicorn main:app --reload

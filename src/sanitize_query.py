@@ -4,6 +4,9 @@ import json
 import logging as log
 from openai import OpenAI
 from src.utils import gpt_cost_calculator
+from src.config import Config
+
+config = Config()
 
 
 def checkFormat(response: dict) -> bool:
@@ -36,7 +39,7 @@ def generate_search_query(prompt: str, open_api_key: str, location: str = None) 
 
     if open_api_key is None:
         try:
-            open_api_key = os.getenv("OPENAI_API_KEY")
+            open_api_key = config.get_openai_api_key()
         except Exception as e:
             log.error(f"No Open API key found")
             raise e

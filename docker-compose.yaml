@@ -1,16 +1,22 @@
-version: '3'
-
 services:
-  backend:
+  search-probe:
     build:
       context: .
       dockerfile: ./sp.dockerfile
+    image: search-probe
     ports:
       - "80:80"
 
   frontend-searchprobe:
     build: 
       context: .
-      dockerfile: ./ui.dockerfile
+      dockerfile: ./ui.dockerfile 
+      args:
+        - REACT_APP_BACKEND_URL=http://localhost:80
+    image: search-probe-dev-ui
+    depends_on:
+      - search-probe
+    expose:
+      - 3000
     ports:
       - "3000:3000"

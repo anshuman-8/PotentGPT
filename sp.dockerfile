@@ -1,7 +1,5 @@
-# 
 FROM python:3.12.3-slim
 
-# 
 WORKDIR /code
 
 # Install necessary system dependencies
@@ -10,23 +8,20 @@ RUN apt-get update && apt-get install -yq \
     libnss3 \
     --no-install-recommends
 
-# 
 COPY ./requirements.txt ./
 
-# 
 RUN pip install --no-cache-dir --upgrade -r ./requirements.txt
 
-# RUN apt update
-# RUN apt-get install ffmpeg -y
-# RUN ffmpeg -version
-
-# Install Playwright
+# Install Playwright 
 # RUN curl -fsSL https://playwright.dev/python/sh | python -
 RUN playwright install --with-deps chromium
 
-# 
+COPY config.toml ./config.toml
 COPY . .
-# COPY ./src ./src
+
+# create a folder in the container
+RUN mkdir -p /response-logs
+
 
 # 
 # CMD ["uvicorn", "main:app", "--reload"]

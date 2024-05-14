@@ -3,11 +3,10 @@ import time
 import logging as log
 from openai import OpenAI
 import json
-from dotenv import load_dotenv
+from src.config import Config
 
-load_dotenv()
 
-MY_ENV_VAR = os.getenv("OPENAI_API_KEY")
+config = Config()
 
 System_Prompt_title_gen = 'Give an appropriate title (just as a summary) for the given goal(not more than 8-9 words). Make it like in third person. Respond with the title in JSON format. Also assign tags to the goal (like- "Higher Education", "Car Rental" etc). Give tags (max 4 & min 2) in a list. Format- {"title":" ", "tags":[" "," "]}'
 
@@ -17,7 +16,7 @@ def generate_title(goal: str):
     Generates questions based on the user's goal or task
     """
     start_time = time.time()
-    client = OpenAI(api_key=MY_ENV_VAR)
+    client = OpenAI(api_key=config.get_openai_api_key())
 
     if goal is None or goal == "":
         raise ValueError("Goal is None")

@@ -17,6 +17,30 @@ class Config:
     def get_config(self):
         return self.config
 
+    # ------------ General Config ------------
+    def get_mode(self):
+        return self.config["GENERAL"]["MODE"]
+
+    # ------------ Search Config ------------
+    def get_google_search_engine_id(self):
+        return self.config["SEARCH"]["GOOGLE_SEARCH_ENGINE_ID"]
+    
+    def get_google_search_api_key(self):
+        return self.config["SEARCH"]["GOOGLE_API_KEY"]
+    
+    def get_google_maps_api_key(self):
+        return self.config["SEARCH"]["GOOGLE_MAPS_KEY"]
+    
+    def get_bing_search_api_key(self):
+        return self.config["SEARCH"]["BING_API_KEY"]
+    
+    def get_yelp_api_key(self):
+        return self.config["SEARCH"]["YELP_API_KEY"]
+    
+    # ------------ LLM CONFIG ------------
+    def get_openai_api_key(self):
+        return self.config["LLM"]["OPENAI_API_KEY"]
+
     # ------------ APP CONFIG ------------
 
     def get_primary_context_size(self):
